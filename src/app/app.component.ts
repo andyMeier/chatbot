@@ -186,7 +186,11 @@ export class AppComponent implements OnInit{
     this.inputMessage = "";
     this.requirements = {"purpose":[],"storage":[],"price":[],"battery":[]};
     this.ngOnInit();
+  }
 
+  scrollDown(): void {
+    let cb = document.getElementById("chatbox")!;
+    cb.scrollTop = cb.scrollHeight;
   }
 
   beforeSameAgent(_i: number): boolean {

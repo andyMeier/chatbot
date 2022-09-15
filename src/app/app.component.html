@@ -19,7 +19,7 @@
   <div class="row text-center pt-5">
 
     <!-- * * * chat box * * * -->
-    <div class="container chatbox p-3 border border-dark rounded">
+    <div class="container p-3 border border-dark rounded" id="chatbox">
 
       <!-- * * * individual chat messages * * * -->
       <div class="row justify-content-md-center" *ngFor="let turn of dialogueHistory; let i = index">
@@ -36,7 +36,7 @@
           <img src="assets/user.png" style="float:left!important" [hidden]="turn.agent != 'user'">
         </div>
       </div>
-
+      {{scrollDown()}}
     </div>
 
     <!-- * * * input box * * * -->

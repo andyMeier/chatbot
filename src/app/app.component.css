@@ -13,7 +13,7 @@ html {
   padding: 0;
 }
 
-div.chatbox {
+#chatbox {
   max-width: 60%;
   background: white;
   height: 70vh;
