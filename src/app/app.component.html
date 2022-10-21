@@ -72,10 +72,126 @@
 <!-- * * * * * PAGE 2: EVALUATION * * * * * -->
 <div *ngIf="page==2" class="content" role="main" >
 
-  <div class="container text-center mt-5">
-    <h2>Okay, thank you!</h2>
+  <div class="container m-3" *ngIf="laptopRecs.length > 0">
+    <h2>This laptop should work for you:</h2>
+    <br>
+
+    <div *ngFor="let r of laptopRecs">
+      <div class="row ml-1 p-3 border border-dark rounded" style="background: white">
+
+        <!-- product image -->
+        <div class="col-sm-3" style="background-position:center;background-size:contain;background-repeat:no-repeat"
+             [ngStyle]="{'background-image': 'url(https://multiweb.gesis.org/vacos3/' + r.sku_original + '.jpg)'}">
+        </div>
+
+        <div class="col col-sm-9">
+
+          <!-- title -->
+          <div class="row text-left">
+            <div class="col col-sm-10 pl-3">
+                <h5 style="color: #2c7fb8">{{r.titleStandard_original}}</h5>
+            </div>
+          </div>
+
+          <!-- price and rating -->
+          <div class="row text-left">
+            <div class="col col-sm-2 pl-3">
+              <span style="font-weight:bold;font-size:130%">&#163;&nbsp;{{r.price_original}}&nbsp;&nbsp;</span>
+            </div>
+            <div class="row pl-3">
+              <div class="col col-sm-10 pl-3">
+                                    <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
+                                      <img *ngIf="r.ratingAvg_filter>=ii" src="assets/star_full.png" width="3%" alt="full star">
+                                      <img *ngIf="r.ratingAvg_filter<ii-0.5" src="assets/star_empty.png" width="3%" alt="full star">
+                                      <img *ngIf="r.ratingAvg_filter>=ii-0.5 && r.ratingAvg_filter<ii" src="assets/star_half.png" width="3%" alt="full star">
+                                    </span>
+                <span *ngIf="r.ratingNum_filter>0"><small>&nbsp;({{r.ratingNum_filter}})</small></span>
+                <span *ngIf="r.ratingNum_filter<=0"><small>(0)</small></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- details -->
+          <div class="row pl-3 mt-4">
+
+            <div class="col col-10">
+              <div class="row">
+                <!-- storage -->
+                <div class="col col-sm-3">
+                  <div class="row">
+                    <h6><b>Storage Size:</b></h6>
+                  </div>
+                  <div class="row" *ngIf="r.totalStorageCapacity_original.length>0">
+                    {{r.totalStorageCapacity_original}}
+                  </div>
+                  <div class="row" *ngIf="r.totalStorageCapacity_original.length<=0">
+                    <p style="color:grey">n/a</p>
+                  </div>
+                </div>
+                <!-- RAM -->
+                <div class="col col-sm-3">
+                  <div class="row">
+                    <h6><b>RAM Size:</b></h6>
+                  </div>
+                  <div class="row" *ngIf="r.systemMemoryRam_original.length>0">
+                    {{r.systemMemoryRam_original}}
+                  </div>
+                  <div class="row" *ngIf="r.systemMemoryRam_original.length<=0">
+                    <p style="color:grey">n/a</p>
+                  </div>
+                </div>
+                <!-- display -->
+                <div class="col col-sm-3">
+                  <div class="row">
+                    <h6><b>Display Size:</b></h6>
+                  </div>
+                  <div class="row" *ngIf="r.screenSize_original.length>0">
+                    {{r.screenSize_original}}
+                  </div>
+                  <div class="row" *ngIf="r.screenSize_original.length<=0">
+                    <p style="color:grey">n/a</p>
+                  </div>
+                </div>
+                <!-- CPU -->
+                <div class="col col-sm-3">
+                  <div class="row">
+                    <h6><b>CPU Speed:</b></h6>
+                  </div>
+                  <div class="row" *ngIf="r.processorSpeedBase_original.length>0">
+                    {{r.processorSpeedBase_original}}
+                  </div>
+                  <div class="row" *ngIf="r.processorSpeedBase_original.length<=0">
+                    <p style="color:grey">n/a</p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <!-- * * * reset box * * * -->
+    <div class="row text-center pt-5">
+      <!-- * * * reset button * * * -->
+      <button type="button" class="btn btn-outline-danger" (click)="goToNextPage()">Ok, nice</button>
+    </div>
+
+  </div>
+  <div class="container text-center mt-5" *ngIf="laptopRecs.length == 0">
+    <h2>No laptop available for these requirements.</h2>
   </div>
 
+</div>
+
+<!-- * * * * * PAGE 2: EVALUATION * * * * * -->
+<div *ngIf="page==3" class="content" role="main">
+  <div class="row text-center pt-5">
+    <h2>Finished!</h2>
+  </div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

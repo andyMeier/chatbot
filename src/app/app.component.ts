@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { chatbotMessages } from './Dialogue';
 import { dialogueTurn } from './DialogueTurns';
 
@@ -12,21 +13,38 @@ import { dialogueTurn } from './DialogueTurns';
 
 export class AppComponent implements OnInit{
 
-  constructor(public http: HttpClient) {};
+  constructor(public http: HttpClient, private router: ActivatedRoute) {
+    const queryString = window.location.search;
+    console.log('WINDOWS', queryString);
+    const urlParams = new URLSearchParams(queryString);
+    console.log('caseToken', urlParams.get('caseToken'));
+    const caseToken = urlParams.get('caseToken');
+    if (caseToken != null) { this.sosciCaseToken = urlParams.get('caseToken'); }
+    //console.log('facetOrdering', urlParams.get('facetOrdering'));
+    //if (urlParams.get('facetOrdering')) {
+    //  this.facetOrdering = urlParams.get('facetOrdering');
+    //} else {
+    //  this.facetOrdering = 'average';
+    //}
+  }
 
   title = 'chatbot';
   page = 1;
 
+  sosciCaseToken: string | null = '123456ABCDEF';
+
   dialogueHistory: Array<dialogueTurn> = []
-  backendTargets = ["purpose","price","battery"];
+  backendTargets = ["purpose","price","display","storage","ram","battery"];
   currentTarget = "";
 
   inputMessage = "";
 
-  requirements: any = {"purpose":[],"storage":[],"price":[],"battery":[]};
+  requirements: any = {"purpose":[],"price":[],"display":[],"storage":[],"ram":[],"battery":[]};
+  filterfields: any = {"price":"price_filter","display":"screenSize_filter","storage":"totalStorageCapacity_filter","ram":"systemMemoryRam_filter","battery":"batteryLife_filter"}
+  filtertypes: any = {"price":"interval","display":"interval","storage":"interval","ram":"interval","battery":"interval"}
 
-
-
+  laptopRecs: any = [];
+  numLaptopRecs: number = 0;
 
   ngOnInit(): void {
     for (let dT of chatbotMessages["greeting"]["start"]) {
@@ -38,7 +56,7 @@ export class AppComponent implements OnInit{
 
 
   startNewTarget(): void {
-    // console.log("startNewTarget", this.currentTarget, this.backendTargets.indexOf(this.currentTarget));
+    console.log("startNewTarget", this.currentTarget, this.backendTargets.indexOf(this.currentTarget));
     if (this.currentTarget == "") {
       this.currentTarget = this.backendTargets[0];
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
@@ -54,7 +72,11 @@ export class AppComponent implements OnInit{
       for (let dT of chatbotMessages["goodbye"]["start"]) {
         this.dialogueHistory.push(dT);
       }
+      console.log("FINAL REQUIREMENTS:", this.requirements);
+      const finalRequirements = this.buildFilterRequest();
+      this.sendFilterRequest(finalRequirements);
     }
+    console.log("new target:", this.currentTarget);
   }
 
   shouldSendToBackend(): boolean {
@@ -131,7 +153,7 @@ export class AppComponent implements OnInit{
     console.log("Send Flask Request", this.currentTarget, _m);
 
     // send to flask backend
-    this.http.post<any>("https://multiweb.gesis.org/vacos6/all?" + this.currentTarget + "&ruleKeyfacts", {text: _m}).subscribe({
+    this.http.post<any>("https://multiweb.gesis.org/vacos6/all?" + this.currentTarget + "&ruleKeyfacts", {text: _m, user_id: this.sosciCaseToken}).subscribe({
       next: data => {
         console.log("RESPONSE", data);
 
@@ -171,6 +193,47 @@ export class AppComponent implements OnInit{
         console.error('There was an error!', error);
       }
     });
+  }
+
+  sendFilterRequest(_flaskfilters: Array<any>): void {
+    console.log("Start filter request to FLASK");
+    this.http.post<any>('https://multiweb.gesis.org/vacos2/filter', {
+      'dataset': 'amazon',
+      'filter': _flaskfilters,
+      'facets': [],
+      'sort_by': "ratingAvg_filter",
+      'sort_by_order': "descending",
+      'top_k': 1
+    }).subscribe({
+      next: rData => {
+        console.log('Flask response:', rData);
+        console.log('Flask hits:', rData['hits']);
+        this.laptopRecs = rData['hits'];
+        this.numLaptopRecs = rData['num_hits'];
+      },
+      error: error => {
+        console.log("ERROR in retrieving laptops");
+      }
+    });
+  }
+
+  buildFilterRequest(): any {
+    let filterRequest = [];
+    for (var key in this.requirements) {
+      const value: any = this.requirements[key];
+      console.log(key, value);
+      if (value.length > 0 && key in this.filterfields) {
+        let req = {
+          "filterfield": this.filterfields[key],
+          "filtertype": this.filtertypes[key],
+          "negation": false,
+          "values": [value]
+        };
+        filterRequest.push(req);
+      }
+    }
+    console.log("final filter request:", filterRequest);
+    return filterRequest;
   }
 
 
