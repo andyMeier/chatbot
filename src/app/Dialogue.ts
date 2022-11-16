@@ -34,7 +34,8 @@ export var chatbotMessages: any = {
   },
   "price": {
     "start": [
-      new dialogueTurn("bot","What were you thinking of in terms of price?", true, "open", "price"),
+      new dialogueTurn("bot","What were you thinking of in terms of price?", false, "none", "price"),
+      new dialogueTurn("bot","We have laptops from 50 to 3000 pounds.", true, "open", "price"),
     ],
     "noKeyfacts": [
       [new dialogueTurn("bot","Sorry, can you explain that again?", false, "none", "price"),
@@ -42,8 +43,8 @@ export var chatbotMessages: any = {
         new dialogueTurn("bot","I did not get that. What do you mean?", false, "none", "price"),
         new dialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "price"),
       ],
-      [new dialogueTurn("bot","Most laptops cost around 500 pounds.", true, "open", "price"),
-        new dialogueTurn("bot","Many people need a laptop for around 500 pounds.", true, "open", "price"),
+      [new dialogueTurn("bot","We have laptops from 50 to 3000 pounds. Most laptops cost around 500 pounds.", true, "open", "price"),
+        new dialogueTurn("bot","We have laptops from 50 to 3000 pounds. Many people need a laptop for around 500 pounds.", true, "open", "price"),
       ],
     ],
     "unsure": [
@@ -60,7 +61,8 @@ export var chatbotMessages: any = {
   },
   "battery": {
     "start": [
-      new dialogueTurn("bot","What are your requirements on battery life?", true, "open", "battery"),
+      new dialogueTurn("bot","What are your requirements on battery life?", false, "none", "battery"),
+      new dialogueTurn("bot","We have laptops that last between 6 and 20 hours.", true, "open", "battery"),
     ],
     "noKeyfacts": [
       [new dialogueTurn("bot","Sorry, can you explain that again?", false, "none", "battery"),
@@ -68,8 +70,8 @@ export var chatbotMessages: any = {
         new dialogueTurn("bot","I did not get that. What do you mean?", false, "none", "battery"),
         new dialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "battery"),
       ],
-      [new dialogueTurn("bot","Most laptop batteries last for around 8 hours.", true, "open", "battery"),
-        new dialogueTurn("bot","Many users want their laptops to last at least 8 hours.", true, "open", "battery"),
+      [new dialogueTurn("bot","We have laptops that last between 6 and 20 hours. Most laptop batteries last for around 8 hours.", true, "open", "battery"),
+        new dialogueTurn("bot","We have laptops that last between 6 and 20 hours. Many users want their laptops to last at least 8 hours.", true, "open", "battery"),
       ],
     ],
     "unsure": [
@@ -86,7 +88,8 @@ export var chatbotMessages: any = {
   },
   "storage": {
     "start": [
-      new dialogueTurn("bot","How much hard drive storage do you need?", true, "open", "storage"),
+      new dialogueTurn("bot","How much hard drive storage do you need?", false, "none", "storage"),
+      new dialogueTurn("bot","We have laptops with storage between 64 GB and 2000 GB (2TB).", true, "open", "storage"),
     ],
     "noKeyfacts": [
       [new dialogueTurn("bot","Sorry, can you explain that again?", false, "none", "storage"),
@@ -94,8 +97,8 @@ export var chatbotMessages: any = {
         new dialogueTurn("bot","I did not get that. What do you mean?", false, "none", "storage"),
         new dialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "storage"),
       ],
-      [new dialogueTurn("bot","Most laptops have a hard drive size between 500 and 1000 GB.", true, "open", "storage"),
-        new dialogueTurn("bot","Many users want the hard drive size to be between 500GB and 1000GB.", true, "open", "storage"),
+      [new dialogueTurn("bot","We have laptops with storage between 64 GB and 2000 GB (2TB). Most laptops have a hard drive size between 500 and 1000 GB.", true, "open", "storage"),
+        new dialogueTurn("bot","We have laptops with storage between 64 GB and 2000 GB (2TB). Many users want the hard drive size to be between 500GB and 1000GB.", true, "open", "storage"),
       ],
     ],
     "unsure": [
@@ -112,7 +115,8 @@ export var chatbotMessages: any = {
   },
   "ram": {
     "start": [
-      new dialogueTurn("bot","What RAM size do you need?", true, "open", "ram"),
+      new dialogueTurn("bot","What RAM size do you need?", false, "none", "ram"),
+      new dialogueTurn("bot","Our laptops have between 1GB and 32GB RAM.", true, "open", "ram"),
     ],
     "noKeyfacts": [
       [new dialogueTurn("bot","Sorry, can you explain that again?", false, "none", "ram"),
@@ -120,8 +124,8 @@ export var chatbotMessages: any = {
         new dialogueTurn("bot","I did not get that. What do you mean?", false, "none", "ram"),
         new dialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "ram"),
       ],
-      [new dialogueTurn("bot","Most laptops have a RAM size of 4GB to 8GB.", true, "open", "ram"),
-        new dialogueTurn("bot","Many users want the RAM to be in the range of 4GB to 8GB.", true, "open", "ram"),
+      [new dialogueTurn("bot","Our laptops have between 1GB and 32GB RAM. Most laptops have a RAM size of 4GB to 8GB.", true, "open", "ram"),
+        new dialogueTurn("bot","Our laptops have between 1GB and 32GB RAM. Many users want the RAM to be in the range of 4GB to 8GB.", true, "open", "ram"),
       ],
     ],
     "unsure": [
@@ -138,7 +142,8 @@ export var chatbotMessages: any = {
   },
   "display": {
     "start": [
-      new dialogueTurn("bot","How big should the display be?", true, "open", "display"),
+      new dialogueTurn("bot","How big should the display be?", false, "none", "display"),
+      new dialogueTurn("bot","We have laptops with displays between 10 and 18 inches.", true, "open", "display"),
     ],
     "noKeyfacts": [
       [new dialogueTurn("bot","Sorry, can you explain that again?", false, "none", "display"),
@@ -146,8 +151,8 @@ export var chatbotMessages: any = {
         new dialogueTurn("bot","I did not get that. What do you mean?", false, "none", "display"),
         new dialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "display"),
       ],
-      [new dialogueTurn("bot","Most laptops have a display abound 15 inches big.", true, "open", "display"),
-        new dialogueTurn("bot","Many users want the display to be about 15 inches big.", true, "open", "display"),
+      [new dialogueTurn("bot","We have laptops with displays between 10 and 18 inches. Most laptops have a display around 15 inches.", true, "open", "display"),
+        new dialogueTurn("bot","We have laptops with displays between 10 and 18 inches. Many users want the display to be arout 15 inches.", true, "open", "display"),
       ],
     ],
     "unsure": [
