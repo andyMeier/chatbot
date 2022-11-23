@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { chatbotMessages } from './Dialogue';
-import { DialogueTurn } from './DialogueTurns';
+import { dialogueTurn } from './DialogueTurns';
 
 
 @Component({
@@ -13,10 +13,6 @@ import { DialogueTurn } from './DialogueTurns';
 
 export class AppComponent implements OnInit{
 
-  title = 'chatbot';
-  page = 1;
-  setting: string | null = 'rephrase'; // 'baseline', 'acknowledge', 'repeat', 'rephrase'
-
   constructor(public http: HttpClient, private router: ActivatedRoute) {
     const queryString = window.location.search;
     console.log('WINDOWS', queryString);
@@ -24,13 +20,20 @@ export class AppComponent implements OnInit{
     console.log('caseToken', urlParams.get('caseToken'));
     const caseToken = urlParams.get('caseToken');
     if (caseToken != null) { this.sosciCaseToken = urlParams.get('caseToken'); }
-    console.log('setting', urlParams.get('setting'));
-    this.setting = urlParams.get('setting') || 'rephrase';
+    //console.log('facetOrdering', urlParams.get('facetOrdering'));
+    //if (urlParams.get('facetOrdering')) {
+    //  this.facetOrdering = urlParams.get('facetOrdering');
+    //} else {
+    //  this.facetOrdering = 'average';
+    //}
   }
 
-  sosciCaseToken: string | null = 'TESTTEST';
+  title = 'chatbot';
+  page = 1;
 
-  dialogueHistory: Array<DialogueTurn> = []
+  sosciCaseToken: string | null = '123456ABCDEF';
+
+  dialogueHistory: Array<dialogueTurn> = []
   backendTargets = ["purpose","price","display","storage","ram","battery"];
   currentTarget = "";
 
@@ -43,23 +46,11 @@ export class AppComponent implements OnInit{
   laptopRecs: any = [];
   numLaptopRecs: number = 0;
 
-  serverDownCounter: number = 0;
-  restarts: number = 0;
-
-  showScenario: boolean = true;
-
-  log: any = {'dialogue':[]};
-  logTrials: number = 0;
-  loggingInProcess: boolean = false;
-  logStart: any;
-
   ngOnInit(): void {
     for (let dT of chatbotMessages["greeting"]["start"]) {
-      this.addDialogueTurn(dT);
+      this.dialogueHistory.push(dT);
     }
     this.startNewTarget();
-    const currTime = new Date(Date.now());
-    this.logStart = currTime;
   }
 
 
@@ -69,17 +60,17 @@ export class AppComponent implements OnInit{
     if (this.currentTarget == "") {
       this.currentTarget = this.backendTargets[0];
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
-        this.addDialogueTurn(dT);
+        this.dialogueHistory.push(dT);
       }
     } else if (this.backendTargets.includes(this.currentTarget) && this.backendTargets.indexOf(this.currentTarget) < this.backendTargets.length - 1) {
       this.currentTarget = this.backendTargets[this.backendTargets.indexOf(this.currentTarget)+1];
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
-        this.addDialogueTurn(dT);
+        this.dialogueHistory.push(dT);
       }
     } else {
       this.currentTarget = "goodbye";
       for (let dT of chatbotMessages["goodbye"]["start"]) {
-        this.addDialogueTurn(dT);
+        this.dialogueHistory.push(dT);
       }
       console.log("FINAL REQUIREMENTS:", this.requirements);
       const finalRequirements = this.buildFilterRequest();
@@ -124,7 +115,7 @@ export class AppComponent implements OnInit{
 
   sendMessage(_m: string): void {
     if (_m.length > 0) {
-      this.addDialogueTurn(new DialogueTurn("user", _m));
+      this.dialogueHistory.push(new dialogueTurn("user", _m));
       this.inputMessage = "";
 
       if (this.shouldSendToBackend()) {
@@ -140,7 +131,7 @@ export class AppComponent implements OnInit{
     if (_m == "no") {
       this.requirements[this.currentTarget] = [];
       for (let dT of chatbotMessages[this.currentTarget]["no"]) {
-        this.addDialogueTurn(dT);
+        this.dialogueHistory.push(dT);
       }
     } else {
       this.startNewTarget();
@@ -150,7 +141,7 @@ export class AppComponent implements OnInit{
   sendMessage_Backend(_m: string): void {
     // display waiting message
     if (this.dialogueHistory[this.dialogueHistory.length - 1].agent != 'bot' && this.dialogueHistory[this.dialogueHistory.length - 1].target != 'wait') {
-      this.dialogueHistory.push(new DialogueTurn("bot", "", false, "none", "wait"));
+      this.dialogueHistory.push(new dialogueTurn("bot", "", false, "none", "wait"));
     }
 
     // workaround for purpose
@@ -162,72 +153,44 @@ export class AppComponent implements OnInit{
     console.log("Send Flask Request", this.currentTarget, _m);
 
     // send to flask backend
-    this.http.post<any>("https://multiweb.gesis.org/vacos6/all?" + this.currentTarget + "&ruleKeyfacts&autoPositives", {text: _m, user_id: this.sosciCaseToken}).subscribe({
+    this.http.post<any>("https://multiweb.gesis.org/vacos6/all?" + this.currentTarget + "&ruleKeyfacts", {text: _m, user_id: this.sosciCaseToken}).subscribe({
       next: data => {
         console.log("RESPONSE", data);
-        this.log['dialogue'].push(data);
 
         // delete waiting message
         if (this.dialogueHistory[this.dialogueHistory.length - 1].agent == 'bot' && this.dialogueHistory[this.dialogueHistory.length - 1].target == 'wait') {
           this.dialogueHistory.pop();
-          //console.log(this.dialogueHistory);
+          console.log(this.dialogueHistory);
         }
         // add actual response
-        if (!data["failure"] && data.hasOwnProperty(this.currentTarget + '_text_autoPositives')) {
+        if (!data["failure"]) {
           // keyfacts could be extracted
-          if (this.setting == 'acknowledge') {
-            this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['acknowledge'], false, "none", this.currentTarget));
-          } else if (this.setting == 'repeat') {
-            this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['repeat'], false, "none", this.currentTarget));
-          } else if (this.setting == 'rephrase') {
-            this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['rephrase'], false, "none", this.currentTarget));
-          } else {
-            this.addDialogueTurn(new DialogueTurn("bot", "Next question:", false, "none", this.currentTarget));
-          }
-
+          this.dialogueHistory.push(new dialogueTurn("bot", data[this.currentTarget + "_text"], false, "none", this.currentTarget));
           this.requirements[this.currentTarget] = data[this.currentTarget];
           this.startNewTarget();
           return;
-        } else if (data["not_important"]) {
+        } else if (data["not_important"] || data["unkown"]) {
           // user does not have requirements
           for (let dT of chatbotMessages[this.currentTarget]["notImportant"]) {
-            this.addDialogueTurn(dT);
+            this.dialogueHistory.push(dT);
           }
           return;
-        } else if (data["unkown"]) {
-          // user does not have requirements
-          for (let dT of chatbotMessages[this.currentTarget]["unsure"]) {
-            this.addDialogueTurn(dT);
-          }
-          return;
-        } else {
+        } else if (data["failure"]) {
           // we could not deal with the response
           for (let dT of chatbotMessages[this.currentTarget]["noKeyfacts"]) {
             let idx = this.getRandomInt(0, dT.length);
-            this.addDialogueTurn(dT[idx]);
+            this.dialogueHistory.push(dT[idx]);
           }
           return;
         }
         // none of the above worked
         console.log("Somehow having problems with the response");
         for (let dT of chatbotMessages[this.currentTarget]["noKeyfacts"]) {
-          this.addDialogueTurn(dT);
+          this.dialogueHistory.push(dT);
         }
       },
       error: error => {
-        // delete waiting message
-        if (this.dialogueHistory[this.dialogueHistory.length - 1].agent == 'bot' && this.dialogueHistory[this.dialogueHistory.length - 1].target == 'wait') {
-          this.dialogueHistory.pop();
-        }
         console.error('There was an error!', error);
-        if (this.serverDownCounter == 0) {
-          this.addDialogueTurn(new DialogueTurn("bot","So sorry, the server is not responding at this time. Try restarting the dialogue (button in the top right corner ->).", false, "none", "error"));
-        } else if (this.serverDownCounter == 1) {
-          this.addDialogueTurn(new DialogueTurn("bot","Sorry for the inconvenience, the server is again not responding. Please restart the dialogue a second time.", false, "none", "error"));
-        } else {
-          this.addDialogueTurn(new DialogueTurn("bot", "It seems that our servers are down. Please proceed to the questionnaire (button in the top right corner ->). This is a problem on our side - your submission will still be accepted on Prolific.", false, "none", "error"));
-        }
-        this.serverDownCounter += 1;
       }
     });
   }
@@ -273,36 +236,18 @@ export class AppComponent implements OnInit{
     return filterRequest;
   }
 
-  addDialogueTurn(_turn: DialogueTurn): void {
-    this.dialogueHistory.push(_turn);
-    this.log['dialogue'].push(_turn.outputify());
-    //console.log("added to dialogue log:", _turn['message']);
-  }
 
   goToNextPage(): void {
     this.page++;
   }
 
-  goToQuestionnaire():void {
-    //this.page = 3;
-    window.location.href = 'https://www.soscisurvey.de/LapDiag/?q=02&i=' + this.sosciCaseToken + '&server=' + this.serverDownCounter;
-  }
-
-  opencloseScenario(): void {
-    this.showScenario = !this.showScenario;
-  }
-
   restartDialogue(): void {
-    this.restarts += 1;
     this.page = 1;
     this.dialogueHistory = []
     this.backendTargets = ["purpose","price","battery"];
     this.currentTarget = "";
     this.inputMessage = "";
     this.requirements = {"purpose":[],"storage":[],"price":[],"battery":[]};
-    this.log = {};
-    this.logTrials = 0;
-    this.loggingInProcess = false;
     this.ngOnInit();
   }
 
@@ -318,42 +263,6 @@ export class AppComponent implements OnInit{
       }
     }
     return false;
-  }
-
-  logLogs(): void {
-    /**
-     * Sends log data to server
-     */
-
-    // Make nice log file
-    this.log['ID'] = this.sosciCaseToken;
-    this.log['setting'] = this.setting;
-    this.log['start'] = this.logStart;
-    const currTime = new Date(Date.now());
-    this.log['end'] = currTime;
-    this.log['requirements'] = this.requirements;
-    this.log['serverErrors'] = this.serverDownCounter;
-    this.log['restarts'] = this.restarts;
-    //console.log("Log File:", this.log);
-
-    // Send logs to server
-    this.loggingInProcess = true;
-    this.http.post<any>('https://multiweb.gesis.org/vacos6/log?client_id=' + this.sosciCaseToken, this.log).subscribe({
-      next: rData => {
-        this.loggingInProcess = false;
-        console.log('logLogs(): SUCCESS log data accepted by server');
-        this.goToQuestionnaire();
-      },
-      error: error => {
-        console.error('logLogs(): ERROR received error response from flask:', error);
-        this.logTrials += 1;
-        if (this.logTrials <= 3) {
-          this.logLogs();
-        } else {
-          this.goToQuestionnaire();
-        }
-      }
-    });
   }
 
 

@@ -16,6 +16,7 @@
             "outputPath": "dist/chatbot",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/vacos5/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [

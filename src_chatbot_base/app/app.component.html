@@ -2,95 +2,68 @@
 <html>
 
 <!-- * * * * * HEADER: LAPTOPSHOP * * * * * -->
-<!--
+
 <div class="row" style="background: white">
   <hr>
   <div class="" style="display: flex; justify-content: center; align-items: center;">
+    <!-- link icon -->
     <img src="assets/spacebot.png" width="5%" alt="Laptop">
     <h1>&nbsp;&nbsp;Laptop&nbsp;Space</h1>
   </div>
   <hr>
 </div>
--->
 
 <!-- * * * * * PAGE 1: CHATBOT * * * * * -->
-<div *ngIf="page==1" class="content" role="main" style="background: aliceblue">
+<div *ngIf="page==1" class="content" role="main" style="background: antiquewhite">
 
   <div class="row text-center pt-5">
 
-    <!--
-    <div class="col-12">
-      <span class="rotate" style="text-overflow: clip;font-size: xx-large;color: #bcd3e8">LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE</span>
-    </div>-->
+    <!-- * * * chat box * * * -->
+    <div class="container p-3 border border-dark rounded" id="chatbox">
 
-    <!-- * * * main area * * * -->
-    <div class="col-10">
-
-      <!-- * * * chat box * * * -->
-      <div class="container p-3 border border-dark rounded" id="chatbox">
-
-        <!-- * * * individual chat messages * * * -->
-        <div class="row justify-content-md-center" *ngFor="let turn of dialogueHistory; let i = index">
-          <div class="col col-md-2 dialogicon">
-            <img src="assets/bot.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
-          </div>
-          <div class="col col-md-7 m-1">
-            <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
-              <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
-              <span *ngIf="turn.target == 'wait'"><img src="assets/dots.gif"></span>
-            </div>
-          </div>
-          <div class="col col-md-2 dialogicon">
-            <img src="assets/user.png" style="float:left!important" [hidden]="turn.agent != 'user'">
+      <!-- * * * individual chat messages * * * -->
+      <div class="row justify-content-md-center" *ngFor="let turn of dialogueHistory; let i = index">
+        <div class="col col-md-2 dialogicon">
+          <img src="assets/bot.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
+        </div>
+        <div class="col col-md-7 m-1">
+          <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
+            <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
+            <span *ngIf="turn.target == 'wait'"><img src="assets/dots.gif"></span>
           </div>
         </div>
-        {{scrollDown()}}
-      </div>
-
-      <!-- * * * input box * * * -->
-      <div class="container chatinputbox p-3 border border-dark rounded">
-        <!-- * * * open input * * * -->
-        <div class="input-group mb-3" *ngIf="dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
-          <input type="text" class="form-control" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (keyup.enter)="sendMessage(inputMessage)">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="sendMessage(inputMessage)">Send</button>
-        </div>
-        <!-- * * * yes no input * * * -->
-        <div class="btn-group" role="group" *ngIf="dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
-          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes')">yes</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no')">no</button>
-        </div>
-        <!-- * * * final confirmation * * * -->
-        <div class="btn-group" role="group" *ngIf="dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">
-          <!-- <button type="button" class="btn btn-outline-secondary" (click)="goToNextPage();logLogs()">okay, continue</button> -->
-          <button type="button" class="btn btn-outline-secondary" (click)="logLogs()">okay, continue</button>
+        <div class="col col-md-2 dialogicon">
+          <img src="assets/user.png" style="float:left!important" [hidden]="turn.agent != 'user'">
         </div>
       </div>
-
+      {{scrollDown()}}
     </div>
 
-    <div class="col-2">
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart Chat</button>
-      <br>
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Scenario</button>
-      <br>
-      <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="goToQuestionnaire()">Go back to Questionnaire</button>
+    <!-- * * * input box * * * -->
+    <div class="container chatinputbox p-3 border border-dark rounded">
+      <!-- * * * open input * * * -->
+      <div class="input-group mb-3" *ngIf="dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
+        <input type="text" class="form-control" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (keyup.enter)="sendMessage(inputMessage)">
+        <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="sendMessage(inputMessage)">Send</button>
+      </div>
+      <!-- * * * yes no input * * * -->
+      <div class="btn-group" role="group" *ngIf="dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
+        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes')">yes</button>
+        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no')">no</button>
+      </div>
+      <!-- * * * final confirmation * * * -->
+      <div class="btn-group" role="group" *ngIf="dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">
+        <button type="button" class="btn btn-outline-secondary" (click)="goToNextPage()">okay, continue</button>
+      </div>
     </div>
 
-  </div>
-
-  <!-- Scenario Popover -->
-  <div class="fadeMe" *ngIf="showScenario"></div>
-  <div class="col-md-12 priotop p-4 text-white rounded" style="position:fixed;left:10%;top:10%;width:80%;background: cadetblue;" *ngIf="showScenario">
-    <div>
-      <h3>Scenario:</h3>
-      <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
-    </div>
     <br>
-    <div>
-      <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
-        Close Scenario
-      </button>
+    <!-- * * * reset box * * * -->
+    <div class="container p-3" style="float: left; background: antiquewhite; max-width: 80%">
+      <!-- * * * reset button * * * -->
+      <button type="button" class="btn btn-outline-danger" (click)="restartDialogue()">Restart Chat</button>
     </div>
+
   </div>
 
 </div>
@@ -201,10 +174,10 @@
     </div>
 
     <br>
-    <!-- * * * confirmation box * * * -->
+    <!-- * * * reset box * * * -->
     <div class="row text-center pt-5">
-      <!-- * * * confirmation button * * * -->
-      <button type="button" class="btn btn-outline-primary" (click)="goToNextPage()">Ok, nice</button>
+      <!-- * * * reset button * * * -->
+      <button type="button" class="btn btn-outline-danger" (click)="goToNextPage()">Ok, nice</button>
     </div>
 
   </div>
