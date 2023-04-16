@@ -1,4 +1,4 @@
-﻿export class dialogueTurn {
+﻿export class DialogueTurn {
   agent: string;
   message: string;
   messageReply: boolean;
@@ -14,4 +14,17 @@
     this.target = target;
     this.delayNext = delayNext;
   }
+
+  outputify(): any {
+    let output: any = {};
+    output['agent'] = this.agent;
+    output['message'] = this.message;
+    output['messageReply'] = this.messageReply;
+    output['messageReplyType'] = this.messageReplyType;
+    output['target'] = this.target;
+    output['delayNext'] = this.delayNext;
+    return output
+  }
+
+
 }

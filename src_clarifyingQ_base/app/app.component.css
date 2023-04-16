@@ -1,0 +1,35 @@
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #597490;
+  border-color: #597490;
+}
+
+.btn-primary:focus{
+  background-color: #7c9ebd;
+  border-color: #7c9ebd;
+}
+
+.btn-primary:hover{
+  background-color: #bcd3e8;
+  border-color: #bcd3e8;
+}
+
+
+
+div.fadeMe {
+  opacity:    0.5;
+  background: #000;
+  width:      100%;
+  height:     100%;
+  z-index:    10;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+
+div.priotop {
+  z-index: 11;
+}

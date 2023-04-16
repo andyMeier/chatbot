@@ -1,0 +1,69 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<html>
+
+<div class="content" role="main">
+
+  <!-- * * * user input area * * * -->
+  <div class="col-10 p-3 offset-1">
+    <span>What are you looking for in a new laptop?</span>
+    <!-- * * * open input * * * -->
+    <div class="col-12 mb-3">
+      <textarea class="form-control border border-dark" id="userneeds" rows="3" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (keyup.enter)="sendMessage(inputMessage)"></textarea>
+    </div>
+    <div class="col-12 mb-3">
+      <button type="button" *ngIf="currentNLQuery.length <= 0" class="btn btn-primary float-end" (click)="sendMessage(inputMessage)">Find suitable laptops!</button>
+      <button type="button" *ngIf="currentNLQuery.length > 0" class="btn btn-warning float-end" (click)="sendMessage(inputMessage)">Update!</button>
+    </div>
+  </div>
+
+  <!-- * * * user input display area * * * -->
+  <div class="col-10 p-3 offset-1" *ngIf="currentNLQuery.length > 0">
+    <span>You said:</span>
+    <div class="row p-2 border border-dark rounded">
+      <div>
+        "<span *ngFor="let c of currentNLQueryChars; let ci = index"
+              style="display:inline-block; white-space:pre-wrap;"
+              [ngStyle]="{'color': charIndexInKeyfact(ci)? '#e0721d' : '#4f4f4f'}">{{c}}</span>"
+      </div>
+    </div>
+  </div>
+
+  <!-- * * * clarifying questions area * * * -->
+  <div class="col-10 p-3 offset-1" *ngIf="requirements.length > 0">
+    <!-- * * * needs list * * * -->
+    <!-- * * * just a suggestion, can be altered or deleted * * * -->
+    <div class="col-6">
+      This is what I understood:
+      <div class="row p-2 border border-dark rounded">
+        <div *ngFor="let req of requirements; let reqi = index">
+          <div *ngIf="doesHaveValue(req)">
+            <span>- for the <b>{{getCategory(req["category"])}}</b> you want: {{getValue(req)}}</span>
+          </div>
+          <div *ngIf="!doesHaveValue(req)">
+            <span>- you want: {{req["text"]}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- * * * questions * * * -->
+    <div class="col-6">
+      <!-- * * * TODO * * * -->
+    </div>
+  </div>
+
+
+  <!-- * * * results area * * * -->
+  <div class="col-10">
+
+  </div>
+
+</div>
+
+
+
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<router-outlet></router-outlet>
+
+</html>
