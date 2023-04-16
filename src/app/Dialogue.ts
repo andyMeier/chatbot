@@ -97,8 +97,8 @@ export var chatbotMessages: any = {
         new DialogueTurn("bot","I did not get that. What do you mean?", false, "none", "storage"),
         new DialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "storage"),
       ],
-      [new DialogueTurn("bot","We have laptops with storage between 64 GB and 2000 GB (2TB). Most laptops have a hard drive size between 500 and 1000 GB.", true, "open", "storage"),
-        new DialogueTurn("bot","We have laptops with storage between 64 GB and 2000 GB (2TB). Many users want the hard drive size to be between 500GB and 1000GB.", true, "open", "storage"),
+      [new DialogueTurn("bot","We have laptops with hard drives between 64 GB and 2000 GB (2TB). Most laptops have a hard drive size between 500 and 1000 GB.", true, "open", "storage"),
+        new DialogueTurn("bot","We have laptops with hard drives between 64 GB and 2000 GB (2TB). Many users want the hard drive size to be between 500GB and 1000GB.", true, "open", "storage"),
       ],
     ],
     "unsure": [
@@ -161,10 +161,10 @@ export var chatbotMessages: any = {
     ],
     "notImportant": [
       new DialogueTurn("bot","What I have understood is that the display size is not too important for you.", false, "none", "display"),
-      new DialogueTurn("bot","I will not look for a specific storage size then. Is that fine with you?", true, "yesno", "display"),
+      new DialogueTurn("bot","I will not look for a specific display size then. Is that fine with you?", true, "yesno", "display"),
     ],
     "no": [
-      new DialogueTurn("bot","Okay. Can you explain again how much storage you need?", true, "open", "display"),
+      new DialogueTurn("bot","Okay. Can you explain again what display size you need?", true, "open", "display"),
     ]
   },
   "goodbye": {

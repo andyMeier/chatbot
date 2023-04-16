@@ -30,7 +30,7 @@ export class AppComponent implements OnInit{
 
   sosciCaseToken: string | null = 'TESTTEST';
 
-  dialogueHistory: Array<DialogueTurn> = []
+  dialogueHistory: Array<DialogueTurn> = [];
   backendTargets = ["purpose","price","display","storage","ram","battery"];
   currentTarget = "";
 
@@ -54,15 +54,17 @@ export class AppComponent implements OnInit{
   logStart: any;
 
   ngOnInit(): void {
-    for (let dT of chatbotMessages["greeting"]["start"]) {
+    this.startConversation();
+  }
+
+  startConversation(): void {
+  	for (let dT of chatbotMessages["greeting"]["start"]) {
       this.addDialogueTurn(dT);
     }
     this.startNewTarget();
     const currTime = new Date(Date.now());
     this.logStart = currTime;
   }
-
-
 
   startNewTarget(): void {
     console.log("startNewTarget", this.currentTarget, this.backendTargets.indexOf(this.currentTarget));
@@ -181,8 +183,6 @@ export class AppComponent implements OnInit{
             this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['repeat'], false, "none", this.currentTarget));
           } else if (this.setting == 'rephrase') {
             this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['rephrase'], false, "none", this.currentTarget));
-          } else {
-            this.addDialogueTurn(new DialogueTurn("bot", "Next question:", false, "none", this.currentTarget));
           }
 
           this.requirements[this.currentTarget] = data[this.currentTarget];
@@ -276,7 +276,6 @@ export class AppComponent implements OnInit{
   addDialogueTurn(_turn: DialogueTurn): void {
     this.dialogueHistory.push(_turn);
     this.log['dialogue'].push(_turn.outputify());
-    //console.log("added to dialogue log:", _turn['message']);
   }
 
   goToNextPage(): void {
@@ -295,15 +294,15 @@ export class AppComponent implements OnInit{
   restartDialogue(): void {
     this.restarts += 1;
     this.page = 1;
-    this.dialogueHistory = []
-    this.backendTargets = ["purpose","price","battery"];
+    this.dialogueHistory = [];
+    this.backendTargets = ["purpose","price","display","storage","ram","battery"];
     this.currentTarget = "";
     this.inputMessage = "";
-    this.requirements = {"purpose":[],"storage":[],"price":[],"battery":[]};
-    this.log = {};
+    this.requirements = {"purpose":[],"price":[],"display":[],"storage":[],"ram":[],"battery":[]};
+    this.log = {'dialogue':[]};
     this.logTrials = 0;
     this.loggingInProcess = false;
-    this.ngOnInit();
+    this.startConversation();
   }
 
   scrollDown(): void {
