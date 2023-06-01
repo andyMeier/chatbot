@@ -1,0 +1,229 @@
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<html>
+
+<!-- * * * * * HEADER: LAPTOPSHOP * * * * * -->
+<!--
+<div class="row" style="background: white">
+  <hr>
+  <div class="" style="display: flex; justify-content: center; align-items: center;">
+    <img src="assets/spacebot.png" width="5%" alt="Laptop">
+    <h1>&nbsp;&nbsp;Laptop&nbsp;Space</h1>
+  </div>
+  <hr>
+</div>
+-->
+
+<!-- * * * * * PAGE 1: CHATBOT * * * * * -->
+<div *ngIf="page==1 || page==2" class="content" role="main" style="background: aliceblue">
+
+  <div class="row pt-5">
+
+    <!--
+    <div class="col-12">
+      <span class="rotate" style="text-overflow: clip;font-size: xx-large;color: #bcd3e8">LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE LAPTOP SPACE</span>
+    </div>
+    -->
+
+    <!-- * * * main area * * * -->
+    <div class="col-10">
+
+      <!-- * * * chat box * * * -->
+      <div class="container p-3 border border-dark rounded" id="chatbox">
+
+        <!-- * * * individual chat messages * * * -->
+        <div class="row justify-content-md-center" *ngFor="let turn of dialogueHistory; let i = index">
+          <div class="col col-md-2 dialogicon">
+            <img src="assets/bot.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
+          </div>
+          <div class="col col-md-7 m-1">
+            <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
+              <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
+              <span *ngIf="turn.target == 'wait'"><img src="assets/dots.gif"></span>
+            </div>
+          </div>
+          <div class="col col-md-2 dialogicon">
+            <img src="assets/user.png" style="float:left!important" [hidden]="turn.agent != 'user'">
+          </div>
+        </div>
+        {{scrollDown()}}
+      </div>
+
+      <!-- * * * input box * * * -->
+      <div class="container chatinputbox p-3 border border-dark rounded" *ngIf="page==1">
+        <!-- * * * open input * * * -->
+        <div class="input-group mb-3" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
+          <input type="text" class="form-control" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (keyup.enter)="sendMessage(inputMessage)">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="sendMessage(inputMessage)">Send</button>
+        </div>
+        <!-- * * * yes no input * * * -->
+        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes')">yes</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no')">no</button>
+        </div>
+        <!-- * * * final confirmation * * * -->
+        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">
+          <!-- <button type="button" class="btn btn-outline-secondary" (click)="goToNextPage();logLogs()">okay, continue</button> -->
+          <button type="button" class="btn btn-outline-secondary" (click)="finishNeedsElicitation()">okay, continue</button>
+        </div>
+      </div>
+
+      <!-- * * * result presentation * * * -->
+      <div class="container productOffer p-3 border border-dark rounded" style="background: white" *ngIf="page==2 && laptopRecs.length > 0">
+        <div class="row">
+
+          <!-- product image -->
+          <div class="col col-3" style="background-position:center;background-size:contain;background-repeat:no-repeat"
+               [ngStyle]="{'background-image': 'url(https://multiweb.gesis.org/vacos3/' + laptopRecs[0].sku_original + '.jpg)'}">
+          </div>
+
+          <div class="col col-9">
+
+            <!-- title -->
+            <div class="row pt-2">
+              <h5 style="color: #2c7fb8">{{laptopRecs[0].titleStandard_original}}</h5>
+            </div>
+
+            <!-- price-->
+            <div class="row pt-2" style="float: left;">
+              <span style="font-weight:bold;font-size:130%">&#163;&nbsp;{{laptopRecs[0].price_original}}&nbsp;&nbsp;</span>
+            </div>
+
+            <!-- rating-->
+            <div class="row pt-2" style="float: left;">
+              <div class="col-sm">
+                <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
+                  <img *ngIf="laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="2%" alt="full star">
+                  <img *ngIf="laptopRecs[0].ratingAvg_filter<ii-0.5" src="assets/star_empty.png" width="2%" alt="full star">
+                  <img *ngIf="laptopRecs[0].ratingAvg_filter>=ii-0.5 && laptopRecs[0].ratingAvg_filter<ii" src="assets/star_half.png" width="2%" alt="full star">
+                  </span>
+                <span *ngIf="laptopRecs[0].ratingNum_filter>0"><small>&nbsp;({{laptopRecs[0].ratingNum_filter}})</small></span>
+                <span *ngIf="laptopRecs[0].ratingNum_filter<=0"><small>(0)</small></span>
+              </div>
+            </div>
+
+            <!-- details -->
+            <div class="row pt-2">
+
+              <!-- at-a-glance details -->
+              <div class="col col-10">
+                <div class="row">
+                  <!-- storage -->
+                  <div class="col col-sm-3">
+                    <div class="row">
+                      <h6><b>Storage Size:</b></h6>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].totalStorageCapacity_original.length>0">
+                      <p>{{laptopRecs[0].totalStorageCapacity_original}}</p>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].totalStorageCapacity_original.length<=0">
+                      <p style="color:grey">n/a</p>
+                    </div>
+                  </div>
+                  <!-- RAM -->
+                  <div class="col col-sm-3">
+                    <div class="row">
+                      <h6><b>RAM Size:</b></h6>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].systemMemoryRam_original.length>0">
+                      <p>{{laptopRecs[0].systemMemoryRam_original}}</p>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].systemMemoryRam_original.length<=0">
+                      <p style="color:grey">n/a</p>
+                    </div>
+                  </div>
+                  <!-- display -->
+                  <div class="col col-sm-3">
+                    <div class="row">
+                      <h6><b>Display Size:</b></h6>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].screenSize_original.length>0">
+                      <p>{{laptopRecs[0].screenSize_original}}</p>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].screenSize_original.length<=0">
+                      <p style="color:grey">n/a</p>
+                    </div>
+                  </div>
+                  <!-- CPU -->
+                  <div class="col col-sm-3">
+                    <div class="row">
+                      <h6><b>CPU Speed:</b></h6>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].processorSpeedBase_original.length>0">
+                      <p>{{laptopRecs[0].processorSpeedBase_original}}</p>
+                    </div>
+                    <div class="row" *ngIf="laptopRecs[0].processorSpeedBase_original.length<=0">
+                      <p style="color:grey">n/a</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- button for more details -->
+              <div class="col col-10">
+                <!-- TODO: button for more details -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <!-- right side menu -->
+    <div class="col-2">
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart Chat</button>
+      <br>
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Scenario</button>
+      <br>
+      <button style="margin: 6px" type="button" class="btn btn-outline-primary" (click)="finishNeedsElicitation()">Finished!</button>
+      <br>
+      <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="goToQuestionnaire()">Go back to Questionnaire</button>
+      <br>
+
+      <!-- requirements list -->
+      <div class="border border-dark rounded m-3" *ngIf="mode == 'testing'">
+        <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
+          <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
+        </div>
+      </div>
+      <!-- available laptops -->
+      <div class="border border-dark rounded m-3" *ngIf="mode == 'testing'">
+        <b>available laptops:</b> {{numLaptopRecs}}
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Scenario Popover -->
+  <div class="fadeMe" *ngIf="showScenario"></div>
+  <div class="col-md-12 priotop p-4 text-white rounded" style="position:fixed;left:10%;top:10%;width:80%;background: cadetblue;" *ngIf="showScenario">
+    <div>
+      <h3>Scenario:</h3>
+      <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
+    </div>
+    <br>
+    <div>
+      <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
+        Close Scenario
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- * * * * * PAGE 2: EVALUATION * * * * * -->
+<div *ngIf="page==3" class="content" role="main">
+  <div class="row text-center pt-5">
+    <h2>Finished!</h2>
+  </div>
+</div>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<router-outlet></router-outlet>
+
+</html>
