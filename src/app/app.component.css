@@ -43,7 +43,7 @@ html {
 }
 
 #chatbox {
-  max-width: 70%;
+  max-width: 80%;
   background: white;
   height: 70vh;
   overflow: scroll;
@@ -51,12 +51,12 @@ html {
 }
 
 div.chatinputbox {
-  max-width: 70%;
+  max-width: 80%;
   background: white;
 }
 
 div.productOffer {
-  max-width: 70%;
+  max-width: 80%;
 }
 
 .dialogicon {
@@ -129,6 +129,11 @@ div.fadeMe {
   top:        0;
   left:       0;
   position:   fixed;
+}
+
+.modal-title:hover {
+  cursor: pointer;
+  color: #597490;
 }
 
 div.priotop {

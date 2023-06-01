@@ -16,10 +16,12 @@ import {firstValueFrom, Observable} from "rxjs";
 export class AppComponent implements OnInit {
 
   title = 'chatbot';
-  page = 1;
-  setting: string | null = 'rephrase'; // 'baseline', 'acknowledge', 'repeat', 'rephrase'
+  setting: string | null = 'rephrase'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
+  mode: string | null = 'production'; // choice from: 'testing', 'production'
+
+  modalOpen = false;
   showScenario: boolean = false;
-  mode: string | null = 'production'; // 'testing', 'production'
+  page = 1;
 
   constructor(public http: HttpClient, private router: ActivatedRoute) {
     const queryString = window.location.search;
@@ -410,6 +412,9 @@ export class AppComponent implements OnInit {
       for (let dT of chatbotMessages["searchOffer"]["start"]) {
         this.addDialogueTurn(dT);
       }
+      // adapt size of chatbox to give more space to result
+      this.resizeChatbox('55vh');
+
       this.goToNextPage();
       this.currentTarget = "presentOffer";
       for (let dT of chatbotMessages["presentOffer"]["start"]) {
@@ -441,6 +446,7 @@ export class AppComponent implements OnInit {
     this.log = {'dialogue': []};
     this.logTrials = 0;
     this.loggingInProcess = false;
+    this.resizeChatbox('70vh');
     this.startConversation();
   }
 
@@ -510,13 +516,38 @@ export class AppComponent implements OnInit {
     return _n
   }
 
+  roundShowRating(_rating: number): number {
+    let r = Math.round(_rating * 100) / 100;
+    return r
+  }
+
   goToNextPage(): void {
     this.page++;
+    console.log("new page:", this.page)
   }
 
   scrollDown(): void {
     let cb = document.getElementById("chatbox")!;
     cb.scrollTop = cb.scrollHeight;
+  }
+
+  closeModal(_position: string) {
+    this.modalOpen = false;
+    console.log('CLOSE MODAL');
+    console.log("current page:", this.page, this.laptopRecs.length>0);
+  }
+
+  openModal() {
+    this.modalOpen = true;
+    console.log('OPEN MODAL');
+    console.log("current page:", this.page, this.laptopRecs.length>0);
+  }
+
+  resizeChatbox(_newsize: string) {
+    const chatbox = document.getElementById('chatbox');
+    if (chatbox != null) {
+      chatbox.style.height = _newsize;
+    }
   }
 
   getRandomInt(min: number, max: number) {
