@@ -201,11 +201,10 @@ export class AppComponent implements OnInit {
         }
         break;
       }
-    }
-    ;
+    };
     if (this.backendTargets.includes(this.currentTarget)) {
       return true
-    }
+    };
     return false
   }
 
@@ -349,15 +348,23 @@ export class AppComponent implements OnInit {
             dT["target"] = this.currentTarget;
             this.addDialogueTurn(dT);
           } else {
-            let idx = this.getRandomInt(0, chatbotMessages["howmany"]["none"].length);
-            let dT: DialogueTurn = chatbotMessages["howmany"]["none"][idx];
-            dT["target"] = this.currentTarget;
-            this.addDialogueTurn(dT);
+            for (let dTs of chatbotMessages["howmany"]["none"]) {
+              let idx = this.getRandomInt(0, dTs.length);
+              let dT: DialogueTurn = dTs[idx];
+              dT["target"] = this.currentTarget;
+              this.addDialogueTurn(dT);
+            }
           }
         }
         // if the current requirements lead to having only one computer being suitable, go straight to end of needs elicitation
-        if (this.numLaptopRecs < 2) {
+        if (this.numLaptopRecs == 1) {
           this.currentTarget = "searchOffer";
+        } else if (this.numLaptopRecs == 0) {
+          if (this.backendTargets.indexOf(this.currentTarget) == 0) {
+            this.currentTarget = "greeting";
+          } else {
+            this.currentTarget = this.backendTargets[this.backendTargets.indexOf(this.currentTarget)-1];
+          }
         }
         // if the current requirements lead to zero choice, start repairing: repeat last step
         // go to next phase in dialogue
@@ -397,6 +404,7 @@ export class AppComponent implements OnInit {
     if (_turn["message"].includes("XXXUSEMIN")) _turn["message"] = _turn["message"].replace('XXXUSEMIN', "" + useValueRecs[this.currentUsage][this.currentTarget]["min"])
     if (_turn["message"].includes("XXXUSEMAX")) _turn["message"] = _turn["message"].replace('XXXUSEMAX', "" + useValueRecs[this.currentUsage][this.currentTarget]["max"])
     if (_turn["message"].includes("XXXUSAGE")) _turn["message"] = _turn["message"].replace('XXXUSAGE', "" + this.currentUsage)
+    if (_turn["message"].includes("XXXTARGET")) _turn["message"] = _turn["message"].replace('XXXTARGET', "" + this.currentTarget)
 
     //
     console.log("%c"+_turn["message"], 'color: green')

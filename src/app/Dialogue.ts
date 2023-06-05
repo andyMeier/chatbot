@@ -199,10 +199,15 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","There are not that many laptops that meet your specific requirements, but let's see. I still have XXXNUM computers that would work for you.", false, "none", "howmany")
     ],
     "none": [
-      new DialogueTurn("bot","Urgh, I don't have a laptop that matches your needs.", false, "none", "howmany"),
-      new DialogueTurn("bot","Okay, I do not have any laptop that matches those exact needs.", false, "none", "howmany"),
-      new DialogueTurn("bot","I'm sorry, we do not have laptops that tick all your boxes.", false, "none", "howmany"),
-      new DialogueTurn("bot","It seems that we do not have a laptop in store that matches your requirements 100%.", false, "none", "howmany")
+      [new DialogueTurn("bot","Urgh, I don't have a laptop that matches your needs.", false, "none", "howmany"),
+        new DialogueTurn("bot","Okay, I do not have any laptop that matches those exact needs.", false, "none", "howmany"),
+        new DialogueTurn("bot","I'm sorry, we do not have laptops that tick all your boxes.", false, "none", "howmany"),
+        new DialogueTurn("bot","It seems that we do not have a laptop in store that matches your requirements 100%.", false, "none", "howmany")
+      ],
+      [
+        new DialogueTurn("bot","So let's review what you said on XXXTARGET.", false, "none", "howmany"),
+        new DialogueTurn("bot","Let's go one step back to XXXTARGET.", false, "none", "howmany")
+      ]
     ]
   }
 }
