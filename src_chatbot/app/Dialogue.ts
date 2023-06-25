@@ -35,7 +35,7 @@ export var chatbotMessages: any = {
   "price": {
     "start": [
       new DialogueTurn("bot","What were you thinking of in terms of price?", false, "none", "price"),
-      new DialogueTurn("bot","We have laptops from XXXMIN to XXXMAX pounds, most are around XXXMED.", false, "none", "price"),
+      //new DialogueTurn("bot","We have laptops from XXXMIN to XXXMAX pounds, most are around XXXMED.", false, "none", "price"),
       new DialogueTurn("bot","XXXUSAGE laptops typically cost XXXUSEMIN - XXXUSEMAX pounds.", true, "open", "price"),
     ],
     "noKeyfacts": [
@@ -63,7 +63,7 @@ export var chatbotMessages: any = {
   "battery": {
     "start": [
       new DialogueTurn("bot","What are your requirements on battery life?", false, "none", "battery"),
-      new DialogueTurn("bot","We have laptops that last between XXXMIN and XXXMAX hours, most last around XXXMED hours.", false, "none", "battery"),
+      //new DialogueTurn("bot","We have laptops that last between XXXMIN and XXXMAX hours, most last around XXXMED hours.", false, "none", "battery"),
       new DialogueTurn("bot","For XXXUSAGE laptops, people usually want a battery that runs for at least XXXUSEMIN hours.", true, "open", "battery"),
     ],
     "noKeyfacts": [
@@ -91,7 +91,7 @@ export var chatbotMessages: any = {
   "storage": {
     "start": [
       new DialogueTurn("bot","How much hard drive storage do you need?", false, "none", "storage"),
-      new DialogueTurn("bot","We have laptops with storage between XXXMIN GB and XXXMAX GB, most have XXXMED GB storage.", false, "none", "storage"),
+      //new DialogueTurn("bot","We have laptops with storage between XXXMIN GB and XXXMAX GB, most have XXXMED GB storage.", false, "none", "storage"),
       new DialogueTurn("bot","For XXXUSAGE purposes, most users prefer at least XXXUSEMIN GB storage.", true, "open", "storage"),
     ],
     "noKeyfacts": [
@@ -119,7 +119,7 @@ export var chatbotMessages: any = {
   "ram": {
     "start": [
       new DialogueTurn("bot","What RAM size do you need?", false, "none", "ram"),
-      new DialogueTurn("bot","Our laptops have between XXXMINGB and XXXMAXGB RAM. Most of them have around XXXMEDGB.", false, "none", "ram"),
+      //new DialogueTurn("bot","Our laptops have between XXXMINGB and XXXMAXGB RAM. Most of them have around XXXMEDGB.", false, "none", "ram"),
       new DialogueTurn("bot","XXXUSAGE tasks typically need XXXUSEMIN GB or more.", true, "open", "ram"),
     ],
     "noKeyfacts": [
@@ -147,7 +147,7 @@ export var chatbotMessages: any = {
   "display": {
     "start": [
       new DialogueTurn("bot","How big should the display be?", false, "none", "display"),
-      new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches, most are XXXMED big.", false, "none", "display"),
+      //new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches, most are XXXMED big.", false, "none", "display"),
       new DialogueTurn("bot","XXXUSAGE laptops often have screens between XXXUSEMIN and XXXUSEMAX inches.", true, "open", "display"),
     ],
     "noKeyfacts": [
