@@ -56,9 +56,14 @@
           <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="sendMessage(inputMessage)">Send</button>
         </div>
         <!-- * * * yes no input * * * -->
-        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
-          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes')">yes</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no')">no</button>
+        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && !userIsCurrentlyUnsure">
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes');">yes</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no');">no</button>
+        </div>
+        <!-- * * * yes no input * * * -->
+        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && userIsCurrentlyUnsure">
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes');addRequirements(currentTarget, []);resetUnsure()">yes</button>
+          <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no');resetUnsure()">no</button>
         </div>
         <!-- * * * final confirmation * * * -->
         <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">

@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   title = 'chatbot';
   setting: string | null = 'rephrase'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
   mode: string | null = 'production'; // choice from: 'testing', 'production'
+  infoNeedMapMode: string | null = 'none'; // choice from: 'none', 'highlight', 'bubbles
 
   modalOpen = false;
   showScenario: boolean = false;
@@ -36,6 +37,8 @@ export class AppComponent implements OnInit {
     this.setting = urlParams.get('setting') || 'rephrase';
     console.log('mode', urlParams.get('mode'));
     this.mode = urlParams.get('mode') || 'production';
+    console.log('infoNeedMapMode', urlParams.get('infoNeedMapMode'));
+    this.infoNeedMapMode = urlParams.get('infoNeedMapMode') || 'none';
   }
 
   sosciCaseToken: string | null = 'TESTTEST1234';
@@ -48,6 +51,7 @@ export class AppComponent implements OnInit {
   currentMax = -1;
   currentMed = -1;
   currentCats = [];
+  userIsCurrentlyUnsure = false;
 
   inputMessage = "";
 
@@ -228,6 +232,8 @@ export class AppComponent implements OnInit {
       for (let dT of chatbotMessages[this.currentTarget]["no"]) {
         this.addDialogueTurn(dT);
       }
+    } else if (_m == "yes" && this.userIsCurrentlyUnsure) {
+      this.addDialogueTurn(new DialogueTurn("bot", "Okay, noted.", false, "none", this.currentTarget));
     } else {
       this.startNewTarget();
     }
@@ -243,7 +249,7 @@ export class AppComponent implements OnInit {
     console.log("Send Flask Request", this.currentTarget, _m);
 
     // send to flask backend
-    this.http.post<any>("https://multiweb.gesis.org/vacos6/all?" + this.currentTarget + "&ruleKeyfacts&autoPositives", {
+    this.http.post<any>("https://multiweb.gesis.org/vacos6/aspectneeds?aspect=" + this.currentTarget + "&ruleKeyfacts&autoPositives&replaceCategories&purposeForAnswer=" + this.currentUsage, {
       text: _m,
       user_id: this.sosciCaseToken
     }).subscribe({
@@ -269,10 +275,7 @@ export class AppComponent implements OnInit {
           // only for purpose: set usage type for targeted dialogues!
           if (this.currentTarget === "purpose") this.currentUsage = data[this.currentTarget];
           // save newly identified requirement
-          this.requirements[this.currentTarget] = data[this.currentTarget];
-          console.log("CURRENT REQUIREMENTS:", this.requirements);
-          const currentRequirements = this.buildFilterRequest();
-          this.sendFilterRequest(currentRequirements);
+          this.addRequirements(this.currentTarget, data[this.currentTarget]);
           return;
         } else if (data["not_important"]) {
           // user does not have requirements
@@ -280,8 +283,9 @@ export class AppComponent implements OnInit {
             this.addDialogueTurn(dT);
           }
           return;
-        } else if (data["unkown"]) {
+        } else if (data["unknown"]) {
           // user does not have requirements
+          this.userIsCurrentlyUnsure = true;
           for (let dT of chatbotMessages[this.currentTarget]["unsure"]) {
             this.addDialogueTurn(dT);
           }
@@ -432,6 +436,22 @@ export class AppComponent implements OnInit {
       this.goToNextPage(); // jump over page 2 (offer evaluation)
       this.goToNextPage();
     }
+  }
+
+  addRequirements(_target: string, _req: Array<any>): void {
+    // this is only relevant if the user did not have requirements but was unsure and accepted the requirements of the chatbot
+    if (this.userIsCurrentlyUnsure && _req.length <= 0) {
+      _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
+      console.log("Yippie! The user accepted the suggested requirements!");
+    }
+    this.requirements[_target] = _req;
+    console.log("CURRENT REQUIREMENTS:", this.requirements);
+    const currentRequirements = this.buildFilterRequest();
+    this.sendFilterRequest(currentRequirements);
+  }
+
+  resetUnsure(): void {
+    this.userIsCurrentlyUnsure = false;
   }
 
   goToQuestionnaire(): void {

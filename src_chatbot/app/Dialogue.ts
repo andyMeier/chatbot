@@ -49,8 +49,8 @@ export var chatbotMessages: any = {
       ],
     ],
     "unsure": [
-      new DialogueTurn("bot","If you are unsure which price point is right for you, I recommend laptops between 250 and 600 pounds.", false, "none", "price"),
-      new DialogueTurn("bot","That is a price that most people are happy with. Does that work for you?", true, "yesno", "price"),
+      new DialogueTurn("bot","If you are unsure which price point is right for you, I recommend laptops between XXXUSEMIN and XXXUSEMAX pounds for XXXUSAGE tasks.", false, "none", "price"),
+      new DialogueTurn("bot","That is a price that most people that want to do XXXUSAGE tasks are happy with. Does that work for you?", true, "yesno", "price"),
     ],
     "notImportant": [
       new DialogueTurn("bot","What I have understood is that price is not too important for you.", false, "none", "price"),
@@ -77,8 +77,8 @@ export var chatbotMessages: any = {
       ],
     ],
     "unsure": [
-      new DialogueTurn("bot","If you are unsure which battery life you need, I recommend anything over 6 hours of battery life.", false, "none", "battery"),
-      new DialogueTurn("bot","That is enough for most people. Does that work for you?", true, "yesno", "battery"),
+      new DialogueTurn("bot","If you are unsure which battery life you need, I recommend anything over XXXUSEMIN hours of battery life.", false, "none", "battery"),
+      new DialogueTurn("bot","That is enough for most XXXUSAGE tasks. Does that work for you?", true, "yesno", "battery"),
     ],
     "notImportant": [
       new DialogueTurn("bot","I have understood that the battery is not too important for you.", false, "none", "battery"),
@@ -105,8 +105,8 @@ export var chatbotMessages: any = {
       ],
     ],
     "unsure": [
-      new DialogueTurn("bot","If you are unsure what the correct storage size is, I can look for laptops with 250GB to 1TB.", false, "none", "storage"),
-      new DialogueTurn("bot","That is a size that most people are happy with. Does that work for you?", true, "yesno", "storage"),
+      new DialogueTurn("bot","If you are unsure what the correct storage size is, I can look for laptops with XXXUSEMIN GB to XXXUSEMAX GB .", false, "none", "storage"),
+      new DialogueTurn("bot","That is a size that most people are happy with for XXXUSAGE tasks. Does that work for you?", true, "yesno", "storage"),
     ],
     "notImportant": [
       new DialogueTurn("bot","What I have understood is that the hard drive size is not too important for you.", false, "none", "storage"),
@@ -133,8 +133,8 @@ export var chatbotMessages: any = {
       ],
     ],
     "unsure": [
-      new DialogueTurn("bot","If you are unsure what the correct RAM size is, I can look for laptops with 4GB to 8GB of RAM.", false, "none", "ram"),
-      new DialogueTurn("bot","That is a size that most people are happy with. Is that fine with you?", true, "yesno", "ram"),
+      new DialogueTurn("bot","If you are unsure what the correct RAM size is, I can look for laptops with XXXUSEMIN GB or more RAM.", false, "none", "ram"),
+      new DialogueTurn("bot","That should work for most XXXUSAGE tasks. Is that fine with you?", true, "yesno", "ram"),
     ],
     "notImportant": [
       new DialogueTurn("bot","What I have understood is that the RAM size is not too important for you.", false, "none", "ram"),
@@ -161,8 +161,8 @@ export var chatbotMessages: any = {
       ],
     ],
     "unsure": [
-      new DialogueTurn("bot","If you are unsure what the correct display size is, I can look for laptops with 14 to 16 inches displays.", false, "none", "display"),
-      new DialogueTurn("bot","That is a size that most people are happy with. Does that work for you?", true, "yesno", "display"),
+      new DialogueTurn("bot","If you are unsure what the correct display size is, I can look for laptops with XXXUSEMIN to XXXUSEMAX inches displays.", false, "none", "display"),
+      new DialogueTurn("bot","That is a size that is suitable for most XXXUSAGE tasks. Does that work for you?", true, "yesno", "display"),
     ],
     "notImportant": [
       new DialogueTurn("bot","What I have understood is that the display size is not too important for you.", false, "none", "display"),
