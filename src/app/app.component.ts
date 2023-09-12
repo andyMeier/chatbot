@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   highlightColor = '#488AC7';
 
   title = 'chatbot';
-  botReplyBehavior: string | null = 'rephrase'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
+  botReplyBehavior: string | null = 'baseline'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
   devMode: string | null = 'production'; // choice from: 'testing', 'production'
   needsHighlight: boolean | null = false; // toggle for highlighting of attributes according to previously mentioned needs
   needsBubbles: boolean | null = false; // toggle for chatbot bubbles of previously mentioned needs
@@ -32,26 +32,24 @@ export class AppComponent implements OnInit {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
-    console.log('caseToken', urlParams.get('caseToken'));
+    console.log('URL param: caseToken', urlParams.get('caseToken'));
     const caseToken = urlParams.get('caseToken');
     if (caseToken != null) {
       this.sosciCaseToken = urlParams.get('caseToken');
     }
 
     //
-    console.log('botReplyBehavior', urlParams.get('botReplyBehavior'));
-    this.botReplyBehavior = urlParams.get('botReplyBehavior') || 'rephrase';
+    console.log('URL param: botReplyBehavior', urlParams.get('botReplyBehavior'));
+    this.botReplyBehavior = urlParams.get('botReplyBehavior') || 'baseline';
 
-    console.log('devMode', urlParams.get('devMode'));
+    console.log('URL param: devMode', urlParams.get('devMode'));
     this.devMode = urlParams.get('devMode') || 'production';
 
-    console.log('needsHighlight', urlParams.get('needsHighlight'));
+    console.log('URL param: needsHighlight', urlParams.get('needsHighlight'));
     this.needsHighlight = urlParams.get('needsHighlight') == 'true' || false;
 
-    console.log('needsBubbles', urlParams.get('needsBubbles'));
+    console.log('URL param: needsBubbles', urlParams.get('needsBubbles'));
     this.needsBubbles = urlParams.get('needsBubbles') == 'true' || false;
-
-    console.log(this.bubbleTexts['display'], !this.bubbleTexts['display'])
   }
 
   sosciCaseToken: string | null = 'TESTTEST1234';
@@ -141,7 +139,7 @@ export class AppComponent implements OnInit {
   }
 
   async startNewTarget(): Promise<void> {
-    console.log("startNewTarget", this.currentTarget, this.backendTargets.indexOf(this.currentTarget));
+    if (this.devMode == "testing") console.log("startNewTarget", this.currentTarget, this.backendTargets.indexOf(this.currentTarget));
     if (this.currentTarget == "") {
       this.currentTarget = this.backendTargets[0];
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
@@ -173,7 +171,7 @@ export class AppComponent implements OnInit {
               if (this.currentMax == -1 && this.currentMin == -1) {
                 this.currentTarget = "searchOffer";
               }
-              console.log("MINMAX RESPONSE", this.currentMin, this.currentMed, this.currentMax);
+              if (this.devMode == "testing") console.log("MINMAX RESPONSE", this.currentMin, this.currentMed, this.currentMax);
             } else if (this.filtertypes[this.currentTarget] == "categorical") {
               this.currentMax = rData['max_aspectValue'];
             }
@@ -182,21 +180,19 @@ export class AppComponent implements OnInit {
       // delete waiting message
       if (this.dialogueHistory[this.dialogueHistory.length - 1].agent == 'bot' && this.dialogueHistory[this.dialogueHistory.length - 1].target == 'wait') {
         this.dialogueHistory.pop();
-        //console.log(this.dialogueHistory);
+        if (this.devMode == "testing") console.log(this.dialogueHistory);
       }
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
         this.addDialogueTurn(dT);
       }
       // ------------------------------------
       if (this.currentTarget == "searchOffer") {
-        console.log("start finishNeedsElicitation from startNewTarget currentTarget==searchOffer")
         this.finishNeedsElicitation();
       }
     } else {
-      console.log("start finishNeedsElicitation from startNewTarget else")
       this.finishNeedsElicitation();
     }
-    console.log("new target:", this.currentTarget);
+    if (this.devMode == "testing") console.log("new target:", this.currentTarget);
   }
 
   shouldSendToBackend(): boolean {
@@ -281,7 +277,7 @@ export class AppComponent implements OnInit {
         // delete waiting message
         if (this.dialogueHistory[this.dialogueHistory.length - 1].agent == 'bot' && this.dialogueHistory[this.dialogueHistory.length - 1].target == 'wait') {
           this.dialogueHistory.pop();
-          //console.log(this.dialogueHistory);
+          if (this.devMode == "testing") console.log(this.dialogueHistory);
         }
         // add actual response
         if (!data["failure"] && data.hasOwnProperty(this.currentTarget + '_text_autoPositives')) {
@@ -356,7 +352,6 @@ export class AppComponent implements OnInit {
     }).subscribe({
       next: rData => {
         console.log('Flask response:', rData);
-        // console.log('Flask hits:', rData['hits']);
         this.laptopRecs = rData['hits'];
         this.numLaptopRecs = rData['num_hits'];
         this.laptopRecsIDs = rData['hitIDs'];
@@ -406,7 +401,7 @@ export class AppComponent implements OnInit {
     let filterRequest = [];
     for (var key in this.requirements) {
       const value: any = this.requirements[key];
-      // console.log(key, value);
+      if (this.devMode == "testing") console.log("buildFilterRequest of:", key, value);
       if (value.length > 0 && key in this.filterfields) {
         let req = {
           "filterfield": this.filterfields[key],
@@ -417,7 +412,7 @@ export class AppComponent implements OnInit {
         filterRequest.push(req);
       }
     }
-    console.log("final filter request:", filterRequest);
+    if (this.devMode == "testing") console.log("final filter request:", filterRequest);
     return filterRequest;
   }
 
@@ -446,7 +441,7 @@ export class AppComponent implements OnInit {
   }
 
   finishNeedsElicitation(): void {
-    console.log("start finishNeedsElicitation");
+    if (this.devMode == "testing") console.log("start finishNeedsElicitation");
     this.logLogs();
     //this.goToQuestionnaire(); // uncomment this if you want to send sosci people back to the survey without showing results
     if (this.numLaptopRecs > 0) {
@@ -474,7 +469,7 @@ export class AppComponent implements OnInit {
     // this is only relevant if the user did not have requirements but was unsure and accepted the requirements of the chatbot
     if (this.userIsCurrentlyUnsure && _req.length <= 0) {
       _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
-      console.log("Yippie! The user accepted the suggested requirements!");
+      if (this.devMode == "testing") console.log("Yippie! The user accepted the suggested requirements!");
     }
     this.requirements[_target] = _req;
     console.log("CURRENT REQUIREMENTS:", this.requirements);
@@ -534,14 +529,14 @@ export class AppComponent implements OnInit {
     this.log['serverErrors'] = this.serverDownCounter;
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
-    //console.log("Log File:", this.log);
+    if (this.devMode == "testing") console.log("Log File:", this.log);
 
     // Send logs to server
     this.loggingInProcess = true;
     this.http.post<any>(this.nlu_server + '/log?client_id=' + this.sosciCaseToken, this.log).subscribe({
       next: rData => {
         this.loggingInProcess = false;
-        console.log('logLogs(): SUCCESS log data accepted by server');
+        if (this.devMode == "testing") console.log('logLogs(): SUCCESS log data accepted by server');
         return
       },
       error: error => {
@@ -583,7 +578,7 @@ export class AppComponent implements OnInit {
 
   goToNextPage(): void {
     this.page++;
-    console.log("new page:", this.page)
+    if (this.devMode == "testing") console.log("new page:", this.page)
   }
 
   scrollDown(): void {
@@ -618,7 +613,7 @@ export class AppComponent implements OnInit {
   }
 
   get_style(message: string) {
-    console.log('this.requirements.storage: ' + this.requirements.storage)
+    if (this.devMode == "testing") console.log('this.requirements.storage: ' + this.requirements.storage)
     var h: number = 10 + Math.ceil(message.length / 35) * 30;
     var w: number = 250;
     if (message.length < 35){
