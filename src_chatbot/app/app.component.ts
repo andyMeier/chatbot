@@ -15,30 +15,43 @@ import {firstValueFrom, Observable} from "rxjs";
 
 export class AppComponent implements OnInit {
 
-  title = 'chatbot';
-  setting: string | null = 'rephrase'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
-  mode: string | null = 'production'; // choice from: 'testing', 'production'
-  infoNeedMapMode: string | null = 'none'; // choice from: 'none', 'highlight', 'bubbles
+  db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
+  nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
+  highlightColor = '#488AC7';
 
-  modalOpen = false;
+  title = 'chatbot';
+  botReplyBehavior: string | null = 'rephrase'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
+  devMode: string | null = 'production'; // choice from: 'testing', 'production'
+  needsHighlight: boolean | null = false; // toggle for highlighting of attributes according to previously mentioned needs
+  needsBubbles: boolean | null = false; // toggle for chatbot bubbles of previously mentioned needs
+
   showScenario: boolean = false;
   page = 1;
 
   constructor(public http: HttpClient, private router: ActivatedRoute) {
     const queryString = window.location.search;
-    console.log('WINDOWS', queryString);
     const urlParams = new URLSearchParams(queryString);
+
     console.log('caseToken', urlParams.get('caseToken'));
     const caseToken = urlParams.get('caseToken');
     if (caseToken != null) {
       this.sosciCaseToken = urlParams.get('caseToken');
     }
-    console.log('setting', urlParams.get('setting'));
-    this.setting = urlParams.get('setting') || 'rephrase';
-    console.log('mode', urlParams.get('mode'));
-    this.mode = urlParams.get('mode') || 'production';
-    console.log('infoNeedMapMode', urlParams.get('infoNeedMapMode'));
-    this.infoNeedMapMode = urlParams.get('infoNeedMapMode') || 'none';
+
+    //
+    console.log('botReplyBehavior', urlParams.get('botReplyBehavior'));
+    this.botReplyBehavior = urlParams.get('botReplyBehavior') || 'rephrase';
+
+    console.log('devMode', urlParams.get('devMode'));
+    this.devMode = urlParams.get('devMode') || 'production';
+
+    console.log('needsHighlight', urlParams.get('needsHighlight'));
+    this.needsHighlight = urlParams.get('needsHighlight') == 'true' || false;
+
+    console.log('needsBubbles', urlParams.get('needsBubbles'));
+    this.needsBubbles = urlParams.get('needsBubbles') == 'true' || false;
+
+    console.log(this.bubbleTexts['display'], !this.bubbleTexts['display'])
   }
 
   sosciCaseToken: string | null = 'TESTTEST1234';
@@ -55,6 +68,7 @@ export class AppComponent implements OnInit {
 
   inputMessage = "";
 
+  bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
   requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
   filterfields: any = {
     "price": "price_filter",
@@ -87,7 +101,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.post<any>('https://multiweb.gesis.org/vacos2/filter', {
+    this.http.post<any>(this.db_server + '/filter', {
       'dataset': 'amazon',
       'filter': [],
       'facets': [],
@@ -119,7 +133,7 @@ export class AppComponent implements OnInit {
   }
 
   async getMinMaxValues(_aspect: any, _IDs: Array<String>) {
-    return this.http.post<any>('https://multiweb.gesis.org/vacos2/minmaxAspect', {
+    return this.http.post<any>(this.db_server + '/minmaxAspect', {
       'IDs': _IDs,
       'aspect': this.filterfields[_aspect],
       'dataset': 'amazon'
@@ -156,7 +170,10 @@ export class AppComponent implements OnInit {
                 this.currentMax = this.roundTo(rData['max_aspectvalue']);
                 this.currentMed = this.roundTo(rData['med_aspectvalue']);
               }
-
+              if (this.currentMax == -1 && this.currentMin == -1) {
+                this.currentTarget = "searchOffer";
+              }
+              console.log("MINMAX RESPONSE", this.currentMin, this.currentMed, this.currentMax);
             } else if (this.filtertypes[this.currentTarget] == "categorical") {
               this.currentMax = rData['max_aspectValue'];
             }
@@ -171,8 +188,13 @@ export class AppComponent implements OnInit {
         this.addDialogueTurn(dT);
       }
       // ------------------------------------
+      if (this.currentTarget == "searchOffer") {
+        console.log("start finishNeedsElicitation from startNewTarget currentTarget==searchOffer")
+        this.finishNeedsElicitation();
+      }
     } else {
-      this.finishNeedsElicitation()
+      console.log("start finishNeedsElicitation from startNewTarget else")
+      this.finishNeedsElicitation();
     }
     console.log("new target:", this.currentTarget);
   }
@@ -188,7 +210,6 @@ export class AppComponent implements OnInit {
         break;
       }
     }
-    ;
     if (this.backendTargets.includes(this.currentTarget)) {
       return true
     }
@@ -249,7 +270,7 @@ export class AppComponent implements OnInit {
     console.log("Send Flask Request", this.currentTarget, _m);
 
     // send to flask backend
-    this.http.post<any>("https://multiweb.gesis.org/vacos6/aspectneeds?aspect=" + this.currentTarget + "&ruleKeyfacts&autoPositives&replaceCategories&purposeForAnswer=" + this.currentUsage, {
+    this.http.post<any>(this.nlu_server + "/aspectneeds?aspect=" + this.currentTarget + "&ruleKeyfacts&autoPositives&replaceCategories&purposeForAnswer=" + this.currentUsage, {
       text: _m,
       user_id: this.sosciCaseToken
     }).subscribe({
@@ -265,17 +286,18 @@ export class AppComponent implements OnInit {
         // add actual response
         if (!data["failure"] && data.hasOwnProperty(this.currentTarget + '_text_autoPositives')) {
           // keyfacts could be extracted
-          if (this.setting == 'acknowledge') {
+          if (this.botReplyBehavior == 'acknowledge') {
             this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['acknowledge'], false, "none", this.currentTarget));
-          } else if (this.setting == 'repeat') {
+          } else if (this.botReplyBehavior == 'repeat') {
             this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['repeat'], false, "none", this.currentTarget));
-          } else if (this.setting == 'rephrase') {
+          } else if (this.botReplyBehavior == 'rephrase') {
             this.addDialogueTurn(new DialogueTurn("bot", data[this.currentTarget + '_text_autoPositives']['rephrase'], false, "none", this.currentTarget));
           }
           // only for purpose: set usage type for targeted dialogues!
           if (this.currentTarget === "purpose") this.currentUsage = data[this.currentTarget];
           // save newly identified requirement
           this.addRequirements(this.currentTarget, data[this.currentTarget]);
+          this.bubbleTexts[this.currentTarget] = data[this.currentTarget + '_text_autoPositives']['repeatNeeds']
           return;
         } else if (data["not_important"]) {
           // user does not have requirements
@@ -324,7 +346,7 @@ export class AppComponent implements OnInit {
 
   sendFilterRequest(_flaskfilters: Array<any>, _verbalize: boolean = true): void {
     console.log("Start filter request to FLASK");
-    this.http.post<any>('https://multiweb.gesis.org/vacos2/filter', {
+    this.http.post<any>(this.db_server + '/filter', {
       'dataset': 'amazon',
       'filter': _flaskfilters,
       'facets': [],
@@ -363,6 +385,7 @@ export class AppComponent implements OnInit {
         // if the current requirements lead to having only one computer being suitable, go straight to end of needs elicitation
         if (this.numLaptopRecs == 1) {
           this.currentTarget = "searchOffer";
+        // if the current requirements lead to zero choice, start repairing: repeat last step
         } else if (this.numLaptopRecs == 0) {
           if (this.backendTargets.indexOf(this.currentTarget) == 0) {
             this.currentTarget = "greeting";
@@ -370,7 +393,6 @@ export class AppComponent implements OnInit {
             this.currentTarget = this.backendTargets[this.backendTargets.indexOf(this.currentTarget)-1];
           }
         }
-        // if the current requirements lead to zero choice, start repairing: repeat last step
         // go to next phase in dialogue
         this.startNewTarget();
       },
@@ -399,8 +421,9 @@ export class AppComponent implements OnInit {
     return filterRequest;
   }
 
-  addDialogueTurn(_turn: DialogueTurn): void {
-    // Take care of the personalization and adaptive context information
+  dialoguePreprocess(_turn: DialogueTurn): DialogueTurn {
+    // console.log(_turn);
+    // console.log('Dialog currentUsage:' + this.currentUsage)
     if (_turn["message"].includes("XXXMIN")) _turn["message"] = _turn["message"].replace('XXXMIN', "" + this.currentMin)
     if (_turn["message"].includes("XXXMAX")) _turn["message"] = _turn["message"].replace('XXXMAX', "" + this.currentMax)
     if (_turn["message"].includes("XXXMED")) _turn["message"] = _turn["message"].replace('XXXMED', "" + this.currentMed)
@@ -409,20 +432,29 @@ export class AppComponent implements OnInit {
     if (_turn["message"].includes("XXXUSEMAX")) _turn["message"] = _turn["message"].replace('XXXUSEMAX', "" + useValueRecs[this.currentUsage][this.currentTarget]["max"])
     if (_turn["message"].includes("XXXUSAGE")) _turn["message"] = _turn["message"].replace('XXXUSAGE', "" + this.currentUsage)
     if (_turn["message"].includes("XXXTARGET")) _turn["message"] = _turn["message"].replace('XXXTARGET', "" + this.currentTarget)
+    return _turn
+  }
 
-    //
+  addDialogueTurn(_turn: DialogueTurn): void {
+    // Take care of the personalization and adaptive context information
+    _turn = this.dialoguePreprocess(_turn);
+
+    // add to dialogue history
     console.log("%c"+_turn["message"], 'color: green')
     this.dialogueHistory.push(_turn);
     this.log['dialogue'].push(_turn.outputify());
   }
 
   finishNeedsElicitation(): void {
+    console.log("start finishNeedsElicitation");
     this.logLogs();
-    //this.goToQuestionnaire(); // uncomment this for sosci user studies without showing results
+    //this.goToQuestionnaire(); // uncomment this if you want to send sosci people back to the survey without showing results
     if (this.numLaptopRecs > 0) {
       this.currentTarget = "searchOffer";
-      for (let dT of chatbotMessages["searchOffer"]["start"]) {
-        this.addDialogueTurn(dT);
+      if (this.dialogueHistory[this.dialogueHistory.length - 1].target != "searchOffer") {
+        for (let dT of chatbotMessages["searchOffer"]["start"]) {
+          this.addDialogueTurn(dT);
+        }
       }
       // adapt size of chatbox to give more space to result
       this.resizeChatbox('55vh');
@@ -494,7 +526,7 @@ export class AppComponent implements OnInit {
 
     // Make nice log file
     this.log['ID'] = this.sosciCaseToken;
-    this.log['setting'] = this.setting;
+    this.log['botReplyBehavior'] = this.botReplyBehavior;
     this.log['start'] = this.logStart;
     const currTime = new Date(Date.now());
     this.log['end'] = currTime;
@@ -506,7 +538,7 @@ export class AppComponent implements OnInit {
 
     // Send logs to server
     this.loggingInProcess = true;
-    this.http.post<any>('https://multiweb.gesis.org/vacos6/log?client_id=' + this.sosciCaseToken, this.log).subscribe({
+    this.http.post<any>(this.nlu_server + '/log?client_id=' + this.sosciCaseToken, this.log).subscribe({
       next: rData => {
         this.loggingInProcess = false;
         console.log('logLogs(): SUCCESS log data accepted by server');
@@ -559,18 +591,6 @@ export class AppComponent implements OnInit {
     cb.scrollTop = cb.scrollHeight;
   }
 
-  closeModal(_position: string) {
-    this.modalOpen = false;
-    console.log('CLOSE MODAL');
-    console.log("current page:", this.page, this.laptopRecs.length>0);
-  }
-
-  openModal() {
-    this.modalOpen = true;
-    console.log('OPEN MODAL');
-    console.log("current page:", this.page, this.laptopRecs.length>0);
-  }
-
   resizeChatbox(_newsize: string) {
     const chatbox = document.getElementById('chatbox');
     if (chatbox != null) {
@@ -585,4 +605,27 @@ export class AppComponent implements OnInit {
   }
 
   protected readonly JSON = JSON;
+
+  hide(elements: any) {
+    elements = elements.length ? elements : [elements];
+    for (var index = 0; index < elements.length; index++) {
+      if (elements[index].style.display != 'none') {
+        elements[index].style.display = 'none';
+      } else {
+        elements[index].style.display = 'block';
+      }
+    }
+  }
+
+  get_style(message: string) {
+    console.log('this.requirements.storage: ' + this.requirements.storage)
+    var h: number = 10 + Math.ceil(message.length / 35) * 30;
+    var w: number = 250;
+    if (message.length < 35){
+      w = 70 + message.length * 5;
+    }
+    return {'width': w + 'px', 'height': h + 'px'};
+  }
+
+  protected readonly document = document;
 }
