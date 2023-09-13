@@ -38,6 +38,9 @@ export var chatbotMessages: any = {
       //new DialogueTurn("bot","We have laptops from XXXMIN to XXXMAX pounds, most are around XXXMED.", false, "none", "price"),
       new DialogueTurn("bot","XXXUSAGE laptops typically cost XXXUSEMIN - XXXUSEMAX pounds.", true, "open", "price"),
     ],
+    "valueHint": [
+      new DialogueTurn("bot","We have laptops from XXXMIN to XXXMAX pounds, most are around XXXMED.", false, "none", "price"),
+    ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "price"),
         new DialogueTurn("bot","I did not get that, can you rephrase it?", false, "none", "price"),
@@ -65,6 +68,9 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","What are your requirements on battery life?", false, "none", "battery"),
       //new DialogueTurn("bot","We have laptops that last between XXXMIN and XXXMAX hours, most last around XXXMED hours.", false, "none", "battery"),
       new DialogueTurn("bot","For XXXUSAGE laptops, people usually want a battery that runs for at least XXXUSEMIN hours.", true, "open", "battery"),
+    ],
+    "valueHint": [
+      new DialogueTurn("bot","We have laptops that last between XXXMIN and XXXMAX hours, most last around XXXMED hours.", false, "none", "battery"),
     ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "battery"),
@@ -94,6 +100,9 @@ export var chatbotMessages: any = {
       //new DialogueTurn("bot","We have laptops with storage between XXXMIN GB and XXXMAX GB, most have XXXMED GB storage.", false, "none", "storage"),
       new DialogueTurn("bot","For XXXUSAGE purposes, most users prefer at least XXXUSEMIN GB storage.", true, "open", "storage"),
     ],
+    "valueHint": [
+      new DialogueTurn("bot","We have laptops with storage between XXXMIN GB and XXXMAX GB, most have XXXMED GB storage.", false, "none", "storage"),
+    ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "storage"),
         new DialogueTurn("bot","I did not get that, can you please rephrase it?", false, "none", "storage"),
@@ -122,6 +131,9 @@ export var chatbotMessages: any = {
       //new DialogueTurn("bot","Our laptops have between XXXMINGB and XXXMAXGB RAM. Most of them have around XXXMEDGB.", false, "none", "ram"),
       new DialogueTurn("bot","XXXUSAGE tasks typically need XXXUSEMIN GB or more.", true, "open", "ram"),
     ],
+    "valueHint": [
+      new DialogueTurn("bot","Our laptops have between XXXMINGB and XXXMAXGB RAM. Most of them have around XXXMEDGB.", false, "none", "ram"),
+    ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "ram"),
         new DialogueTurn("bot","I did not get that, can you please rephrase it?", false, "none", "ram"),
@@ -149,6 +161,9 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","How big should the display be?", false, "none", "display"),
       //new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches, most are XXXMED big.", false, "none", "display"),
       new DialogueTurn("bot","XXXUSAGE laptops often have screens between XXXUSEMIN and XXXUSEMAX inches.", true, "open", "display"),
+    ],
+    "valueHint": [
+      new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches, most are XXXMED big.", false, "none", "display"),
     ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "display"),

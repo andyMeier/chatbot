@@ -159,6 +159,7 @@ export class AppComponent implements OnInit {
           .then((rData) => {
             console.log('Flask response MINMAX:', rData);
             if (this.filtertypes[this.currentTarget] == "interval") {
+              this.numLaptopRecs = rData['num_hits'];
               if (rData['max_aspectvalue'] > 100) {
                 this.currentMin = this.roundTo(rData['min_aspectvalue'], -1);
                 this.currentMax = this.roundTo(rData['max_aspectvalue'], -1);
@@ -168,7 +169,7 @@ export class AppComponent implements OnInit {
                 this.currentMax = this.roundTo(rData['max_aspectvalue']);
                 this.currentMed = this.roundTo(rData['med_aspectvalue']);
               }
-              if (this.currentMax == -1 && this.currentMin == -1 && this.laptopRecs.length > 0) {
+              if (this.currentMax == -1 && this.currentMin == -1 && this.numLaptopRecs > 0) {
                 this.currentTarget = "searchOffer";
               }
               if (this.devMode == "testing") console.log("MINMAX RESPONSE", this.currentMin, this.currentMed, this.currentMax);
@@ -182,6 +183,13 @@ export class AppComponent implements OnInit {
         this.dialogueHistory.pop();
         if (this.devMode == "testing") console.log(this.dialogueHistory);
       }
+      // add a message of what values are still in the run - but only if we have very few laptops left
+      if (this.numLaptopRecs < 20 && this.numLaptopRecs > 0) {
+        for (let dT of chatbotMessages[this.currentTarget]["valueHint"]) {
+          this.addDialogueTurn(dT);
+        }
+      }
+      // add normal messages
       for (let dT of chatbotMessages[this.currentTarget]["start"]) {
         this.addDialogueTurn(dT);
       }
@@ -357,7 +365,7 @@ export class AppComponent implements OnInit {
         this.laptopRecsIDs = rData['hitIDs'];
         // show effect on number of suitable products
         if (_verbalize && this.backendTargets.includes(this.currentTarget) && this.currentTarget != "purpose") {
-          if (this.numLaptopRecs > 10) {
+          if (this.numLaptopRecs > 20) {
             // not relevant when there are still enough laptops to choose from?
             //let idx = this.getRandomInt(0, chatbotMessages["howmany"]["many"].length);
             //let dT: DialogueTurn = chatbotMessages["howmany"]["many"][idx];
@@ -385,6 +393,7 @@ export class AppComponent implements OnInit {
           if (this.backendTargets.indexOf(this.currentTarget) == 0) {
             this.currentTarget = "greeting";
           } else {
+            this.deleteRequirements(this.currentTarget);
             this.currentTarget = this.backendTargets[this.backendTargets.indexOf(this.currentTarget)-1];
           }
         }
@@ -466,15 +475,20 @@ export class AppComponent implements OnInit {
   }
 
   addRequirements(_target: string, _req: Array<any>): void {
-    // this is only relevant if the user did not have requirements but was unsure and accepted the requirements of the chatbot
+    // the following part is only relevant if the user did not have requirements but was unsure and accepted the requirements of the chatbot
     if (this.userIsCurrentlyUnsure && _req.length <= 0) {
       _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
       if (this.devMode == "testing") console.log("Yippie! The user accepted the suggested requirements!");
     }
+    // the following is relevant for all cases
     this.requirements[_target] = _req;
     console.log("CURRENT REQUIREMENTS:", this.requirements);
     const currentRequirements = this.buildFilterRequest();
     this.sendFilterRequest(currentRequirements);
+  }
+
+  deleteRequirements(_target: string): void {
+    this.requirements[_target] = [];
   }
 
   resetUnsure(): void {
