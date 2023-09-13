@@ -168,7 +168,7 @@ export class AppComponent implements OnInit {
                 this.currentMax = this.roundTo(rData['max_aspectvalue']);
                 this.currentMed = this.roundTo(rData['med_aspectvalue']);
               }
-              if (this.currentMax == -1 && this.currentMin == -1) {
+              if (this.currentMax == -1 && this.currentMin == -1 && this.laptopRecs.length > 0) {
                 this.currentTarget = "searchOffer";
               }
               if (this.devMode == "testing") console.log("MINMAX RESPONSE", this.currentMin, this.currentMed, this.currentMax);
@@ -599,8 +599,6 @@ export class AppComponent implements OnInit {
     return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
   }
 
-  protected readonly JSON = JSON;
-
   hide(elements: any) {
     elements = elements.length ? elements : [elements];
     for (var index = 0; index < elements.length; index++) {
@@ -622,5 +620,6 @@ export class AppComponent implements OnInit {
     return {'width': w + 'px', 'height': h + 'px'};
   }
 
+  protected readonly JSON = JSON;
   protected readonly document = document;
 }
