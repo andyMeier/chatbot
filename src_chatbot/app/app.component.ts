@@ -15,6 +15,7 @@ import {firstValueFrom, Observable} from "rxjs";
 
 export class AppComponent implements OnInit {
 
+  sosci_server = 'https://www.soscisurvey.de/chatbotexplanations/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
   highlightColor = '#488AC7';
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
   needsHighlight: boolean | null = false; // toggle for highlighting of attributes according to previously mentioned needs
   needsBubbles: boolean | null = false; // toggle for chatbot bubbles of previously mentioned needs
 
-  showScenario: boolean = false;
+  showScenario: boolean = true;
   page = 1;
 
   constructor(public http: HttpClient, private router: ActivatedRoute) {
@@ -68,6 +69,7 @@ export class AppComponent implements OnInit {
 
   bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
   requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
+  requirementsFullText: any = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
   filterfields: any = {
     "price": "price_filter",
     "display": "screenSize_filter",
@@ -95,7 +97,8 @@ export class AppComponent implements OnInit {
   log: any = {'dialogue': []};
   logTrials: number = 0;
   loggingInProcess: boolean = false;
-  logStart: any;
+  convStartTime: any;
+  recStartTime: any;
 
   ngOnInit(): void {
 
@@ -127,7 +130,7 @@ export class AppComponent implements OnInit {
     }
     this.startNewTarget();
     const currTime = new Date(Date.now());
-    this.logStart = currTime;
+    this.convStartTime = currTime;
   }
 
   async getMinMaxValues(_aspect: any, _IDs: Array<String>) {
@@ -237,12 +240,21 @@ export class AppComponent implements OnInit {
     return false
   }
 
+  cleanString(_m: string): string {
+    var clean_m = _m;
+    clean_m = clean_m.replace("-", "~");
+    clean_m = clean_m.replace(" ", "+");
+    clean_m = clean_m.replace(/[^a-zA-Z0-9~+]/g, "");
+    return clean_m
+  }
+
   sendMessage(_m: string): void {
     if (_m.length > 0) {
       this.addDialogueTurn(new DialogueTurn("user", _m));
       this.inputMessage = "";
 
       if (this.shouldSendToBackend()) {
+        this.requirementsFullText[this.currentTarget] = this.cleanString(_m);
         this.sendMessage_Backend(_m);
       } else if (this.shouldSendToYesNo()) {
         this.sendMessage_YesNo(_m);
@@ -425,7 +437,16 @@ export class AppComponent implements OnInit {
     return filterRequest;
   }
 
-  dialoguePreprocess(_turn: DialogueTurn): DialogueTurn {
+  dialoguePreprocess(_t: DialogueTurn): DialogueTurn {
+    //deep copy of turn, otherwise it replaces the values below and somehow this alters the whole dialogue turns object, so we cannot restart the chat...
+    var _turn = new DialogueTurn(
+      _t["agent"],
+      (' ' + _t["message"]).slice(1),
+      _t["messageReply"],
+      _t["messageReplyType"],
+      _t["target"],
+      _t["delayNext"]
+    );
     // console.log(_turn);
     // console.log('Dialog currentUsage:' + this.currentUsage)
     if (_turn["message"].includes("XXXMIN")) _turn["message"] = _turn["message"].replace('XXXMIN', "" + this.currentMin)
@@ -451,8 +472,8 @@ export class AppComponent implements OnInit {
 
   finishNeedsElicitation(): void {
     if (this.devMode == "testing") console.log("start finishNeedsElicitation");
-    this.logLogs();
-    //this.goToQuestionnaire(); // uncomment this if you want to send sosci people back to the survey without showing results
+    //this.logLogs(); // uncomment this if you want to send sosci people back to the survey without showing results
+    //this.redirectToSosci(); // uncomment this if you want to send sosci people back to the survey without showing results
     if (this.numLaptopRecs > 0) {
       this.currentTarget = "searchOffer";
       if (this.dialogueHistory[this.dialogueHistory.length - 1].target != "searchOffer") {
@@ -462,8 +483,9 @@ export class AppComponent implements OnInit {
       }
       // adapt size of chatbox to give more space to result
       this.resizeChatbox('55vh');
-
       this.goToNextPage();
+      const currTime = new Date(Date.now());
+      this.recStartTime = currTime;
       this.currentTarget = "presentOffer";
       for (let dT of chatbotMessages["presentOffer"]["start"]) {
         this.addDialogueTurn(dT);
@@ -474,12 +496,31 @@ export class AppComponent implements OnInit {
     }
   }
 
+  sendBackToSurvey (): void {
+    this.logLogs(); // uncomment this if you want to send sosci people back to the survey without showing results
+    this.redirectToSosci();
+  }
+
+  redirectToSosci(): void {
+    //this.page = 3;
+    // build URL with all information we want to hand over to sosci:
+    let url = this.sosci_server + this.sosciCaseToken;
+    for (var _t of this.backendTargets) {
+      url += `&${_t}=${this.requirementsFullText[_t]}`;
+    }
+    if (this.devMode == "testing") console.log("URL", url);
+    // set the url in the current window, which effectively redirects to sosci:
+    window.location.href = url;
+  }
+
   addRequirements(_target: string, _req: Array<any>): void {
     // the following part is only relevant if the user did not have requirements but was unsure and accepted the requirements of the chatbot
     if (this.userIsCurrentlyUnsure && _req.length <= 0) {
       _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
+      this.requirementsFullText[this.currentTarget] = useValueRecs[this.currentUsage][this.currentTarget]["min"].toString() + "-" + useValueRecs[this.currentUsage][this.currentTarget]["max"].toString();
       if (this.devMode == "testing") console.log("Yippie! The user accepted the suggested requirements!");
     }
+    console.log("FULLTEXTS", this.requirementsFullText);
     // the following is relevant for all cases
     this.requirements[_target] = _req;
     console.log("CURRENT REQUIREMENTS:", this.requirements);
@@ -495,11 +536,6 @@ export class AppComponent implements OnInit {
     this.userIsCurrentlyUnsure = false;
   }
 
-  goToQuestionnaire(): void {
-    //this.page = 3;
-    window.location.href = 'https://www.soscisurvey.de/LapDiag/?q=02&i=' + this.sosciCaseToken + '&server=' + this.serverDownCounter;
-  }
-
   opencloseScenario(): void {
     this.showScenario = !this.showScenario;
   }
@@ -507,14 +543,30 @@ export class AppComponent implements OnInit {
   restartDialogue(): void {
     this.restarts += 1;
     this.page = 1;
+    const currTime = new Date(Date.now());
+    this.convStartTime = currTime;
     this.dialogueHistory = [];
     this.backendTargets = ["purpose", "price", "display", "storage", "ram", "battery"];
     this.currentTarget = "";
+    this.currentUsage = "unknown";
+    console.log("currentUsage", this.currentUsage);
+    this.currentMin = -1;
+    this.currentMax = -1;
+    this.currentMed = -1;
+    this.currentCats = [];
+    this.userIsCurrentlyUnsure = false;
     this.inputMessage = "";
+    this.bubbleTexts = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
     this.requirements = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
+    this.requirementsFullText = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
     this.log = {'dialogue': []};
     this.logTrials = 0;
     this.loggingInProcess = false;
+    this.laptopRecs = [];
+    this.numLaptopRecs = 0;
+    this.laptopRecsIDs = [];
+    this.serverDownCounter = 0;
+
     this.resizeChatbox('70vh');
     this.startConversation();
   }
@@ -536,9 +588,12 @@ export class AppComponent implements OnInit {
     // Make nice log file
     this.log['ID'] = this.sosciCaseToken;
     this.log['botReplyBehavior'] = this.botReplyBehavior;
-    this.log['start'] = this.logStart;
+    this.log['needsHighlight'] = this.needsHighlight;
+    this.log['needsBubbles'] = this.needsBubbles;
+    this.log['convStartTime'] = this.convStartTime;
+    this.log['recStartTime'] = this.recStartTime;
     const currTime = new Date(Date.now());
-    this.log['end'] = currTime;
+    this.log['endTime'] = currTime;
     this.log['requirements'] = this.requirements;
     this.log['serverErrors'] = this.serverDownCounter;
     this.log['restarts'] = this.restarts;
