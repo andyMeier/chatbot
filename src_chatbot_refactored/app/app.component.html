@@ -554,7 +554,7 @@
     <div class="col-2">
       <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart Chat</button>
       <br>
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Scenario</button>
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Task Description</button>
       <br>
       <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="sendBackToSurvey()">Go back to Questionnaire</button>
       <br>
@@ -578,13 +578,13 @@
   <div class="fadeMe" *ngIf="showScenario"></div>
   <div class="col-md-12 priotop p-4 text-white rounded" style="position:fixed;left:10%;top:10%;width:80%;background: cadetblue;" *ngIf="showScenario">
     <div>
-      <h3>Scenario:</h3>
+      <h3>Your Task:</h3>
       <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
     </div>
     <br>
     <div>
       <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
-        Close Scenario
+        Close Task Description
       </button>
     </div>
   </div>
