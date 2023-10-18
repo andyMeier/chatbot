@@ -1,0 +1,321 @@
+#finish {
+  filter: none;
+}
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+  background-color: #597490;
+  border-color: #597490;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+.btn-primary:hover{
+  background-color: #7c9ebd;
+  border-color: #7c9ebd;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+.btn-outline-primary,
+.btn-outline-primary:active{
+  color: #597490;
+  border-color: #597490;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+.btn-outline-primary:visited,
+.btn-outline-primary:focus {
+  background-color: #7c9ebd;
+  border-color: #597490;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+.btn-outline-primary:hover{
+  background-color: #7c9ebd;
+  border-color: #7c9ebd;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+hr {
+  display: block;
+  height: 6px;
+  border: 0;
+  border-top: 6px solid black;
+  margin: 1em 0;
+  padding: 0;
+}
+
+html {
+  background-color: white;
+  min-height: 98vh;
+  max-height: 98vh;
+  padding: 0;
+}
+
+#chatbox {
+  max-width: 80%;
+  /* background: linear-gradient(to bottom right, #F5F5F5, #D0EEF4); */
+  background: #F4F4F4;
+  border: 1px solid #929292;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#statusbar-container {
+  width: 100%;
+  background-color: #000;
+  background: linear-gradient(to bottom, rgba(204, 204, 204, 0.4), rgba(242, 242, 242, 0.05));
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0; /* Stick the header to the top */
+  z-index: 1; /* Ensure the header appears above other content */
+}
+
+#child-box {
+  margin-top: 20px;
+}
+
+.bg--blur--container {
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  width: 100% + 50px;
+  margin-top: auto;
+  bottom: 0;
+}
+
+.bg--blur {
+  border-radius: 0px 0px 0px 0px;
+  box-sizing: border-box;
+  height: 110px;
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(242, 242, 242, 0.05), rgba(204, 204, 204, 0.4));
+  backdrop-filter: blur(5px);
+}
+
+#input-div {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+  border-radius: 21px;
+  min-height: 53px;
+  position: absolute;
+  bottom: 21px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: none;
+}
+
+#input {
+  border-radius: 21px;
+  border-top-left-radius: 21px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 21px;
+  padding-left: 20px;
+}
+
+#send-icon {
+  max-width: 30px;
+}
+
+#button-addon2 {
+  border-top-left-radius: 0px;
+  border-top-right-radius: 21px;
+  border-bottom-right-radius: 21px;
+  border-bottom-left-radius: 0px;
+  border-color: lightgray;
+  min-height: 53px;
+  background: white;
+}
+
+div.chatinputbox {
+  max-width: 80%;
+  background: white;
+}
+
+div.productOffer {
+  max-width: 80%;
+}
+
+.dialogicon img {
+  float: right;
+  width: 40%; /* War vorher 70% */
+  max-width: 60px;
+}
+
+div.dialogbubble {
+  min-height: 28px;
+  position: relative;
+  padding: 12px;
+  font-size: 1rem;
+  /* box-shadow: 2px 2px 2px gray; */
+  text-align: left;
+}
+
+div.wait {
+  min-width: 10% ! important;
+}
+
+.dialogbubble img {
+  height: 100%;
+  max-height: 32px;
+  width: 100%;
+}
+
+.avatar {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+.user {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+}
+
+div.dialogBot {
+  float: left;
+  margin-right: 10%;
+  background: linear-gradient(to bottom right, #5A787F, #415256);
+  /* background: linear-gradient(to bottom right, #416585, #2D4860); */
+  color: white;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 0px;
+}
+
+div.dialogUser {
+  float: right;
+  margin-left: 10%;
+  background: linear-gradient(to bottom right, #E9F5DC, #D5E2C7);
+  /* background: linear-gradient(to bottom right, #ECFADF, #E2EFD5); */
+  color: black;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 16px;
+}
+
+.rotate {
+  white-space: nowrap;
+  display: inline-block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform-origin: 0 0;
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+  /* IE */
+  -ms-transform: rotate(-90deg);
+  /* Opera */
+  -o-transform: rotate(-90deg);
+  float: left;
+}
+
+div.fadeMe {
+  opacity:    0.5;
+  background: #000;
+  width:      100%;
+  height:     100%;
+  z-index:    10;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+
+.modal-title:hover {
+  cursor: pointer;
+  color: #597490;
+}
+
+div.priotop {
+  z-index: 11;
+}
+
+/* Popup container */
+.popup {
+  position: relative;
+  display: inline-block;
+  /*cursor: pointer; */
+  left: calc(50%);
+  height: max-content;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: visible;
+  height: max-content;
+  width: 250px;
+  color: white;
+  background: linear-gradient(to bottom right, #5A787F, #415256);
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
+  text-align: center;
+  border: 1px solid #F2F2F2;
+  border-radius: 6px;
+  padding: 8px 16px; /* Adjust padding as needed */
+  position: absolute;
+  z-index: 1;
+  top: 50%; /* Position the popup vertically at the middle */
+  left: 380%; /* Position the popup to the right of the trigger element */
+  transform: translate(-50%, -50%); /* Center the popup */
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Position the arrow to the left of the popup */
+  margin-top: -5px; /* Half of the arrow's height to center it vertically */
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #5A787F transparent transparent;
+}
+
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+/* Scrollbar for webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 10px; /* Set width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f2f2f2; /* Color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #bfbfbf; /* Initial and hover color of the scrollbar thumb */
+  border-radius: 5px; /* Optional: Round the corners of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #989898; /* Color of the thumb on hover */
+}
+
+/* Darker thumb on active (click) */
+::-webkit-scrollbar-thumb:active {
+  background-color: #989898; /* Darker color of the thumb on click */
+}
