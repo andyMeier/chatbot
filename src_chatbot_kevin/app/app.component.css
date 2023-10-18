@@ -191,8 +191,8 @@ div.dialogBot {
 div.dialogUser {
   float: right;
   margin-left: 10%;
-  background: linear-gradient(to bottom right, #E9F5DC, #D5E2C7);
-  /* background: linear-gradient(to bottom right, #ECFADF, #E2EFD5); */
+  /* background: linear-gradient(to bottom right, #E9F5DC, #D5E2C7); */
+  background: linear-gradient(to bottom right, #ECFADF, #E2EFD5);
   color: black;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
   border-top-left-radius: 16px;
