@@ -10,3 +10,8 @@
     font-size: 1rem;
     border-radius: 6px;
 }
+
+#scroll:hover {
+    background-color: #6887a8;
+    color: white;
+}
