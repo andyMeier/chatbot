@@ -1,5 +1,11 @@
 /* Add your custom styles for the dialog box */
 .modal-header {
-    background-color: #007bff;
+    background: linear-gradient(to bottom, #418082, #396A6B);
     color: white;
-  }
+}
+
+.modal-body {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+}
