@@ -1,0 +1,15 @@
+/* Add your custom styles for the dialog box content */
+.modal-header {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .modal-body {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .btn-success, .btn-danger {
+    margin: 0 10px;
+  }

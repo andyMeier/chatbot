@@ -1,0 +1,5 @@
+/* Add your custom styles for the dialog box */
+.modal-header {
+    background-color: #007bff;
+    color: white;
+  }
