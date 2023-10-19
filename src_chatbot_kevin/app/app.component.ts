@@ -100,6 +100,12 @@ export class AppComponent implements OnInit {
   convStartTime: any;
   recStartTime: any;
 
+  onInputChange() {
+    this.isInputEmpty = this.inputMessage.trim() === '';
+  }
+
+  isInputEmpty: boolean = true; // Define the property and initialize it with a default value
+
   ngOnInit(): void {
 
     this.http.post<any>(this.db_server + '/filter', {
