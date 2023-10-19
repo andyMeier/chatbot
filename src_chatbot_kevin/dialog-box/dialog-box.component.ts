@@ -7,7 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./dialog-box.component.css']
 })
 export class DialogBoxComponent {
-  @Input() dialogTitle: string = "Default Title";
+  @Input() dialogTitle: string = "";
 
   constructor(public activeModal: NgbActiveModal) {}
 
