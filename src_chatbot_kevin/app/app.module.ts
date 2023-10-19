@@ -9,15 +9,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusbarComponent } from '../statusbar/statusbar.component';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
-import { DialogContentComponent } from 'src/dialog-content/dialog-content.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StatusbarComponent,
     ScrollButtonComponent,
-    DialogBoxComponent,
-    DialogContentComponent
+    DialogBoxComponent
   ],
   imports: [
     BrowserModule,
