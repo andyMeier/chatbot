@@ -32,11 +32,5 @@ export class ScrollButtonComponent {
 
   openDialog() {
     const modalRef = this.modalService.open(DialogBoxComponent);
-    modalRef.componentInstance.dialogTitle = "Dialog Box Title"; // Pass the title to the dialog box
-  }
-
-  handleClick() {
-    // Handle button click logic here (if any)
-    // For example, you can emit an event if you want to notify parent components about the button click
   }
 }
