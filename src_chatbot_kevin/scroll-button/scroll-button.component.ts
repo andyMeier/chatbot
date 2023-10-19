@@ -1,4 +1,6 @@
 import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
 @Component({
   selector: 'app-scroll-button',
@@ -8,7 +10,11 @@ import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
 export class ScrollButtonComponent {
   isButtonFixed: boolean = true; // Set to true to make the button visible from the start
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2,
+    private modalService: NgbModal
+  ) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -22,6 +28,11 @@ export class ScrollButtonComponent {
       this.renderer.setStyle(this.el.nativeElement, 'position', 'static');
       this.isButtonFixed = false;
     }
+  }
+
+  openDialog() {
+    const modalRef = this.modalService.open(DialogBoxComponent);
+    modalRef.componentInstance.dialogTitle = "Dialog Box Title"; // Pass the title to the dialog box
   }
 
   handleClick() {
