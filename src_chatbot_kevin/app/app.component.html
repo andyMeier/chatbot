@@ -29,70 +29,83 @@
 
       <!-- * * * chat box * * * -->
       <div class="container p-0 border border-dark rounded" id="chatbox">
-        
+
         <!-- * * * statusbar + blurred background * * * -->
         <div id="statusbar-container">
-        <app-statusbar id="statusbar"></app-statusbar>
+          <app-statusbar id="statusbar"></app-statusbar>
         </div>
 
         <!-- * * * container for chat messages * * * -->
         <div id="child-box">
 
-        <!-- * * * individual chat messages * * * -->
-        <div id="chat-messages" class="row justify-content-md-left" *ngFor="let turn of dialogueHistory; let i = index">
-          <div class="col col-md-2 dialogicon">
-            <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
-          </div>
-          <div class="col col-md-9 m-1">
-            <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
-              <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
-              <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
+          <!-- * * * individual chat messages * * * -->
+          <div id="chat-messages" class="row justify-content-md-left d-flex align-items-end"
+            *ngFor="let turn of dialogueHistory; let i = index">
+            <div class="col col-md-2 dialogicon">
+              <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || !isLastBotMessage(i)">
+            </div>
+            <div class="col col-md-9 m-1">
+              <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
+                <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
+                <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-    <!-- * * * background blur for the input box * * * -->
-    <div class="bg--blur--container">
-      <div class="bg--blur">
+        <!-- * * * background blur for the input box * * * -->
+        <div class="bg--blur--container">
+          <div class="bg--blur">
 
-        <!-- * * * input box * * * -->
-    <div class="chatinputbox" id="input-div" *ngIf="page==1">
-      <!-- * * * open input * * * -->
-      <div class="input-group mb-3" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
-        <input id="input" type="text" placeholder="Type a message here..." class="form-control" [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()" (keyup.enter)="sendMessage(inputMessage)">
-        <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
-            <button class="btn button-with-icon" type="button" id="button-addon2" [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}" (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
-              <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
-            </button>
-      </div>
-      
-      <!-- * * * yes no input * * * -->
-      <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && !userIsCurrentlyUnsure">
-        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes');">yes</button>
-        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no');">no</button>
-      </div>
-      <!-- * * * yes no input * * * -->
-      <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && userIsCurrentlyUnsure">
-        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes');addRequirements(currentTarget, []);resetUnsure()">yes</button>
-        <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no');resetUnsure()">no</button>
-      </div>
-      <!-- * * * final confirmation * * * -->
-      <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">
-        <!-- <button type="button" class="btn btn-outline-secondary" (click)="goToNextPage();logLogs()">okay, continue</button> -->
-        <button type="button" class="btn btn-outline-secondary" (click)="finishNeedsElicitation()">okay, continue</button>
-      </div>
+            <!-- * * * input box * * * -->
+            <div class="chatinputbox" id="input-div" *ngIf="page==1">
+              <!-- * * * open input * * * -->
+              <div class="input-group mb-3"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
+                <input id="input" type="text" placeholder="Type a message here..." class="form-control"
+                  [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()"
+                  (keyup.enter)="sendMessage(inputMessage)">
+                <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
+                <button class="btn button-with-icon" type="button" id="button-addon2"
+                  [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}"
+                  (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
+                  <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
+                </button>
+              </div>
 
-  
-      </div>
-      </div>
+              <!-- * * * yes no input * * * -->
+              <div class="btn-group" role="group"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && !userIsCurrentlyUnsure">
+                <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('yes');">yes</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="sendMessage('no');">no</button>
+              </div>
+              <!-- * * * yes no input * * * -->
+              <div class="btn-group" role="group"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno' && userIsCurrentlyUnsure">
+                <button type="button" class="btn btn-outline-secondary"
+                  (click)="sendMessage('yes');addRequirements(currentTarget, []);resetUnsure()">yes</button>
+                <button type="button" class="btn btn-outline-secondary"
+                  (click)="sendMessage('no');resetUnsure()">no</button>
+              </div>
+              <!-- * * * final confirmation * * * -->
+              <div class="btn-group" role="group"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].target == 'goodbye'">
+                <!-- <button type="button" class="btn btn-outline-secondary" (click)="goToNextPage();logLogs()">okay, continue</button> -->
+                <button type="button" class="btn btn-outline-secondary" (click)="finishNeedsElicitation()">okay,
+                  continue</button>
+              </div>
 
-    </div>
+
+            </div>
+          </div>
+
+        </div>
         {{scrollDown()}}
-    </div>    
+      </div>
 
       <!-- * * * result presentation * * * -->
-      <div class="container productOffer p-3 border border-dark rounded" style="background: white" *ngIf="page==2 && laptopRecs.length>0">
+      <div class="container productOffer p-3 border border-dark rounded" style="background: white"
+        *ngIf="page==2 && laptopRecs.length>0">
 
         <div class="row pl-2 pr-2">
 
@@ -101,24 +114,26 @@
             <div class="col col-11">
               <h5>{{this.laptopRecs[0].titleStandard_original}}</h5>
               <strong>From {{this.laptopRecs[0].brand_original}}</strong>
-              <br/>
+              <br />
               <span
                 style="font-weight:bold;font-size:120%">&#163;&nbsp;{{this.laptopRecs[0].price_original}}&nbsp;&nbsp;</span>
-              <br/>
+              <br />
               <div class="col col-12">
-            <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-                                <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
-                                     alt="full star">
-                                <img *ngIf="this.laptopRecs[0].ratingAvg_filter<ii-0.5" src="assets/star_empty.png"
-                                     width="3%" alt="full star">
-                                <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii-0.5 && this.laptopRecs[0].ratingAvg_filter<ii"
-                                     src="assets/star_half.png" width="3%" alt="full star">
-                              </span>
-                <span *ngIf="this.laptopRecs[0].ratingNum_filter>0"> {{roundShowRating(this.laptopRecs[0].ratingAvg_filter)}}&nbsp;(based on {{this.laptopRecs[0].ratingNum_filter}}
+                <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
+                  <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
+                    alt="full star">
+                  <img *ngIf="this.laptopRecs[0].ratingAvg_filter<ii-0.5" src="assets/star_empty.png" width="3%"
+                    alt="full star">
+                  <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii-0.5 && this.laptopRecs[0].ratingAvg_filter<ii"
+                    src="assets/star_half.png" width="3%" alt="full star">
+                </span>
+                <span *ngIf="this.laptopRecs[0].ratingNum_filter>0">
+                  {{roundShowRating(this.laptopRecs[0].ratingAvg_filter)}}&nbsp;(based on
+                  {{this.laptopRecs[0].ratingNum_filter}}
                   reviews)</span>
               </div>
-              <br/>
-              <br/>
+              <br />
+              <br />
             </div>
           </div>
 
@@ -126,167 +141,188 @@
           <div class="row">
             <!-- picture -->
             <div class="col-5" style="background-position:center;background-size:contain;background-repeat:no-repeat;"
-                 [ngStyle]="{'background-image': 'url(https://multiweb.gesis.org/vacos3/' + this.laptopRecs[0].sku_original + '.jpg)'}"></div>
+              [ngStyle]="{'background-image': 'url(https://multiweb.gesis.org/vacos3/' + this.laptopRecs[0].sku_original + '.jpg)'}">
+            </div>
             <!-- key aspects -->
             <div class="col-7">
               <!-- Product Details -->
-              <br/>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">Brand</b></td>
-                  <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].brand_original.length<=0"><p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Operating System</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">{{this.laptopRecs[0].operatingSystem_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Screen Size</b></td>
-                  <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].screenSize_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['display']" style="display: inline-block"
-                           (click)="hide(document.getElementById('displayPopup'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" id="displayPopup">
+                  <tr>
+                    <td><b class="mr-2">Brand</b></td>
+                    <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].brand_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Operating System</b></td>
+                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
+                      {{this.laptopRecs[0].operatingSystem_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Screen Size</b></td>
+                    <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].screenSize_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['display']" style="display: inline-block"
+                          (click)="hide(document.getElementById('displayPopup'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" id="displayPopup">
                               {{this.bubbleTexts['display']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Hard Drive Type</b></td>
-                  <td *ngIf="this.laptopRecs[0].storageType_original.length>0">{{this.laptopRecs[0].storageType_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].storageType_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Hard Drive Size</b></td>
-                  <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].totalStorageCapacity_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                           (click)="hide(document.getElementById('StoragePopup'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['storage'])" id="StoragePopup">
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Hard Drive Type</b></td>
+                    <td *ngIf="this.laptopRecs[0].storageType_original.length>0">
+                      {{this.laptopRecs[0].storageType_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].storageType_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Hard Drive Size</b></td>
+                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].totalStorageCapacity_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
+                          (click)="hide(document.getElementById('StoragePopup'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['storage'])"
+                              id="StoragePopup">
                               {{this.bubbleTexts['storage']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length<=0"><p style="color:grey">no information
-                    available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">RAM Size</b></td>
-                  <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].systemMemoryRam_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                           (click)="hide(document.getElementById('ramPopup'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['ram'])" id="ramPopup">
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">RAM Size</b></td>
+                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].systemMemoryRam_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
+                          (click)="hide(document.getElementById('ramPopup'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['ram'])" id="ramPopup">
                               {{this.bubbleTexts['ram']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Manufacturer</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorBrand_original.length>0">{{this.laptopRecs[0].processorBrand_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Cores</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorCores_filter.toString().length>0 && this.laptopRecs[0].processorCores_filter>0">{{this.laptopRecs[0].processorCores_filter}}</td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorCores_filter.toString().length<=0 || this.laptopRecs[0].processorCores_filter<=0">
-                    <p style="color:grey">no information available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Speed</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">{{this.laptopRecs[0].processorSpeedBase_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Casing Color</b></td>
-                  <td *ngIf="this.laptopRecs[0].color_original.length>0">{{this.laptopRecs[0].color_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].color_original.length<=0"><p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Weight</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].productWeight_original.length>0">{{this.laptopRecs[0].productWeight_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].productWeight_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Battery Life</b></td>
-                  <td *ngIf="this.laptopRecs[0].batteryLife_original.length>0">
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Manufacturer</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
+                      {{this.laptopRecs[0].processorBrand_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Cores</b></td>
+                    <td
+                      *ngIf="this.laptopRecs[0].processorCores_filter.toString().length>0 && this.laptopRecs[0].processorCores_filter>0">
+                      {{this.laptopRecs[0].processorCores_filter}}</td>
+                    <td
+                      *ngIf="this.laptopRecs[0].processorCores_filter.toString().length<=0 || this.laptopRecs[0].processorCores_filter<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Speed</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
+                      {{this.laptopRecs[0].processorSpeedBase_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Casing Color</b></td>
+                    <td *ngIf="this.laptopRecs[0].color_original.length>0">{{this.laptopRecs[0].color_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].color_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Weight</b></td>
+                    <td *ngIf="this.laptopRecs[0].productWeight_original.length>0">
+                      {{this.laptopRecs[0].productWeight_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].productWeight_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Battery Life</b></td>
+                    <td *ngIf="this.laptopRecs[0].batteryLife_original.length>0">
 
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['battery'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].batteryLife_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['battery']" style="display: inline-block"
-                           (click)="hide(document.getElementById('batteryPopup'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['battery'])" id="batteryPopup">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['battery'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].batteryLife_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['battery']" style="display: inline-block"
+                          (click)="hide(document.getElementById('batteryPopup'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['battery'])"
+                              id="batteryPopup">
                               {{this.bubbleTexts['battery']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].batteryLife_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].batteryLife_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -296,50 +332,58 @@
         <!-- PRODUKTBESCHREIBUNG -->
         <div class="row pl-2 pr-2">
           <div class="col-12" *ngIf="laptopRecs[0].longDescription_original.length>0">
-            <br/>
-            <br/>
+            <br />
+            <br />
             <p>{{this.laptopRecs[0].longDescription_original}}</p>
           </div>
 
           <!-- GENERAL PRODUCT INFORMATION -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">General Product Information:</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">General Product Information:</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">Brand</b></td>
-                  <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].brand_original.length<=0"><p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Model Number</b></td>
-                  <td *ngIf="this.laptopRecs[0].modelNumber_original.length>0">{{this.laptopRecs[0].modelNumber_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].modelNumber_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Operating System</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">{{this.laptopRecs[0].operatingSystem_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
-                  <td><b class="mr-2">Operating System Architecture</b></td>
-                  <td>{{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
-                  <td><b class="mr-2">Release Date</b></td>
-                  <td>{{this.laptopRecs[0].yearOfRelease_original}}</td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
-                  <td><b class="mr-2">Second Hand</b></td>
-                  <td>{{this.laptopRecs[0].preowned_vagueFront}}</td>
-                </tr>
+                  <tr>
+                    <td><b class="mr-2">Brand</b></td>
+                    <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].brand_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Model Number</b></td>
+                    <td *ngIf="this.laptopRecs[0].modelNumber_original.length>0">
+                      {{this.laptopRecs[0].modelNumber_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].modelNumber_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Operating System</b></td>
+                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
+                      {{this.laptopRecs[0].operatingSystem_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
+                    <td><b class="mr-2">Operating System Architecture</b></td>
+                    <td>{{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
+                    <td><b class="mr-2">Release Date</b></td>
+                    <td>{{this.laptopRecs[0].yearOfRelease_original}}</td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
+                    <td><b class="mr-2">Second Hand</b></td>
+                    <td>{{this.laptopRecs[0].preowned_vagueFront}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -348,57 +392,67 @@
           <!-- SCREEN -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">Screen:</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">Screen:</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">Screen Size</b></td>
-                  <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
-                      {{this.laptopRecs[0].screenSize_original}}
-                        </span>
-                      </div>
-                      <div style="display: inline-block">
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
-                             (click)="hide(document.getElementById('displayPopup2'));">
-                          <div class="popup">
-                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="displayPopup2">
-                              {{this.bubbleTexts['display']}}
-                            </span>
+                  <tr>
+                    <td><b class="mr-2">Screen Size</b></td>
+                    <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].screenSize_original}}
+                          </span>
+                        </div>
+                        <div style="display: inline-block">
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
+                            (click)="hide(document.getElementById('displayPopup2'));">
+                            <div class="popup">
+                              <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="displayPopup2">
+                                {{this.bubbleTexts['display']}}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Screen Type</b></td>
-                  <td *ngIf="this.laptopRecs[0].screenType_original.length>0">{{this.laptopRecs[0].screenType_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].screenType_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Screen Resolution</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].screenResolution_original.length>0">{{this.laptopRecs[0].screenResolution_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].screenResolution_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Touchscreen</b></td>
-                  <td *ngIf="this.laptopRecs[0].touchScreen_original.length>0">{{this.laptopRecs[0].touchScreen_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].touchScreen_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Screen Type</b></td>
+                    <td *ngIf="this.laptopRecs[0].screenType_original.length>0">
+                      {{this.laptopRecs[0].screenType_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].screenType_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Screen Resolution</b></td>
+                    <td *ngIf="this.laptopRecs[0].screenResolution_original.length>0">
+                      {{this.laptopRecs[0].screenResolution_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].screenResolution_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Touchscreen</b></td>
+                    <td *ngIf="this.laptopRecs[0].touchScreen_original.length>0">
+                      {{this.laptopRecs[0].touchScreen_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].touchScreen_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -407,52 +461,58 @@
           <!-- HARD DRIVE -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">Hard Drive:</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">Hard Drive:</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">Total Storage Capacity</b></td>
-                  <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].totalStorageCapacity_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                           (click)="hide(document.getElementById('StoragePopup2'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['storage'])" id="StoragePopup2">
+                  <tr>
+                    <td><b class="mr-2">Total Storage Capacity</b></td>
+                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].totalStorageCapacity_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
+                          (click)="hide(document.getElementById('StoragePopup2'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['storage'])"
+                              id="StoragePopup2">
                               {{this.bubbleTexts['storage']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].hardDriveCapacity_filter>0">
-                  <td><b class="mr-2">HDD Size</b></td>
-                  <td>{{this.laptopRecs[0].hardDriveCapacity_original}}</td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].solidStateDriveCapacity_filter>0">
-                  <td><b class="mr-2">SSD Size</b></td>
-                  <td>{{this.laptopRecs[0].solidStateDriveCapacity_original}}</td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].eMmcCapacity_filter>0">
-                  <td><b class="mr-2">eMMC Size</b></td>
-                  <td>{{this.laptopRecs[0].eMmcCapacity_original}}</td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Hard Drive Type</b></td>
-                  <td *ngIf="this.laptopRecs[0].storageType_original.length>0">{{this.laptopRecs[0].storageType_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].storageType_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
+                    </td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].hardDriveCapacity_filter>0">
+                    <td><b class="mr-2">HDD Size</b></td>
+                    <td>{{this.laptopRecs[0].hardDriveCapacity_original}}</td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].solidStateDriveCapacity_filter>0">
+                    <td><b class="mr-2">SSD Size</b></td>
+                    <td>{{this.laptopRecs[0].solidStateDriveCapacity_original}}</td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].eMmcCapacity_filter>0">
+                    <td><b class="mr-2">eMMC Size</b></td>
+                    <td>{{this.laptopRecs[0].eMmcCapacity_original}}</td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Hard Drive Type</b></td>
+                    <td *ngIf="this.laptopRecs[0].storageType_original.length>0">
+                      {{this.laptopRecs[0].storageType_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].storageType_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
 
-                </tr>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -461,41 +521,47 @@
           <!-- CPU -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">Processor (CPU):</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">Processor (CPU):</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">Processor Brand</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorBrand_original.length>0">{{this.laptopRecs[0].processorBrand_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Model</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorModel_original.length>0">{{this.laptopRecs[0].processorModel_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorModel_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Cores</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorCores_original.length>0">{{this.laptopRecs[0].processorCores_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorCores_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Processor Speed (Max)</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">{{this.laptopRecs[0].processorSpeedBase_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Brand</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
+                      {{this.laptopRecs[0].processorBrand_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Model</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorModel_original.length>0">
+                      {{this.laptopRecs[0].processorModel_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorModel_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Cores</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorCores_original.length>0">
+                      {{this.laptopRecs[0].processorCores_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorCores_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Processor Speed (Max)</b></td>
+                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
+                      {{this.laptopRecs[0].processorSpeedBase_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -504,45 +570,48 @@
           <!-- RAM -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">Working Memory (RAM):</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">Working Memory (RAM):</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">RAM Size</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
-                    <div>
-                      <div style="display: inline-block">
-                        <span
-                          [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
-                          {{this.laptopRecs[0].systemMemoryRam_original}}
-                        </span>
-                      </div>
-                      <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                           (click)="hide(document.getElementById('ramPopup2'));">
-                        <div class="popup">
-                          <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                          <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['ram'])" id="ramPopup2">
+                  <tr>
+                    <td><b class="mr-2">RAM Size</b></td>
+                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
+                      <div>
+                        <div style="display: inline-block">
+                          <span
+                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
+                            {{this.laptopRecs[0].systemMemoryRam_original}}
+                          </span>
+                        </div>
+                        <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
+                          (click)="hide(document.getElementById('ramPopup2'));">
+                          <div class="popup">
+                            <img class="avatar" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
+                            <span class="popuptext" [ngStyle]="get_style(this.bubbleTexts['ram'])" id="ramPopup2">
                               {{this.bubbleTexts['ram']}}
                             </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </td>
-                  <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
-                <tr
-                  *ngIf="this.laptopRecs[0].systemMemoryRamType_original.length<0 && this.laptopRecs[0].systemMemoryRamType_original!='n/a'">
-                  <td><b class="mr-2">RAM Type</b></td>
-                  <td>{{this.laptopRecs[0].systemMemoryRamType_original}}</td>
-                </tr>
-                <tr *ngIf="this.laptopRecs[0].systemMemoryRamSpeed_filter>0">
-                  <td><b class="mr-2">RAM Speed</b></td>
-                  <td>{{this.laptopRecs[0].systemMemoryRamSpeed_original}}</td>
-                </tr>
+                    </td>
+                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
+                  <tr
+                    *ngIf="this.laptopRecs[0].systemMemoryRamType_original.length<0 && this.laptopRecs[0].systemMemoryRamType_original!='n/a'">
+                    <td><b class="mr-2">RAM Type</b></td>
+                    <td>{{this.laptopRecs[0].systemMemoryRamType_original}}</td>
+                  </tr>
+                  <tr *ngIf="this.laptopRecs[0].systemMemoryRamSpeed_filter>0">
+                    <td><b class="mr-2">RAM Speed</b></td>
+                    <td>{{this.laptopRecs[0].systemMemoryRamSpeed_original}}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -551,33 +620,39 @@
           <!-- CONNECTIVITY -->
           <div class="row pl-2 pr-2">
             <div class="col-12">
-              <br/>
-              <h5><p style="color:#2c7fb8">Connectivity:</p></h5>
-              <br/>
+              <br />
+              <h5>
+                <p style="color:#2c7fb8">Connectivity:</p>
+              </h5>
+              <br />
               <table class="table table-striped" style="table-layout:fixed;width:100%;">
                 <tbody>
-                <tr>
-                  <td><b class="mr-2">WiFi</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">{{this.laptopRecs[0].internetConnectivity_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
-                    <p style="color:grey">no information available</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">USB Ports</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length>0">{{this.laptopRecs[0].numberOfUsbPortsTotal_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length<=0"><p style="color:grey">no
-                    information available</p></td>
-                </tr>
-                <tr>
-                  <td><b class="mr-2">Bluetooth</b></td>
-                  <td
-                    *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">{{this.laptopRecs[0].bluetoothEnabled_original}}</td>
-                  <td *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0"><p style="color:grey">no information
-                    available</p></td>
-                </tr>
+                  <tr>
+                    <td><b class="mr-2">WiFi</b></td>
+                    <td *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">
+                      {{this.laptopRecs[0].internetConnectivity_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
+                      <p style="color:grey">no information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">USB Ports</b></td>
+                    <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length>0">
+                      {{this.laptopRecs[0].numberOfUsbPortsTotal_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length<=0">
+                      <p style="color:grey">no
+                        information available</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><b class="mr-2">Bluetooth</b></td>
+                    <td *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">
+                      {{this.laptopRecs[0].bluetoothEnabled_original}}</td>
+                    <td *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0">
+                      <p style="color:grey">no information
+                        available</p>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -589,7 +664,8 @@
       <br>
 
       <div class="container productOffer p-3" *ngIf="page==2 && laptopRecs.length>0">
-        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="sendBackToSurvey()">I have formed an opinion on the product. Take me to the next step!</button>
+        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="sendBackToSurvey('')">I have formed
+          an opinion on the product. Take me to the next step!</button>
       </div>
       <br>
 
@@ -598,21 +674,18 @@
 
     <!-- right side menu -->
     <div class="col-2">
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart Chat</button>
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart
+        Chat</button>
       <br>
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Reread Task</button>
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Reread
+        Task</button>
       <br>
-<<<<<<< HEAD:src_chatbot_kevin/app/app.component.html
+      <button style="margin: 6px" type="button" class="btn btn-outline-primary" id="finish"
+        (click)="finishNeedsElicitation()">Recommend product right now</button>
       <!-- 
-      <button style="margin: 6px" type="button" class="btn btn-outline-primary" id="finish" (click)="finishNeedsElicitation()">Finished!</button>
       <br>
-      -->
       <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="goToQuestionnaire()">Go back to Questionnaire</button>
-=======
-      <button style="margin: 6px" type="button" class="btn btn-outline-primary" *ngIf="devMode=='testing'" (click)="finishNeedsElicitation()">Finished!</button>
-      <br>
-      <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="sendBackToSurvey()">Go back to Questionnaire</button>
->>>>>>> 221cac5ca74c2bc3030c60e7182171d5d0d8640c:src_chatbot/app/app.component.html
+      -->
       <br>
       <app-scroll-button></app-scroll-button>
       <br>
@@ -634,7 +707,9 @@
 
   <!-- Scenario Popover -->
   <div class="fadeMe" *ngIf="showScenario"></div>
-  <div class="col-md-12 priotop p-4 text-white rounded" style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);" *ngIf="showScenario">
+  <div class="col-md-12 priotop p-4 text-white rounded"
+    style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);"
+    *ngIf="showScenario">
     <div>
       <h3>Your task:</h3>
       <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
