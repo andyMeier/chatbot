@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { StatusbarComponent } from '../statusbar/statusbar.component';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
+import { DialogCommunicationService } from 'src/dialog-communication.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [DialogCommunicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
