@@ -5,6 +5,7 @@ import {chatbotMessages} from './Dialogue';
 import {useValueRecs} from './ValueRecs';
 import {DialogueTurn} from './DialogueTurns';
 import {firstValueFrom, Observable} from "rxjs";
+import { DialogCommunicationService } from '../dialog-communication.service'; // Update this import path
 
 
 @Component({
@@ -29,7 +30,8 @@ export class AppComponent implements OnInit {
   showScenario: boolean = true;
   page = 1;
 
-  constructor(public http: HttpClient, private router: ActivatedRoute) {
+  constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
@@ -56,6 +58,7 @@ export class AppComponent implements OnInit {
   sosciCaseToken: string | null = 'TESTTEST1234';
 
   dialogueHistory: Array<DialogueTurn> = [];
+
   backendTargets = ["purpose", "price", "display", "storage", "ram", "battery"];
   currentTarget = "";
   currentUsage = "unknown";
@@ -107,6 +110,10 @@ export class AppComponent implements OnInit {
   isInputEmpty: boolean = true; // Define the property and initialize it with a default value
 
   ngOnInit(): void {
+
+    this.dialogCommunicationService.dialogResponse$.subscribe(response => {
+      this.sendBackToSurvey(response);
+    });
 
     this.http.post<any>(this.db_server + '/filter', {
       'dataset': 'amazon',
@@ -530,7 +537,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  sendBackToSurvey (): void {
+  sendBackToSurvey (response: string): void {
     this.logLogs(); // uncomment this if you want to send sosci people back to the survey without showing results
     this.redirectToSosci();
   }
