@@ -30,6 +30,18 @@ export class AppComponent implements OnInit {
   showScenario: boolean = true;
   page = 1;
 
+  isLastBotMessage(index: number): boolean {
+    if (this.dialogueHistory[index].agent !== 'bot') {
+      return false;
+    }
+  
+    if (index === this.dialogueHistory.length - 1) {
+      return true;
+    }
+  
+    return this.dialogueHistory[index + 1].agent !== 'bot';
+  }
+
   constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
 
     const queryString = window.location.search;
