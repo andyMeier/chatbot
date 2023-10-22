@@ -144,8 +144,8 @@ div.productOffer {
 
 .dialogicon img {
   float: right;
-  width: 40%; /* War vorher 70% */
-  max-width: 60px;
+  max-width: 40px; /* War vorher 70% */
+  margin-bottom: 2px;
 }
 
 div.dialogbubble {
