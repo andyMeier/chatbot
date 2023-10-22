@@ -148,6 +148,17 @@ div.productOffer {
   margin-bottom: 2px;
 }
 
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 div.dialogbubble {
   min-height: 28px;
   position: relative;
@@ -155,6 +166,7 @@ div.dialogbubble {
   font-size: 1rem;
   /* box-shadow: 2px 2px 2px gray; */
   text-align: left;
+  animation: slideIn 0.1s ease-out;
 }
 
 div.wait {
