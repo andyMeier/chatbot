@@ -34,3 +34,23 @@
     color: white;
     margin-right: 10px;
 }
+
+#button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+#feedback-input {
+    width: 466px;
+}
+
+.custom-submit-button {
+    background-color: #437E89;
+    color: white;
+}
+
+.custom-submit-button:hover {
+    background-color: #4C909D;
+    color: white;
+}
