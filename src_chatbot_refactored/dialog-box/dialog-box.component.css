@@ -1,0 +1,36 @@
+/* Add your custom styles for the dialog box */
+.modal-header {
+    background: linear-gradient(to bottom, #418082, #396A6B);
+    color: white;
+}
+
+.modal-body {
+    padding: 16px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.custom-success-button {
+    background-color: #437E89;
+    color: white;
+}
+
+.custom-success-button:hover {
+    background-color: #4C909D;
+    color: white;
+}
+
+.custom-danger-button {
+    border-color: #8E1919;
+    color: #8E1919;
+    margin-right: 10px;
+}
+
+.custom-danger-button:hover {
+    background-color: #C24848;
+    color: white;
+    margin-right: 10px;
+}

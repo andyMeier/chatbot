@@ -256,8 +256,8 @@ export var chatbotMessages: any = {
         new DialogueTurn("bot","It seems that we do not have a laptop in store that matches your requirements 100%.", false, "none", "howmany")
       ],
       [
-        new DialogueTurn("bot","So let's review what you said on XXXTARGET.", false, "none", "howmany"),
-        new DialogueTurn("bot","Let's go one step back to XXXTARGET.", false, "none", "howmany")
+        new DialogueTurn("bot","So let's review what you said before.", false, "none", "howmany"),
+        new DialogueTurn("bot","Let's go one step back.", false, "none", "howmany")
       ]
     ]
   }

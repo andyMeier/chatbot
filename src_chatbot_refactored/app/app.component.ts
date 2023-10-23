@@ -70,6 +70,7 @@ export class AppComponent implements OnInit {
   userIsCurrentlyUnsure = false;
 
   inputMessage = "";
+  isInputEmpty: boolean = true; // Define the property and initialize it with a default value
 
   bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
   requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
@@ -284,6 +285,7 @@ export class AppComponent implements OnInit {
               this.addDialogueTurn(dT);
             }
             this.setPreviousTarget();
+            this.deleteRequirements(this.currentTarget);
             this.dialogueFlow();
           } else {
             // case (1b) this happens at an early state where we did not even use filter requirements yet: this must mean something else is wrong.
@@ -330,7 +332,7 @@ export class AppComponent implements OnInit {
           //           -> inform the user about this value and ask if this value is okay for them.
             if (this.devMode == "testing") console.log("case (4)")
 
-            let dT: DialogueTurn = chatbotMessages[this.currentTarget]["singleValue"];
+            let dT: DialogueTurn = chatbotMessages[this.currentTarget]["singleValue"][0];
             this.addDialogueTurn(dT);
             // the dialogueTurn above will trigger the yes / no buttons on the user interface.
             // we need to set the yesnoTrigger to singleValue so that we later on, once the user has clicked on yes or no,
@@ -422,7 +424,7 @@ export class AppComponent implements OnInit {
     // case (1): There was only one possible value for the aspect and the user is asked to confirm that this value is acceptable.
     //           (YES) Add to requirements and move on.
     //           (NO)  Then we need to change an earlier requirement. Check if we can go one target back (i.e., if the current target is not the first or second target in the list)
-    //                If possible: inform the user that we will revisit an earlier requirement then. Go one target back and repeat the steps there.
+    //                If possible: inform the user that we will revisit an earlier requirement then. Go one target back, delete the requirement for that aspect, and repeat the steps there.
     //                If not possible: This situation should not happen, but in case it does: inform user. Set the redProblem flag.
     if (this.yesnoTrigger == "singleValue") {
       if (_yn == "yes") {
@@ -442,6 +444,7 @@ export class AppComponent implements OnInit {
           let dT = new DialogueTurn("bot", "Okay, then let's revisit what you said before.", false, "none", this.currentTarget);
           this.addDialogueTurn(dT);
           this.setPreviousTarget();
+          this.deleteRequirements(this.currentTarget);
           this.dialogueFlow();
         } else {
           this.raiseRedProblem();
@@ -893,11 +896,18 @@ export class AppComponent implements OnInit {
 
   deleteRequirements(_target: string): void {
     this.requirements[_target] = [];
+    // TODO delete from sosci text
+    // TODO delete from bubble text
   }
 
 
   opencloseScenario(): void {
     this.showScenario = !this.showScenario;
+  }
+
+
+  onInputChange() {
+    this.isInputEmpty = this.inputMessage.trim() === '';
   }
 
 

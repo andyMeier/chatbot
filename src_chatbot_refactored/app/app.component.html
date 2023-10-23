@@ -3,7 +3,7 @@
 
 
 <!-- * * * * * CHATBOT * * * * * -->
-<div class="content" role="main" style="background: aliceblue">
+<div class="content" role="main">
 
   <div class="row pt-5">
 
@@ -11,32 +11,45 @@
     <div class="col-10">
 
       <!-- * * * chat box * * * -->
-      <div class="container p-3 border border-dark rounded" id="chatbox">
+      <div class="container p-0 border border-dark rounded" id="chatbox">
 
-        <!-- * * * individual chat messages * * * -->
-        <div class="row justify-content-md-center" *ngFor="let turn of dialogueHistory; let i = index">
-          <div class="col col-md-2 dialogicon">
-            <img src="assets/bot.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
-          </div>
-          <div class="col col-md-7 m-1">
-            <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
-              <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
-              <span *ngIf="turn.target == 'wait'"><img src="assets/dots.gif"></span>
+        <!-- * * * statusbar + blurred background * * * -->
+        <div id="statusbar-container">
+          <app-statusbar id="statusbar"></app-statusbar>
+        </div>
+
+        <!-- * * * container for chat messages * * * -->
+        <div id="child-box">
+
+          <!-- * * * individual chat messages * * * -->
+          <div id="chat-messages" class="row justify-content-md-left d-flex align-items-end" *ngFor="let turn of dialogueHistory; let i = index">
+            <div class="col col-md-2 dialogicon">
+              <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
+            </div>
+            <div class="col col-md-9 m-1">
+              <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
+                <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
+                <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
+              </div>
             </div>
           </div>
-          <div class="col col-md-2 dialogicon">
-            <img src="assets/user.png" style="float:left!important" [hidden]="turn.agent != 'user'">
-          </div>
+          {{scrollDown()}}
         </div>
-        {{scrollDown()}}
       </div>
+
 
       <!-- * * * input box * * * -->
       <div class="container chatinputbox p-3 border border-dark rounded" *ngIf="currentTarget != 'offer'">
         <!-- * * * open input * * * -->
         <div class="input-group mb-3" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
-          <input type="text" class="form-control" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (keyup.enter)="userInput_open(inputMessage)">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="userInput_open(inputMessage)">Send</button>
+          <input id="input" type="text" placeholder="Type a message here..." class="form-control"
+                 [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event"
+                 (keyup.enter)="userInput_open(inputMessage)">
+          <button class="btn button-with-icon" type="button" id="button-addon2"
+                  [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}"
+                  (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
+            <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
+          </button>
         </div>
         <!-- * * * yes no input * * * -->
         <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
@@ -542,8 +555,8 @@
       </div>
       <br>
 
-      <div class="container productOffer p-3" *ngIf="page==2 && laptopRecs.length>0">
-        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="sendBackToSurvey()">I have formed an opinion on the product. Take me to the next step!</button>
+      <div class="container productOffer p-2" *ngIf="currentTarget == 'offer'">
+        <button style="margin: 6px; position: fixed; bottom: 3%; right: 3%" type="button" class="btn btn-primary" (click)="sendBackToSurvey()">I have formed an opinion on the product. Take me to the next step!</button>
       </div>
       <br>
 
@@ -589,16 +602,6 @@
     </div>
   </div>
 
-</div>
-
-
-
-
-<!-- * * * * * PAGE 2: EVALUATION * * * * * -->
-<div *ngIf="page==3" class="content" role="main">
-  <div class="row text-center pt-5">
-    <h2>Finished!</h2>
-  </div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
