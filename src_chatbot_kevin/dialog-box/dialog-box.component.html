@@ -10,9 +10,11 @@
     <button type="button" class="btn custom-success-button" (click)="handleYes()">Yes</button>
   </div>
   <div id="feedback" *ngIf="showFeedback">
-    <textarea type="text" id="feedback-input" placeholder="{{inputPlaceholder}}" #feedbackInput></textarea>
+    <textarea type="text" id="feedback-input" placeholder="{{inputPlaceholder}}" #feedbackInput
+      (input)="handleInput($event)"></textarea>
     <div id="button">
-      <button type="button" class="btn custom-submit-button" (click)="handleSubmit(feedbackInput.value)">Submit</button>
+      <button type="button" class="btn custom-submit-button" [disabled]="!isInputValid"
+        (click)="handleSubmit(feedbackInput.value)">Submit</button>
     </div>
   </div>
 </div>
