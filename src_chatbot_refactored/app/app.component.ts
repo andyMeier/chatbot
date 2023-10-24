@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   sosci_server = 'https://www.soscisurvey.de/chatbotexplanations/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
-  highlightColor = '#488AC7';
+  highlightColor = 'rgba(72, 138, 199, 0.6)';
 
 
   botReplyBehavior: string | null = 'baseline'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'

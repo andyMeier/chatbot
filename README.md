@@ -32,3 +32,8 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 This is the base project for all dialogue-related research interfaces for the VACOS project. Simply copy the folder you want to compile / serve and rename it into "src" and you are good to go!
 
+
+## Re-compile:
+
+ng build --base-href /vacos5/
+
