@@ -16,6 +16,8 @@
 <!-- * * * * * PAGE 1: CHATBOT * * * * * -->
 <div *ngIf="page==1 || page==2 || page==3" class="content" role="main">
 
+  <app-snackbar [message]="snackbarMessage"></app-snackbar>
+
   <div class="row pt-5">
 
     <!--
@@ -63,8 +65,8 @@
               <div class="input-group mb-3"
                 *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
                 <input id="input" type="text" placeholder="Type a message here..." class="form-control"
-                       [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()"
-                       (keyup.enter)="sendMessage(inputMessage)">
+                  [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()"
+                  (keyup.enter)="sendMessage(inputMessage)">
                 <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
                 <button class="btn button-with-icon" type="button" id="button-addon2"
                   [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}"
@@ -682,7 +684,7 @@
       <br>
       <button style="margin: 6px" type="button" class="btn btn-outline-primary" id="finish"
         (click)="finishNeedsElicitation()">Recommend product right now</button>
-      <!--
+      <!-- 
       <br>
       <button *ngIf="serverDownCounter >= 3" style="margin: 6px" type="button" class="btn btn-danger" (click)="goToQuestionnaire()">Go back to Questionnaire</button>
       -->
