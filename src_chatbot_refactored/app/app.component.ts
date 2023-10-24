@@ -20,14 +20,13 @@ export class AppComponent implements OnInit {
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
   highlightColor = '#488AC7';
 
-  title = 'chatbot';
+
   botReplyBehavior: string | null = 'baseline'; // choice from: 'baseline', 'acknowledge', 'repeat', 'rephrase'
   devMode: string | null = 'production'; // choice from: 'testing', 'production'
   needsHighlight: boolean | null = false; // toggle for highlighting of attributes according to previously mentioned needs
   needsBubbles: boolean | null = false; // toggle for chatbot bubbles of previously mentioned needs
 
   showScenario: boolean = true;
-  page = 1;
 
   constructor(public http: HttpClient, private router: ActivatedRoute) {
     const queryString = window.location.search;
@@ -67,7 +66,6 @@ export class AppComponent implements OnInit {
   currentChoicesSet: Array<any> = [];
 
   yesnoTrigger: string | null = null; // choice from: "singleValue", "defaultValues", "allValues" or null
-  userIsCurrentlyUnsure = false;
 
   inputMessage = "";
   isInputEmpty: boolean = true; // Define the property and initialize it with a default value
@@ -96,7 +94,6 @@ export class AppComponent implements OnInit {
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
 
-  serverDownCounter: number = 0;
   restarts: number = 0;
 
   redProblem: boolean = false;
@@ -726,21 +723,6 @@ export class AppComponent implements OnInit {
 
   } // --- end sendLogsToServer()
 
-
-  serverError(_e: any): void {
-
-    console.error('There was an error!', _e);
-    if (this.serverDownCounter == 0) {
-      this.addDialogueTurn(new DialogueTurn("bot", "So sorry, the server is not responding at this time. Try restarting the dialogue (button in the top right corner ->).", false, "none", "error"));
-    } else if (this.serverDownCounter == 1) {
-      this.addDialogueTurn(new DialogueTurn("bot", "Sorry for the inconvenience, the server is again not responding. Please restart the dialogue a second time.", false, "none", "error"));
-    } else {
-      this.addDialogueTurn(new DialogueTurn("bot", "It seems that our servers are down. Please proceed to the questionnaire (button in the top right corner ->). This is a problem on our side - your submission will still be accepted on Prolific.", false, "none", "error"));
-    }
-    this.serverDownCounter += 1;
-
-  } // --- end serverError()
-
   // --------------------------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------- DIALOGUE MANAGER UTILS
 
@@ -876,13 +858,8 @@ export class AppComponent implements OnInit {
 
 
   sendBackToSurvey (): void {
-    this.logLogs(); // uncomment this if you want to send sosci people back to the survey without showing results
-    this.redirectToSosci();
-  }
-
-
-  redirectToSosci(): void {
-    //this.page = 3;
+    // logs
+    this.logLogs();
     // build URL with all information we want to hand over to sosci:
     let url = this.sosci_server + this.sosciCaseToken;
     for (var _t of this.backendTargets) {
@@ -896,8 +873,8 @@ export class AppComponent implements OnInit {
 
   deleteRequirements(_target: string): void {
     this.requirements[_target] = [];
-    // TODO delete from sosci text
-    // TODO delete from bubble text
+    this.requirementsFullText[_target] = "";
+    this.bubbleTexts[_target] = null;
   }
 
 
@@ -913,19 +890,17 @@ export class AppComponent implements OnInit {
 
   restartDialogue(): void {
     this.restarts += 1;
-    this.page = 1;
     const currTime = new Date(Date.now());
     this.convStartTime = currTime;
     this.dialogueHistory = [];
     this.backendTargets = ["purpose", "price", "display", "storage", "ram", "battery"];
-    this.currentTarget = "";
+    this.currentTarget = this.targetOrder[0];
     this.currentUsage = "unknown";
     console.log("currentUsage", this.currentUsage);
     this.currentMin = -1;
     this.currentMax = -1;
     this.currentMed = -1;
     this.currentCats = [];
-    this.userIsCurrentlyUnsure = false;
     this.inputMessage = "";
     this.bubbleTexts = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
     this.requirements = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
@@ -936,10 +911,9 @@ export class AppComponent implements OnInit {
     this.laptopRecs = [];
     this.numLaptopRecs = 0;
     this.laptopRecsIDs = [];
-    this.serverDownCounter = 0;
 
     this.resizeChatbox('70vh');
-    //this.startConversation();
+    this.dialogueFlow();
   }
 
   beforeSameAgent(_i: number): boolean {
@@ -966,7 +940,6 @@ export class AppComponent implements OnInit {
     const currTime = new Date(Date.now());
     this.log['endTime'] = currTime;
     this.log['requirements'] = this.requirements;
-    this.log['serverErrors'] = this.serverDownCounter;
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
     if (this.devMode == "testing") console.log("Log File:", this.log);
@@ -997,11 +970,6 @@ export class AppComponent implements OnInit {
   roundShowRating(_rating: number): number {
     let r = Math.round(_rating * 100) / 100;
     return r
-  }
-
-  goToNextPage(): void {
-    this.page++;
-    if (this.devMode == "testing") console.log("new page:", this.page)
   }
 
   scrollDown(): void {
