@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
@@ -8,38 +8,17 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
   styleUrls: ['./scroll-button.component.css']
 })
 export class ScrollButtonComponent {
-  isButtonFixed: boolean = true;
-  originalPosition: { top: string, right: string };
+  isButtonFixed: boolean = false; // Set to false initially to hide the button
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private modalService: NgbModal
-  ) {
-    this.originalPosition = {
-      top: this.el.nativeElement.style.top,
-      right: this.el.nativeElement.style.right
-    };
-  }
+  constructor(private modalService: NgbModal) {}
 
-  @HostListener('window:scroll', [])
   @HostListener('window:scroll', [])
   onWindowScroll() {
-  const scrollOffset = window.scrollY;
-  const offsetTop = 180; // Set the desired offset from the top
-  const offsetRight = 20; // Set the desired offset from the right
+    const scrollOffset = window.scrollY;
 
-  if (scrollOffset > 200) {
-    this.renderer.setStyle(this.el.nativeElement, 'position', 'fixed');
-    this.renderer.setStyle(this.el.nativeElement, 'top', `${offsetTop}px`);
-    this.renderer.setStyle(this.el.nativeElement, 'right', `${offsetRight}px`);
-    this.isButtonFixed = true;
-  } else if (!this.isButtonFixed && scrollOffset <= 200) {
-    this.renderer.setStyle(this.el.nativeElement, 'position', 'static');
-    this.renderer.setStyle(this.el.nativeElement, 'top', this.originalPosition.top);
-    this.renderer.setStyle(this.el.nativeElement, 'right', this.originalPosition.right);
-    this.isButtonFixed = false;
-  }
+    if (scrollOffset > 500) {
+      this.isButtonFixed = true;
+    }
   }
 
   openDialog() {
