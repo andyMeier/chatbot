@@ -15,6 +15,7 @@ export class DialogBoxComponent {
   inputPlaceholder: string = "Please type here...";
   isInputValid = false;
   feedbackInput = "";
+  selectedOption: string = "";
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -22,13 +23,15 @@ export class DialogBoxComponent {
   ) {}
 
   handleYes() {
-    // Handle 'Yes' button click
-    this.dialogCommunicationService.sendResponse('Yes');
-    this.activeModal.close('Yes');
+    this.selectedOption = 'Yes';
+    // Directly send the response to the DialogCommunicationService
+    const response = JSON.stringify({option: this.selectedOption, feedback: "User selected 'Yes'."});
+    this.dialogCommunicationService.sendResponse(response);
+    this.activeModal.close(this.selectedOption);
   }
 
   handleNo() {
-    // Handle 'No' button click
+    this.selectedOption = 'No';
     this.showFeedback = true;
     this.questionText = "Please describe why you would not buy the laptop.";
   }
@@ -38,9 +41,13 @@ export class DialogBoxComponent {
     this.isInputValid = this.feedbackInput.trim() !== '';
   }
 
-  handleSubmit(feedback: string) {
-    // Send 'feedback' to the DialogCommunicationService
-    this.dialogCommunicationService.sendResponse(feedback);
-    this.activeModal.close('No');
+  handleSubmit(feedbackInput: HTMLTextAreaElement) {
+    const feedback = feedbackInput.value;
+    // Convert 'feedback' and 'selectedOption' into a JSON string
+    const response = JSON.stringify({option: this.selectedOption, feedback});
+    
+    // Send the JSON string to the DialogCommunicationService
+    this.dialogCommunicationService.sendResponse(response);
+    this.activeModal.close(this.selectedOption);
   }
 }
