@@ -10,9 +10,11 @@ import { DialogCommunicationService } from '../dialog-communication.service';
 
 export class DialogBoxComponent {
   @Input() dialogTitle: string = "";
-  showFeedback: boolean = false; // Add this line
-  questionText: string = "Is this a laptop you would buy?"; // Add this line
-  inputPlaceholder: string = "Please describe why you would not buy the laptop"; // Add this line
+  showFeedback: boolean = false;
+  questionText: string = "Is this a laptop you would buy?";
+  inputPlaceholder: string = "Please type here...";
+  isInputValid = false;
+  feedbackInput = "";
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -27,14 +29,16 @@ export class DialogBoxComponent {
 
   handleNo() {
     // Handle 'No' button click
-    this.showFeedback = true; // Add this line
-    this.questionText = "Please describe why you would not buy the laptop."; // Add this line
-    this.inputPlaceholder = "Please type here..."; // Add this line
+    this.showFeedback = true;
+    this.questionText = "Please describe why you would not buy the laptop.";
+  }
+
+  handleInput(event: any) {
+    this.feedbackInput = event.target.value;
+    this.isInputValid = this.feedbackInput.trim() !== '';
   }
 
   handleSubmit(feedback: string) {
-    // Handle feedback submission
-    console.log(feedback);
     // Send 'feedback' to the DialogCommunicationService
     this.dialogCommunicationService.sendResponse(feedback);
     this.activeModal.close('No');

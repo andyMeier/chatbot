@@ -5,7 +5,7 @@ import {chatbotMessages} from './Dialogue';
 import {useValueRecs} from './ValueRecs';
 import {DialogueTurn} from './DialogueTurns';
 import {firstValueFrom, Observable} from "rxjs";
-import { DialogCommunicationService } from '../dialog-communication.service'; // Update this import path
+import { DialogCommunicationService } from '../dialog-communication.service';
 
 
 @Component({
@@ -29,6 +29,8 @@ export class AppComponent implements OnInit {
 
   showScenario: boolean = true;
   page = 1;
+
+  public snackbarMessage: string = '';
 
   isLastBotMessage(index: number): boolean {
     if (this.dialogueHistory[index].agent !== 'bot') {
@@ -123,7 +125,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dialogCommunicationService.dialogResponse$.subscribe(response => {
+    this.dialogCommunicationService.dialogResponse$.subscribe(response => {;
       this.sendBackToSurvey(response);
     });
 
@@ -550,9 +552,18 @@ export class AppComponent implements OnInit {
   }
 
   sendBackToSurvey (response: string): void {
-    this.logLogs(); // uncomment this if you want to send sosci people back to the survey without showing results
-    this.redirectToSosci();
-  }
+    // Display the snackbar
+    this.snackbarMessage = "Thank you! Redirecting you to the survey...";
+
+    // Call the logLogs function
+    this.logLogs(response); // uncomment this if you want to send sosci people back to the survey without showing results
+
+    // Wait with the redirect to shortly display the snackbar
+    setTimeout(() => {
+      this.redirectToSosci();
+    }, 3000); // Display the snackbar for 3 seconds
+}
+
 
   redirectToSosci(): void {
     //this.page = 3;
@@ -633,7 +644,8 @@ export class AppComponent implements OnInit {
     return false;
   }
 
-  logLogs(): void {
+  logLogs(response: string): void {
+    
     /**
      * Sends log data to server
      */
@@ -651,6 +663,10 @@ export class AppComponent implements OnInit {
     this.log['serverErrors'] = this.serverDownCounter;
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
+
+    // Log the user feedback
+    this.log['userFeedback'] = response;
+
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
     // Send logs to server
@@ -665,13 +681,13 @@ export class AppComponent implements OnInit {
         console.error('logLogs(): ERROR received error response from flask:', error);
         this.logTrials += 1;
         if (this.logTrials <= 3) {
-          this.logLogs();
+          this.logLogs(response);
         } else {
           return
         }
       }
     });
-  }
+}
 
 
   // --------------------------------------------------------------- UTILITIES
