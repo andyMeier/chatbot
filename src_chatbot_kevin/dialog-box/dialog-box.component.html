@@ -6,15 +6,15 @@
     <h5>{{questionText}}</h5>
   </div>
   <div id="buttons" *ngIf="!showFeedback">
-    <button type="button" class="btn custom-danger-button" (click)="handleNo()">No</button>
-    <button type="button" class="btn custom-success-button" (click)="handleYes()">Yes</button>
+    <i class="fa fa-thumbs-up fa-2x" (click)="handleYes()"></i>
+    <i class="fa fa-thumbs-down fa-2x" (click)="handleNo()"></i>
   </div>
-  <div id="feedback" *ngIf="showFeedback">
+  <div id="submit-button" *ngIf="showFeedback">
     <textarea type="text" id="feedback-input" placeholder="{{inputPlaceholder}}" #feedbackInput
       (input)="handleInput($event)"></textarea>
-    <div id="button">
+    <div id="submit">
       <button type="button" class="btn custom-submit-button" [disabled]="!isInputValid"
-        (click)="handleSubmit(feedbackInput.value)">Submit</button>
+        (click)="handleSubmit(feedbackInput)">Submit</button>
     </div>
   </div>
 </div>
