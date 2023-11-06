@@ -650,6 +650,7 @@ export class AppComponent implements OnInit {
     if (_m.length > 0) {
       this.addDialogueTurn(new DialogueTurn("user", _m));
       this.inputMessage = "";
+      this.isInputEmpty = true;
     }
 
   } // --- end sendMessage()
