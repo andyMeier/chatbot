@@ -10,9 +10,10 @@
 
 #buttons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
 }
 
+/*
 .custom-success-button {
     background-color: #437E89;
     color: white;
@@ -33,4 +34,45 @@
     background-color: #C24848;
     color: white;
     margin-right: 10px;
+}
+*/
+
+.fa-thumbs-up:hover, .fa-thumbs-down:hover {
+    color: #4EA1A4; /* Change this to your preferred hover color */
+}
+
+#buttons {
+    margin-top: 20px;
+}
+
+#button {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#feedback-input {
+    width: 466px;
+}
+
+.custom-submit-button {
+    background-color: #437E89;
+    color: white;
+}
+
+.custom-submit-button:hover {
+    background-color: #4C909D;
+    color: white;
+}
+
+.fa {
+    min-width: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+#submit {
+    display: flex;
+    justify-content: flex-end;
 }
