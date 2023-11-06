@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import {chatbotMessages} from './Dialogue';
-import {useValueRecs} from './ValueRecs';
-import {DialogueTurn} from './DialogueTurns';
-import {firstValueFrom, Observable} from "rxjs";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { chatbotMessages } from './Dialogue';
+import { useValueRecs } from './ValueRecs';
+import { DialogueTurn } from './DialogueTurns';
+import { firstValueFrom, Observable } from "rxjs";
+import { DialogCommunicationService } from '../dialog-communication.service';
 
 
 @Component({
@@ -28,7 +29,22 @@ export class AppComponent implements OnInit {
 
   showScenario: boolean = true;
 
-  constructor(public http: HttpClient, private router: ActivatedRoute) {
+  public snackbarMessage: string = ''; // snackbar is not visible when the page opens
+
+  // avatar image is positioned at the last message of a chatbot's dialogue turn
+  isLastBotMessage(index: number): boolean {
+    if (this.dialogueHistory[index].agent !== 'bot') {
+      return false;
+    }
+
+    if (index === this.dialogueHistory.length - 1) {
+      return true;
+    }
+
+    return this.dialogueHistory[index + 1].agent !== 'bot';
+  }
+
+  constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
@@ -56,7 +72,7 @@ export class AppComponent implements OnInit {
 
   dialogueHistory: Array<DialogueTurn> = [];
   backendTargets = ["purpose", "price", "display", "storage", "ram", "battery"];
-  targetOrder = ["greeting", "purpose", "price", "display", "storage", "ram", "battery","offer"];
+  targetOrder = ["greeting", "purpose", "price", "display", "storage", "ram", "battery", "offer"];
   currentTarget = "";
   currentUsage = "unknown";
   currentMin = -1;
@@ -68,11 +84,10 @@ export class AppComponent implements OnInit {
   yesnoTrigger: string | null = null; // choice from: "singleValue", "defaultValues", "allValues" or null
 
   inputMessage = "";
-  isInputEmpty: boolean = true; // Define the property and initialize it with a default value
 
-  bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
-  requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
-  requirementsFullText: any = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
+  bubbleTexts: any = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
+  requirements: any = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
+  requirementsFullText: any = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
   filterfields: any = {
     "price": "price_filter",
     "display": "screenSize_filter",
@@ -98,16 +113,28 @@ export class AppComponent implements OnInit {
 
   redProblem: boolean = false;
 
-  log: any = {'dialogue': []};
+  log: any = { 'dialogue': [] };
   logTrials: number = 0;
   loggingInProcess: boolean = false;
   convStartTime: any;
   recStartTime: any;
 
+  // send-button next to the the chatbox text input field is disabled if the input field is empty
+  onInputChange() {
+    this.isInputEmpty = this.inputMessage.trim() === '';
+  }
+
+  isInputEmpty: boolean = true; // Define the property and initialize it with a default value
+
   // --------------------------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------- INITIALIZATION
 
   ngOnInit(): void {
+
+    this.dialogCommunicationService.dialogResponse$.subscribe(response => {
+      ;
+      this.sendBackToSurvey(response);
+    });
 
     this.currentTarget = this.targetOrder[0];
     this.dialogueFlow();
@@ -269,7 +296,7 @@ export class AppComponent implements OnInit {
         // STEP (3)
 
         if (this.numLaptopRecs <= 0) {
-        // case (1): We have an empty result list.
+          // case (1): We have an empty result list.
           if (this.devMode == "testing") console.log("case (1)")
 
           if (this.targetOrder.indexOf(this.currentTarget) > 2) {
@@ -291,8 +318,8 @@ export class AppComponent implements OnInit {
           }
 
         } else if (this.numLaptopRecs == 1) {
-        // case (2): We have exactly one laptop in the result list.
-        //           -> inform the user about this. Then go to offerPresentation step.
+          // case (2): We have exactly one laptop in the result list.
+          //           -> inform the user about this. Then go to offerPresentation step.
           if (this.devMode == "testing") console.log("case (2)")
 
           let dT = new DialogueTurn("bot", "I have exactly 1 laptop that meets your requirements.", false, "none", this.currentTarget);
@@ -303,7 +330,7 @@ export class AppComponent implements OnInit {
         } else {
 
           if (this.numLaptopRecs < 10) {
-          // if we only have a limited choice of laptops in our result list, we should communicate this to the users.
+            // if we only have a limited choice of laptops in our result list, we should communicate this to the users.
 
             let idx = this.getRandomInt(0, chatbotMessages["howmany"]["few"].length);
             let dT: DialogueTurn = chatbotMessages["howmany"]["few"][idx];
@@ -317,16 +344,16 @@ export class AppComponent implements OnInit {
           // so now we make a distinction based on the actual choice of values we have for the current target aspect.
 
           if (this.currentChoicesSet.length == 0) {
-          // case (3): None of the remaining laptops have a value for the current aspect (all have missing values)
-          //           -> no need to ask the user about their requirements for this aspect then, just go to next aspect
+            // case (3): None of the remaining laptops have a value for the current aspect (all have missing values)
+            //           -> no need to ask the user about their requirements for this aspect then, just go to next aspect
             if (this.devMode == "testing") console.log("case (3)")
 
             this.setNextTarget();
             this.dialogueFlow();
 
           } else if (this.currentChoicesSet.length == 1) {
-          // case (4): All laptops have the exact same value for the current aspect, so there is no choice.
-          //           -> inform the user about this value and ask if this value is okay for them.
+            // case (4): All laptops have the exact same value for the current aspect, so there is no choice.
+            //           -> inform the user about this value and ask if this value is okay for them.
             if (this.devMode == "testing") console.log("case (4)")
 
             let dT: DialogueTurn = chatbotMessages[this.currentTarget]["singleValue"][0];
@@ -339,19 +366,19 @@ export class AppComponent implements OnInit {
             // no moving on in the dialogue flow, we have to wait for the user's input!
 
           } else if (this.currentChoicesSet.length <= 3 && this.currentTarget != "purpose") {
-           // case (5): There is a very restricted choice of values for the current aspect.
-          //           -> Inform the user about the possible choices, but then ask question.
-          // ATTENTION! This does not work for target aspects that have a limited choice to begin with, i.e., purpose (can only be basic, advanced, or gaming).
-          // ATTENTION! We therefore have to explicitly disable this rule for those target aspects.
+            // case (5): There is a very restricted choice of values for the current aspect.
+            //           -> Inform the user about the possible choices, but then ask question.
+            // ATTENTION! This does not work for target aspects that have a limited choice to begin with, i.e., purpose (can only be basic, advanced, or gaming).
+            // ATTENTION! We therefore have to explicitly disable this rule for those target aspects.
             if (this.devMode == "testing") console.log("case (5)")
 
             let dT: DialogueTurn = chatbotMessages[this.currentTarget]["fewValues"][0];
             this.addDialogueTurn(dT);
 
           } else {
-          // case (6): We have enough laptops in the result list AND there is a variety of value choices for the current aspect.
-          //           -> No need to inform the user about any restrictions for the requirements.
-          //           -> Ask user about requirements.
+            // case (6): We have enough laptops in the result list AND there is a variety of value choices for the current aspect.
+            //           -> No need to inform the user about any restrictions for the requirements.
+            //           -> Ask user about requirements.
             if (this.devMode == "testing") console.log("case (6)")
 
             for (let dT of chatbotMessages[this.currentTarget]["start"]) {
@@ -432,8 +459,8 @@ export class AppComponent implements OnInit {
           this.addDialogueTurn(dT);
         }
         this.bubbleTexts[this.currentTarget] = _req[0].toString();
-        this.addRequirements_toSoSciTexts({'sosciNeeds': _req[0].toString()});
-        this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: '+_req[0].toString()});
+        this.addRequirements_toSoSciTexts({ 'sosciNeeds': _req[0].toString() });
+        this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + _req[0].toString() });
         this.setNextTarget();
         this.dialogueFlow();
       } else if (_yn == "no") {
@@ -464,8 +491,8 @@ export class AppComponent implements OnInit {
           this.addDialogueTurn(dT);
         }
         this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
-        this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
-        this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: '+this.bubbleTexts[this.currentTarget]});
+        this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
+        this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
         this.setNextTarget();
         this.dialogueFlow();
       } else if (_yn == "no") {
@@ -499,7 +526,7 @@ export class AppComponent implements OnInit {
   // handles processing of new requirements:
   // adding it to the requirements array that is later used to build the filter request
   // adding the (string) text itself to sent to sosci if needed
-  addRequirements (_req: Array<number | string>): void {
+  addRequirements(_req: Array<number | string>): void {
 
     // second, add the new requirements to the official requirements storage
     this.requirements[this.currentTarget] = _req;
@@ -507,7 +534,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  addRequirements_toSoSciTexts (_autoPositives: any): void {
+  addRequirements_toSoSciTexts(_autoPositives: any): void {
 
     if (typeof _autoPositives['sosciNeeds'] === "string" && _autoPositives['sosciNeeds'].length > 0) {
       this.requirementsFullText[this.currentTarget] = _autoPositives['sosciNeeds'];
@@ -519,7 +546,7 @@ export class AppComponent implements OnInit {
   } // --- end addRequirements_toSoSciTexts()
 
 
-  addRequirements_toBubbleTexts (_autoPositives: any): void {
+  addRequirements_toBubbleTexts(_autoPositives: any): void {
 
     this.bubbleTexts[this.currentTarget] = _autoPositives['repeatNeeds'];
 
@@ -528,7 +555,7 @@ export class AppComponent implements OnInit {
   } // --- end addRequirements_toBubbleTexts()
 
 
-  reactToRequirements (_autoPositives: any): void {
+  reactToRequirements(_autoPositives: any): void {
 
     if (this.botReplyBehavior == 'acknowledge') {
       this.addDialogueTurn(new DialogueTurn("bot", _autoPositives['acknowledge'], false, "none", this.currentTarget));
@@ -560,7 +587,7 @@ export class AppComponent implements OnInit {
       this.deleteWaitMessage();
 
       if (!rData["failure"] && rData.hasOwnProperty(this.currentTarget + '_text_autoPositives')) {
-      // case (1): keyfacts could be extracted
+        // case (1): keyfacts could be extracted
 
         // only for purpose: set usage type for targeted dialogues!
         if (this.currentTarget === "purpose") this.currentUsage = rData[this.currentTarget];
@@ -580,7 +607,7 @@ export class AppComponent implements OnInit {
         return;
 
       } else if (rData["not_important"]) {
-      // case (2): user does not have requirements
+        // case (2): user does not have requirements
 
         // set yes no trigger so that we later know what to do with "yes" or "no"
         this.yesnoTrigger = "allValues";
@@ -591,7 +618,7 @@ export class AppComponent implements OnInit {
         return;
 
       } else if (rData["unknown"]) {
-      // case (3): user does not know what requirements are right for them
+        // case (3): user does not know what requirements are right for them
 
         // set yes no trigger so that we later know what to do with "yes" or "no"
         this.yesnoTrigger = "defaultValues";
@@ -602,8 +629,8 @@ export class AppComponent implements OnInit {
         return;
 
       } else {
-      // case (4): we could not deal with the response
-      // For example, because the user gave a reply from which we could not identify any keyfact or intent.
+        // case (4): we could not deal with the response
+        // For example, because the user gave a reply from which we could not identify any keyfact or intent.
 
         for (let dT of chatbotMessages[this.currentTarget]["noKeyfacts"]) {
           let idx = this.getRandomInt(0, dT.length);
@@ -699,7 +726,7 @@ export class AppComponent implements OnInit {
 
   // Sends logging request for the current log file to the NLU server
   // re-tries 3 times, in case server does not respond immediately
-  sendLogsToServer():void {
+  sendLogsToServer(response: string): void {
 
     console.log("REQUEST sendLogsToServer", this.currentTarget)
 
@@ -714,7 +741,7 @@ export class AppComponent implements OnInit {
         console.error('logLogs(): ERROR received error response from flask:', error);
         this.logTrials += 1;
         if (this.logTrials <= 3) {
-          this.logLogs();
+          this.logLogs(response);
         } else {
           return
         }
@@ -812,7 +839,7 @@ export class AppComponent implements OnInit {
       for (let choice of this.currentChoicesSet) {
         choices += choice + ", "
       }
-      choices = choices.substring(0,choices.length - 2);
+      choices = choices.substring(0, choices.length - 2);
       _turn["message"] = _turn["message"].replace('XXXCHOICES', "" + choices)
     }
     return _turn
@@ -827,7 +854,7 @@ export class AppComponent implements OnInit {
 
     // add to dialogue history
     this.dialogueHistory.push(_turn);
-    console.log("%c"+_turn["message"], 'color: green')
+    console.log("%c" + _turn["message"], 'color: green')
 
     // add to log
     this.log['dialogue'].push(_turn.outputify());
@@ -836,6 +863,7 @@ export class AppComponent implements OnInit {
 
   // --------------------------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------- MISC
+
 
   buildFilterRequest(): any {
     let filterRequest = [];
@@ -857,9 +885,22 @@ export class AppComponent implements OnInit {
   }
 
 
-  sendBackToSurvey (): void {
-    // logs
-    this.logLogs();
+  sendBackToSurvey(response: string): void {
+    // Display the snackbar
+    this.snackbarMessage = "Thank you! Redirecting you to the survey...";
+
+    // Wait with the redirect to shortly display the snackbar
+    setTimeout(() => {
+      this.redirectToSosci();
+    }, 3000); // Display the snackbar for 3 seconds
+
+    // Call the logLogs function
+    this.logLogs(response);
+  }
+
+  // this function gets called after the snackbar was displayed for 3 seconds
+  redirectToSosci(): void {
+    //this.page = 3;
     // build URL with all information we want to hand over to sosci:
     let url = this.sosci_server + this.sosciCaseToken;
     for (var _t of this.backendTargets) {
@@ -870,7 +911,6 @@ export class AppComponent implements OnInit {
     window.location.href = url;
   }
 
-
   deleteRequirements(_target: string): void {
     this.requirements[_target] = [];
     this.requirementsFullText[_target] = "";
@@ -880,11 +920,6 @@ export class AppComponent implements OnInit {
 
   opencloseScenario(): void {
     this.showScenario = !this.showScenario;
-  }
-
-
-  onInputChange() {
-    this.isInputEmpty = this.inputMessage.trim() === '';
   }
 
 
@@ -902,10 +937,10 @@ export class AppComponent implements OnInit {
     this.currentMed = -1;
     this.currentCats = [];
     this.inputMessage = "";
-    this.bubbleTexts = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
-    this.requirements = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
-    this.requirementsFullText = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
-    this.log = {'dialogue': []};
+    this.bubbleTexts = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
+    this.requirements = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
+    this.requirementsFullText = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
+    this.log = { 'dialogue': [] };
     this.logTrials = 0;
     this.loggingInProcess = false;
     this.laptopRecs = [];
@@ -916,6 +951,8 @@ export class AppComponent implements OnInit {
     this.dialogueFlow();
   }
 
+  // The function beforeSameAgent(i) is no longer needed and was replaced by isLastBotMessage(i)
+  /*
   beforeSameAgent(_i: number): boolean {
     if (_i > 0 && _i - 1 < this.dialogueHistory.length) {
       if (this.dialogueHistory[_i].agent == this.dialogueHistory[_i - 1].agent) {
@@ -924,11 +961,15 @@ export class AppComponent implements OnInit {
     }
     return false;
   }
+  */
 
-  logLogs(): void {
+  logLogs(response: string): void {
     /**
      * Sends log data to server
      */
+
+    // Parse the response string back into an object
+    const responseObject = JSON.parse(response);
 
     // Make nice log file
     this.log['ID'] = this.sosciCaseToken;
@@ -942,9 +983,14 @@ export class AppComponent implements OnInit {
     this.log['requirements'] = this.requirements;
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
+
+    // Log the option and feedback
+    this.log['option'] = responseObject.option;
+    this.log['feedback'] = responseObject.feedback;
+
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
-    this.sendLogsToServer();
+    this.sendLogsToServer(response);
   }
 
 
@@ -952,17 +998,24 @@ export class AppComponent implements OnInit {
 
   roundTo(_n: number, _roundTo: number = 0, _mode: string = "math"): number {
     // scale up / down
-    if (_roundTo > 0) { _n = _n * _roundTo * 10;
-    } else if (_roundTo < 0) { _n = _n / (_roundTo * 10);
+    if (_roundTo > 0) {
+      _n = _n * _roundTo * 10;
+    } else if (_roundTo < 0) {
+      _n = _n / (_roundTo * 10);
     }
     // round
-    if (_mode == "ceil") { _n = Math.ceil(_n);
-    } else if (_mode == "floor") { _n = Math.floor(_n);
-    } else { _n = Math.round(_n);
+    if (_mode == "ceil") {
+      _n = Math.ceil(_n);
+    } else if (_mode == "floor") {
+      _n = Math.floor(_n);
+    } else {
+      _n = Math.round(_n);
     }
     // scale back to normal
-    if (_roundTo > 0) { _n = _n / (_roundTo * 10);
-    } else if (_roundTo < 0) { _n = _n * (_roundTo * 10);
+    if (_roundTo > 0) {
+      _n = _n / (_roundTo * 10);
+    } else if (_roundTo < 0) {
+      _n = _n * (_roundTo * 10);
     }
     return _n
   }
@@ -1005,10 +1058,10 @@ export class AppComponent implements OnInit {
     if (this.devMode == "testing") console.log('this.requirements.storage: ' + this.requirements.storage)
     var h: number = 10 + Math.ceil(message.length / 35) * 30;
     var w: number = 250;
-    if (message.length < 35){
+    if (message.length < 35) {
       w = 70 + message.length * 5;
     }
-    return {'width': w + 'px', 'height': h + 'px'};
+    return { 'width': w + 'px', 'height': h + 'px' };
   }
 
   protected readonly JSON = JSON;
