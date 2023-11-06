@@ -5,6 +5,8 @@
 <!-- * * * * * CHATBOT * * * * * -->
 <div class="content" role="main">
 
+  <app-snackbar [message]="snackbarMessage"></app-snackbar>
+
   <div class="row pt-5">
 
     <!-- * * * main area * * * -->
@@ -22,9 +24,10 @@
         <div id="child-box">
 
           <!-- * * * individual chat messages * * * -->
-          <div id="chat-messages" class="row justify-content-md-left d-flex align-items-end" *ngFor="let turn of dialogueHistory; let i = index">
+          <div id="chat-messages" class="row justify-content-md-left d-flex align-items-end"
+            *ngFor="let turn of dialogueHistory; let i = index">
             <div class="col col-md-2 dialogicon">
-              <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || beforeSameAgent(i)">
+              <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || !isLastBotMessage(i)">
             </div>
             <div class="col col-md-9 m-1">
               <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? 'dialogBot' : 'dialogUser'">
@@ -33,29 +36,43 @@
               </div>
             </div>
           </div>
-          {{scrollDown()}}
         </div>
-      </div>
 
+        <!-- * * * background blur for the input box * * * -->
+        <div class="bg--blur--container">
+          <div class="bg--blur">
 
-      <!-- * * * input box * * * -->
-      <div class="container chatinputbox p-3 border border-dark rounded" *ngIf="currentTarget != 'offer'">
-        <!-- * * * open input * * * -->
-        <div class="input-group mb-3" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
-          <input id="input" type="text" placeholder="Type a message here..." class="form-control"
-                 [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event"
-                 (keyup.enter)="userInput_open(inputMessage)">
-          <button class="btn button-with-icon" type="button" id="button-addon2"
+            <!-- * * * input box * * * -->
+            <div class="chatinputbox" id="input-div" *ngIf="currentTarget != 'offer'">
+              <!-- * * * open input * * * -->
+              <div class="input-group mb-3"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
+                <input id="input" type="text" placeholder="Type a message here..." class="form-control"
+                  [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()"
+                  (keyup.enter)="sendMessage(inputMessage)">
+
+                <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
+                <button class="btn button-with-icon" type="button" id="button-addon2"
                   [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}"
                   (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
-            <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
-          </button>
+                  <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
+                </button>
+
+              </div>
+
+              <!-- * * * yes no input * * * -->
+              <div class="btn-group" role="group"
+                *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
+                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('yes');">yes</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('no');">no</button>
+              </div>
+            </div>
+
+
+          </div>
         </div>
-        <!-- * * * yes no input * * * -->
-        <div class="btn-group" role="group" *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
-          <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('yes');">yes</button>
-          <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('no');">no</button>
-        </div>
+
+        {{scrollDown()}}
       </div>
 
       <!-- * * * result presentation * * * -->
