@@ -1,4 +1,4 @@
-import { Component, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 
@@ -8,25 +8,16 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
   styleUrls: ['./scroll-button.component.css']
 })
 export class ScrollButtonComponent {
-  isButtonFixed: boolean = true; // Set to true to make the button visible from the start
+  isButtonFixed: boolean = false; // Set to false initially to hide the button
 
-  constructor(
-    private el: ElementRef,
-    private renderer: Renderer2,
-    private modalService: NgbModal
-  ) {}
+  constructor(private modalService: NgbModal) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const scrollOffset = window.scrollY;
-    if (scrollOffset > 200) {
-      this.renderer.setStyle(this.el.nativeElement, 'position', 'fixed');
-      this.renderer.setStyle(this.el.nativeElement, 'top', '20px');
-      this.renderer.setStyle(this.el.nativeElement, 'right', '20px');
+
+    if (scrollOffset > 500) {
       this.isButtonFixed = true;
-    } else {
-      this.renderer.setStyle(this.el.nativeElement, 'position', 'static');
-      this.isButtonFixed = false;
     }
   }
 
