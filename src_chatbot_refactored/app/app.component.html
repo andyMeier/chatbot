@@ -41,23 +41,22 @@
         <!-- * * * background blur for the input box * * * -->
         <div class="bg--blur--container">
           <div class="bg--blur">
-
             <!-- * * * input box * * * -->
             <div class="chatinputbox" id="input-div" *ngIf="currentTarget != 'offer'">
+              
               <!-- * * * open input * * * -->
               <div class="input-group mb-3"
                 *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType != 'yesno' && dialogueHistory[dialogueHistory.length-1].target != 'goodbye'">
                 <input id="input" type="text" placeholder="Type a message here..." class="form-control"
                   [(ngModel)]="inputMessage" (ngModelChange)="onInputChange()"
                   (keyup.enter)="sendMessage(inputMessage)">
-
+                
                 <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
                 <button class="btn button-with-icon" type="button" id="button-addon2"
                   [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}"
                   (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
                   <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
                 </button>
-
               </div>
 
               <!-- * * * yes no input * * * -->
