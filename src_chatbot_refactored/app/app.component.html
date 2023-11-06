@@ -49,7 +49,7 @@
                 <input id="input" type="text" placeholder="Type a message here..." class="form-control" [ngModel]="inputMessage" (ngModelChange)="inputMessage = $event" (ngModelChange)="onInputChange()" (keyup.enter)="userInput_open(inputMessage)">
 
                 <!-- * * * button changes from disabled (stroke) to active (filled) as soon as the user starts typing * * * -->
-                <button class="btn button-with-icon" type="button" id="button-addon2" [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}" (click)="sendMessage(inputMessage)" [disabled]="isInputEmpty">
+                <button class="btn button-with-icon" type="button" id="button-addon2" [ngClass]="{'inactive-button': isInputEmpty, 'active-button': !isInputEmpty}" (click)="userInput_open(inputMessage)" [disabled]="isInputEmpty">
                   <img id="send-icon" [src]="isInputEmpty ? 'assets/send-inactive.png' : 'assets/send-active.png'">
                 </button>
                 
