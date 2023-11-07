@@ -1,1 +1,1 @@
-<div class="snackbar" *ngIf="message">{{ message }}</div>
+<div class="snackbar" [ngClass]="{'show': isVisible}">{{ message }}</div>
