@@ -1,5 +1,5 @@
 .snackbar {
-    visibility: visible;
+    visibility: hidden; /* Initially hide the snackbar */
     min-width: 250px;
     background-color: #323232;
     color: white;
@@ -10,6 +10,22 @@
     z-index: 2;
     left: 50%;
     transform: translateX(-50%);
-    top: 10%;
     font-size: 17px;
+    top: -100%;
+}
+
+.snackbar.show {
+    visibility: visible; /* Show the snackbar when it has the "show" class */
+    animation: slideInFromTop 0.3s ease-out forwards; /* Apply the slide-in animation */
+}
+
+@keyframes slideInFromTop {
+    from {
+        top: -100%; /* Start position (above the screen) */
+        opacity: 0;
+    }
+    to {
+        top: 10%; /* End position (position to display the snackbar) */
+        opacity: 1;
+    }
 }
