@@ -1,18 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-@Component({
-  selector: 'app-snackbar',
-  templateUrl: './snackbar.component.html',
-  styleUrls: ['./snackbar.component.css']
-})
-export class SnackbarComponent implements OnInit {
-  @Input() message: string = '';
+import { SnackbarComponent } from './snackbar.component';
 
-  constructor() { }
+describe('SnackbarComponent', () => {
+  let component: SnackbarComponent;
+  let fixture: ComponentFixture<SnackbarComponent>;
 
-  ngOnInit(): void {
-    setTimeout(() => {
-      this.message = '';
-    }, 3000); // The message will disappear after 3 seconds
-  }
-}
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ SnackbarComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(SnackbarComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
