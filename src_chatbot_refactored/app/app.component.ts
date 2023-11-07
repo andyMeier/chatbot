@@ -948,7 +948,7 @@ export class AppComponent implements OnInit {
     this.numLaptopRecs = 0;
     this.laptopRecsIDs = [];
 
-    this.resizeChatbox('70vh');
+    this.resizeChatbox('80vh');
     this.dialogueFlow();
   }
 
