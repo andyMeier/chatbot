@@ -63,10 +63,15 @@
               </div>
 
               <!-- * * * yes no input * * * -->
+              <!-- * * * yes no input * * * -->
               <div class="btn-group" role="group"
                 *ngIf="dialogueHistory.length-1>0 && dialogueHistory[dialogueHistory.length-1].messageReplyType == 'yesno'">
-                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('yes');">yes</button>
-                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('no');">no</button>
+                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('yes');">
+                  <i class="fas fa-thumbs-up" style="margin-right: 10px;"></i>yes
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="userInput_yesno('no');">
+                  <i class="fas fa-thumbs-down" style="margin-right: 10px;"></i>no
+                </button>
               </div>
             </div>
 
