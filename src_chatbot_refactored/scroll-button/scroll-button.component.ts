@@ -13,14 +13,17 @@ export class ScrollButtonComponent {
   constructor(private modalService: NgbModal) {}
 
   @HostListener('window:scroll', [])
-  onWindowScroll() {
+ onWindowScroll() {
     const scrollOffset = window.scrollY;
 
     if (scrollOffset > 500 && !this.isButtonFixed) {
       this.isButtonFixed = true;
       setTimeout(() => {
-        document.getElementById('scroll').classList.add('show-button');
-      }, 0);
+        const scrollElement = document.getElementById('scroll');
+        if (scrollElement) {
+            scrollElement.classList.add('show-button');
+        }
+    }, 0);
     }
   }
 
