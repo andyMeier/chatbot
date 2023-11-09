@@ -4,7 +4,7 @@ export var chatbotMessages: any = {
   "greeting": {
     "start": [
       new DialogueTurn("bot", "Hi there! I'm Cleo, your digital product advisor. \uD83D\uDE0A"),
-      new DialogueTurn("bot", "I will assist you in finding a laptop that fits your needs. I just have a couple of questions..."),
+      new DialogueTurn("bot", "I'm here to assist you in finding the perfect laptop. Let's go through a couple of questions to help me understand your preferences..."),
     ],
   },
   "purpose": {
