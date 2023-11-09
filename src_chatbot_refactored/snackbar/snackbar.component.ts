@@ -14,10 +14,7 @@ export class SnackbarComponent {
   ngOnChanges(): void {
     if (this.message) {
       this.isVisible = true;
-      setTimeout(() => {
-        this.isVisible = false;
-        this.message = '';
-      }, 3000);
+      setTimeout(() => this.isVisible = false, 3000); // Hide after 3 seconds (0.3s for slide in + 2.7s for display)
     }
   }
 }
