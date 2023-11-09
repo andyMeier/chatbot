@@ -10,10 +10,10 @@ import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 export class ScrollButtonComponent {
   isButtonFixed: boolean = false; // Set to false initially to hide the button
 
-  constructor(private modalService: NgbModal) {}
+  constructor(private modalService: NgbModal) { }
 
   @HostListener('window:scroll', [])
- onWindowScroll() {
+  onWindowScroll() {
     const scrollOffset = window.scrollY;
 
     if (scrollOffset > 500 && !this.isButtonFixed) {
@@ -21,9 +21,9 @@ export class ScrollButtonComponent {
       setTimeout(() => {
         const scrollElement = document.getElementById('scroll');
         if (scrollElement) {
-            scrollElement.classList.add('show-button');
+          scrollElement.classList.add('show-button');
         }
-    }, 0);
+      }, 0);
     }
   }
 
