@@ -10,6 +10,14 @@
     padding-right: 0.75rem;
     padding-top: 0.375rem;
     padding-bottom: 0.375rem;
+
+    /* Add these properties for the animation */
+    animation: slide-in 0.4s forwards;
+    right: -150px; /* Initially, the button is hidden on the right */
+}
+
+@keyframes slide-in {
+    100% { right: 20px; } /* At the end of the animation, the button is 20px from the right */
 }
 
 #scroll:hover {
