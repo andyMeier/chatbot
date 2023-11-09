@@ -16,8 +16,11 @@ export class ScrollButtonComponent {
   onWindowScroll() {
     const scrollOffset = window.scrollY;
 
-    if (scrollOffset > 500) {
+    if (scrollOffset > 500 && !this.isButtonFixed) {
       this.isButtonFixed = true;
+      setTimeout(() => {
+        document.getElementById('scroll').classList.add('show-button');
+      }, 0);
     }
   }
 
