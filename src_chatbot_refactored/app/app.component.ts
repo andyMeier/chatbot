@@ -487,21 +487,20 @@ export class AppComponent implements OnInit {
           this.currentUsage = "basic";
           let _req = [useValueRecs[this.currentUsage]];
           this.addRequirements(_req);
-          this.setNextTarget();
-          this.dialogueFlow();
+        } else {
+          let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
+          this.addRequirements(_req);
+          this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
+          this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
+          this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
         }
-        let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
-        this.addRequirements(_req);
+        
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
           let dT = new DialogueTurn("bot", "Noted.", false, "none", this.currentTarget);
           this.addDialogueTurn(dT);
         }
-        this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
-        this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
-        this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
-        if (this.currentTarget != "price") {
-          this.setNextTarget();
-        }
+
+        this.setNextTarget();
         this.dialogueFlow();
       } else if (_yn == "no") {
         for (let dT of chatbotMessages[this.currentTarget]["no"]) {
