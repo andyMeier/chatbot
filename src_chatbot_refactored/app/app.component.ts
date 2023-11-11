@@ -132,7 +132,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
 
     this.dialogCommunicationService.dialogResponse$.subscribe(response => {
-      ;
       this.sendBackToSurvey(response);
     });
 
@@ -484,6 +483,13 @@ export class AppComponent implements OnInit {
     //           (NO)  We need to ask the user what they want instead. Set the "no" dialogue turn and wait for new user input.
     if (this.yesnoTrigger == "defaultValues") {
       if (_yn == "yes") {
+        if (this.currentTarget == "purpose") {
+          this.currentUsage = "basic";
+          let _req = [useValueRecs[this.currentUsage]];
+          this.addRequirements(_req);
+          this.setNextTarget();
+          this.dialogueFlow();
+        }
         let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
         this.addRequirements(_req);
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
@@ -493,7 +499,9 @@ export class AppComponent implements OnInit {
         this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
         this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
         this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
-        this.setNextTarget();
+        if (this.currentTarget != "price") {
+          this.setNextTarget();
+        }
         this.dialogueFlow();
       } else if (_yn == "no") {
         for (let dT of chatbotMessages[this.currentTarget]["no"]) {
