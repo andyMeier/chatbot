@@ -485,8 +485,10 @@ export class AppComponent implements OnInit {
       if (_yn == "yes") {
         if (this.currentTarget == "purpose") {
           this.currentUsage = "basic";
-          let _req = [useValueRecs[this.currentUsage]];
+          let _req = [this.currentUsage];
           this.addRequirements(_req);
+          this.bubbleTexts[this.currentTarget] = "basic";
+          this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
         } else {
           let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
           this.addRequirements(_req);
