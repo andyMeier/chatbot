@@ -1,4 +1,4 @@
-﻿import { DialogueTurn } from './DialogueTurns';
+import { DialogueTurn } from './DialogueTurns';
 
 export var chatbotMessages: any = {
   "greeting": {
@@ -9,7 +9,7 @@ export var chatbotMessages: any = {
   },
   "purpose": {
     "start": [
-      new DialogueTurn("bot","What do you usually use your laptop for?", true, "open", "purpose"),
+      new DialogueTurn("bot","Let's start: What do you usually use your laptop for?", true, "open", "purpose"),
     ],
     "noKeyfacts": [
       [new DialogueTurn("bot","Sorry, can you explain that again?", false, "none", "purpose"),
@@ -40,7 +40,7 @@ export var chatbotMessages: any = {
   },
   "price": {
     "start": [
-      new DialogueTurn("bot","What were you thinking of in terms of price?", false, "none", "price"),
+      new DialogueTurn("bot","Understood. What were you thinking of in terms of price?", false, "none", "price"),
       //new DialogueTurn("bot","We have laptops from XXXMIN to XXXMAX pounds, most are around XXXMED.", false, "none", "price"),
       new DialogueTurn("bot","XXXUSAGE laptops typically cost XXXUSEMIN - XXXUSEMAX pounds.", true, "open", "price"),
     ],
@@ -77,7 +77,7 @@ export var chatbotMessages: any = {
   },
   "battery": {
     "start": [
-      new DialogueTurn("bot","What are your requirements on battery life?", false, "none", "battery"),
+      new DialogueTurn("bot","Alright. And what are your requirements on battery life?", false, "none", "battery"),
       //new DialogueTurn("bot","We have laptops that last between XXXMIN and XXXMAX hours, most last around XXXMED hours.", false, "none", "battery"),
       new DialogueTurn("bot","For XXXUSAGE laptops, people usually want a battery that runs for at least XXXUSEMIN hours.", true, "open", "battery"),
     ],
@@ -98,7 +98,7 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","All remaining laptops I can offer you have a battery life of XXXONLYVAL. Is that okay?", true, "yesno", "battery"),
     ],
     "fewValues": [
-      new DialogueTurn("bot","I have laptops with XXXCHOICES hours of battery life. How much battery life do you need?", true, "open", "battery"),
+      new DialogueTurn("bot","Okay. I have laptops with XXXCHOICES hours of battery life. How much battery life do you need?", true, "open", "battery"),
     ],
     "unsure": [
       new DialogueTurn("bot","If you are unsure which battery life you need, I recommend anything over XXXUSEMIN hours of battery life.", false, "none", "battery"),
@@ -114,7 +114,7 @@ export var chatbotMessages: any = {
   },
   "storage": {
     "start": [
-      new DialogueTurn("bot","How much hard drive storage do you need?", false, "none", "storage"),
+      new DialogueTurn("bot","Sure. How much hard drive storage do you need?", false, "none", "storage"),
       //new DialogueTurn("bot","We have laptops with storage between XXXMIN GB and XXXMAX GB, most have XXXMED GB storage.", false, "none", "storage"),
       new DialogueTurn("bot","For XXXUSAGE purposes, most users prefer at least XXXUSEMIN GB storage.", true, "open", "storage"),
     ],
@@ -135,7 +135,7 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","I only have laptops left with an XXXONLYVALGB storage. Does that work?", true, "yesno", "storage"),
     ],
     "fewValues": [
-      new DialogueTurn("bot","I only have laptops left with XXXCHOICES GB of storage. What storage size do you need?", true, "open", "storage"),
+      new DialogueTurn("bot","Okay. I only have laptops left with XXXCHOICES GB of storage. What storage size do you need?", true, "open", "storage"),
     ],
     "unsure": [
       new DialogueTurn("bot","If you are unsure what the correct storage size is, I can look for laptops with XXXUSEMIN GB to XXXUSEMAX GB .", false, "none", "storage"),
@@ -151,7 +151,7 @@ export var chatbotMessages: any = {
   },
   "ram": {
     "start": [
-      new DialogueTurn("bot","What RAM size do you need?", false, "none", "ram"),
+      new DialogueTurn("bot","I saved your preference. What RAM size do you need?", false, "none", "ram"),
       //new DialogueTurn("bot","Our laptops have between XXXMINGB and XXXMAXGB RAM. Most of them have around XXXMEDGB.", false, "none", "ram"),
       new DialogueTurn("bot","XXXUSAGE tasks typically need XXXUSEMIN GB or more.", true, "open", "ram"),
     ],
@@ -172,7 +172,7 @@ export var chatbotMessages: any = {
       new DialogueTurn("bot","All laptops that match your requirements have XXXONLYVALGB RAM. Is that okay?", true, "yesno", "ram"),
     ],
     "fewValues": [
-      new DialogueTurn("bot","I have laptops with these RAM sizes: XXXCHOICES GB. Which ones are okay for you?", true, "open", "ram"),
+      new DialogueTurn("bot","Okay. I have laptops with these RAM sizes: XXXCHOICES GB. Which ones are okay for you?", true, "open", "ram"),
     ],
     "unsure": [
       new DialogueTurn("bot","If you are unsure what the correct RAM size is, I can look for laptops with XXXUSEMIN GB or more RAM.", false, "none", "ram"),
@@ -188,7 +188,7 @@ export var chatbotMessages: any = {
   },
   "display": {
     "start": [
-      new DialogueTurn("bot","How big should the display be?", false, "none", "display"),
+      new DialogueTurn("bot","Perfect. And how big should the display be?", false, "none", "display"),
       //new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches, most are XXXMED big.", false, "none", "display"),
       new DialogueTurn("bot","XXXUSAGE laptops often have screens between XXXUSEMIN and XXXUSEMAX inches.", true, "open", "display"),
     ],
@@ -201,15 +201,15 @@ export var chatbotMessages: any = {
         new DialogueTurn("bot","I did not get that. What do you mean?", false, "none", "display"),
         new DialogueTurn("bot","I am not sure what you mean, can you explain that again please?", false, "none", "display"),
       ],
-      [new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches. Most laptops have a display around XXXMED inches.", true, "open", "display"),
-        new DialogueTurn("bot","We have laptops with displays between XXXMIN and XXXMAX inches. Many users want the display to be around XXXMED inches.", true, "open", "display"),
+      [new DialogueTurn("bot","I have laptops with displays between XXXMIN and XXXMAX inches. Most laptops have a display around XXXMED inches.", true, "open", "display"),
+        new DialogueTurn("bot","I have laptops with displays between XXXMIN and XXXMAX inches. Many users want the display to be around XXXMED inches.", true, "open", "display"),
       ],
     ],
     "singleValue": [
       new DialogueTurn("bot","I only have laptops left with an XXXONLYVAL inches display. Is that okay?", true, "yesno", "display"),
     ],
     "fewValues": [
-      new DialogueTurn("bot","I can offer you laptops with the following screen sizes: XXXCHOICES inches. Which ones would work for you?", true,"open", "display"),
+      new DialogueTurn("bot","Okay. I can offer you laptops with the following screen sizes: XXXCHOICES inches. Which ones would work for you?", true,"open", "display"),
     ],
     "unsure": [
       new DialogueTurn("bot","If you are unsure what the correct display size is, I can look for laptops with XXXUSEMIN to XXXUSEMAX inches displays.", false, "none", "display"),
