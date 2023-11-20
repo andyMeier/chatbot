@@ -278,7 +278,7 @@ export class AppComponent implements OnInit {
       await firstValueFrom(await this.getValueChoices()).then((rData) => {
         console.log('RESPONSE getValueChoices():', rData);
 
-        this.numLaptopRecs = rData['num_hits']; // TODO: check if it is needed to update the number of hits here! Might be some issue with missing values
+        //this.numLaptopRecs = rData['num_hits']; // TODO: check if it is needed to update the number of hits here! Might be some issue with missing values
         this.currentChoicesSet = rData['possiblevalues']; // TODO: add this to the response object on the DB server side!
         if (rData['max_aspectvalue'] > 100) {
           this.currentMin = this.roundTo(rData['min_aspectvalue'], -1);
@@ -496,7 +496,7 @@ export class AppComponent implements OnInit {
           this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
           this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
         }
-        
+
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
           let dT = new DialogueTurn("bot", "Noted.", false, "none", this.currentTarget);
           this.addDialogueTurn(dT);
