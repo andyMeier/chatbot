@@ -311,7 +311,7 @@ div.priotop {
   border-radius: 6px;
   padding: 8px 16px; /* Adjust padding as needed */
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   top: 50%; /* Position the popup vertically at the middle */
   left: 380%; /* Position the popup to the right of the trigger element */
   transform: translate(-50%, -50%); /* Center the popup */
