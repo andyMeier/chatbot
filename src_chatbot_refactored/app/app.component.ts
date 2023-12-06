@@ -557,7 +557,7 @@ export class AppComponent implements OnInit {
 
   addRequirements_toBubbleTexts(_autoPositives: any): void {
 
-    this.bubbleTexts[this.currentTarget] = _autoPositives['repeatNeeds'];
+    this.bubbleTexts[this.currentTarget] = _autoPositives['repeatText'];
 
     if (this.devMode == "testing") console.log("BUBBLE TEXTS:", this.bubbleTexts)
 
