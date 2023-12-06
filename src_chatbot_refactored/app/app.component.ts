@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
-import { chatbotMessages } from './Dialogue';
-import { useValueRecs } from './ValueRecs';
-import { DialogueTurn } from './DialogueTurns';
-import { firstValueFrom, Observable } from "rxjs";
-import { DialogCommunicationService } from '../dialog-communication.service';
+import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
+import {chatbotMessages} from './Dialogue';
+import {useValueRecs} from './ValueRecs';
+import {DialogueTurn} from './DialogueTurns';
+import {firstValueFrom, Observable} from "rxjs";
+import {DialogCommunicationService} from '../dialog-communication.service';
 
 
 @Component({
@@ -85,9 +85,9 @@ export class AppComponent implements OnInit {
 
   inputMessage = "";
 
-  bubbleTexts: any = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
-  requirements: any = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
-  requirementsFullText: any = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
+  bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
+  requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
+  requirementsFullText: any = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
   filterfields: any = {
     "price": "price_filter",
     "display": "screenSize_filter",
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit {
 
   redProblem: boolean = false;
 
-  log: any = { 'dialogue': [] };
+  log: any = {'dialogue': []};
   logTrials: number = 0;
   loggingInProcess: boolean = false;
   convStartTime: any;
@@ -458,8 +458,8 @@ export class AppComponent implements OnInit {
           this.addDialogueTurn(dT);
         }
         this.bubbleTexts[this.currentTarget] = _req[0].toString();
-        this.addRequirements_toSoSciTexts({ 'sosciNeeds': _req[0].toString() });
-        this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + _req[0].toString() });
+        this.addRequirements_toSoSciTexts({'sosciNeeds': _req[0].toString()});
+        this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: ' + _req[0].toString()});
         this.setNextTarget();
         this.dialogueFlow();
       } else if (_yn == "no") {
@@ -488,13 +488,13 @@ export class AppComponent implements OnInit {
           let _req = [this.currentUsage];
           this.addRequirements(_req);
           this.bubbleTexts[this.currentTarget] = "basic";
-          this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
+          this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
         } else {
           let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
           this.addRequirements(_req);
           this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
-          this.addRequirements_toSoSciTexts({ 'sosciNeeds': this.bubbleTexts[this.currentTarget] });
-          this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget] });
+          this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
+          this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget]});
         }
 
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
@@ -841,7 +841,8 @@ export class AppComponent implements OnInit {
     if (_turn["message"].includes("XXXNUM")) _turn["message"] = _turn["message"].replace('XXXNUM', "" + this.numLaptopRecs)
     if (_turn["message"].includes("XXXUSEMIN")) _turn["message"] = _turn["message"].replace('XXXUSEMIN', "" + useValueRecs[this.currentUsage][this.currentTarget]["min"])
     if (_turn["message"].includes("XXXUSEMAX")) _turn["message"] = _turn["message"].replace('XXXUSEMAX', "" + useValueRecs[this.currentUsage][this.currentTarget]["max"])
-    if (_turn["message"].includes("XXXUSAGE")) _turn["message"] = _turn["message"].replace('XXXUSAGE', "" + this.currentUsage)
+    if (_turn["message"].includes("XXXUSAGEA")) _turn["message"] = _turn["message"].replace('XXXUSAGEA', "" + this.currentUsage)
+    if (_turn["message"].includes("XXXUSAGEB")) _turn["message"] = _turn["message"].replace('XXXUSAGEB', "" + this.currentUsage.charAt(0).toUpperCase() + this.currentUsage.slice(1).toLowerCase())
     if (_turn["message"].includes("XXXTARGET")) _turn["message"] = _turn["message"].replace('XXXTARGET', "" + this.currentTarget)
     // choices is a bit more complicated because we first have to stringify the list of possible values
     if (_turn["message"].includes("XXXCHOICES")) {
@@ -856,6 +857,12 @@ export class AppComponent implements OnInit {
 
   } // --- end dialoguePreprocess()
 
+
+  // Define a delay function that returns a Promise
+  delay(ms: number): Promise<void> {
+    console.log("waiting for 1 sec!")
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   addDialogueTurn(_turn: DialogueTurn): void {
 
@@ -947,10 +954,10 @@ export class AppComponent implements OnInit {
     this.currentMed = -1;
     this.currentCats = [];
     this.inputMessage = "";
-    this.bubbleTexts = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
-    this.requirements = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
-    this.requirementsFullText = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
-    this.log = { 'dialogue': [] };
+    this.bubbleTexts = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
+    this.requirements = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
+    this.requirementsFullText = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
+    this.log = {'dialogue': []};
     this.logTrials = 0;
     this.loggingInProcess = false;
     this.laptopRecs = [];
@@ -978,7 +985,7 @@ export class AppComponent implements OnInit {
      * Sends log data to server
      */
 
-    // Parse the response string back into an object
+      // Parse the response string back into an object
     const responseObject = JSON.parse(response);
 
     // Make nice log file
@@ -1064,6 +1071,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+
   get_style(message: string) {
     if (this.devMode == "testing") console.log('this.requirements.storage: ' + this.requirements.storage)
     var h: number = 10 + Math.ceil(message.length / 35) * 30;
@@ -1071,7 +1079,7 @@ export class AppComponent implements OnInit {
     if (message.length < 35) {
       w = 70 + message.length * 5;
     }
-    return { 'width': w + 'px', 'height': h + 'px' };
+    return {'width': w + 'px', 'height': h + 'px'};
   }
 
   protected readonly JSON = JSON;

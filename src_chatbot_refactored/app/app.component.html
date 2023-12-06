@@ -42,9 +42,9 @@
 
         <!-- * * * background blur for the input box * * * -->
         <div class="bg--blur--container">
-          <div class="bg--blur">
+          <div class="bg--blur" *ngIf="currentTarget != 'offer'">
             <!-- * * * input box * * * -->
-            <div class="chatinputbox" id="input-div" *ngIf="currentTarget != 'offer'">
+            <div class="chatinputbox" id="input-div">
 
               <!-- * * * open input * * * -->
               <div class="input-group mb-3"
