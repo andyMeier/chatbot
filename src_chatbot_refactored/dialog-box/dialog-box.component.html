@@ -5,9 +5,15 @@
   <div id="body-text">
     <h5>{{questionText}}</h5>
   </div>
-  <div id="buttons" *ngIf="!showFeedback">
+  <div id="buttons" *ngIf="!showFeedback && !showLikertScale">
     <i class="fa fa-thumbs-up fa-2x" (click)="handleYes()"></i>
     <i class="fa fa-thumbs-down fa-2x" (click)="handleNo()"></i>
+  </div>
+  <div id="likert-scale" *ngIf="showLikertScale && !showFeedback">
+    <div class="likert-option" *ngFor="let option of likertOptions; let i = index">
+      <input type="radio" [value]="option" [(ngModel)]="selectedLikertOption" name="likert" (change)="handleLikertChange(i)">
+      <label>{{option}}</label>
+    </div>
   </div>
   <div id="submit-button" *ngIf="showFeedback">
     <textarea type="text" id="feedback-input" placeholder="{{inputPlaceholder}}" #feedbackInput
