@@ -11,11 +11,14 @@ import { DialogCommunicationService } from '../dialog-communication.service';
 export class DialogBoxComponent {
   @Input() dialogTitle: string = "";
   showFeedback: boolean = false;
+  showLikertScale: boolean = false;
   questionText: string = "Is this a laptop you would buy?";
   inputPlaceholder: string = "Please type here...";
   isInputValid = false;
   feedbackInput = "";
   selectedOption: string = "";
+  likertOptions: string[] = ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"];
+  selectedLikertOption: string = "";
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -24,16 +27,26 @@ export class DialogBoxComponent {
 
   handleYes() {
     this.selectedOption = 'Yes';
-    // Directly send the response to the DialogCommunicationService
-    const response = JSON.stringify({option: this.selectedOption, feedback: "User selected 'Yes'."});
-    this.dialogCommunicationService.sendResponse(response);
-    this.activeModal.close(this.selectedOption);
+    this.showLikertScale = true;
+    this.questionText = "The advisor made me more confident about my decision.";
   }
 
   handleNo() {
     this.selectedOption = 'No';
-    this.showFeedback = true;
-    this.questionText = "Please describe why you would not buy the laptop.";
+    this.showLikertScale = true;
+    this.questionText = "The advisor made me more confident about my decision.";
+  }
+
+  handleLikertChange(index: number) {
+    this.selectedLikertOption = this.likertOptions[index];
+    if (this.selectedOption === 'No') {
+      this.showFeedback = true;
+      this.questionText = "Please describe why you would not buy the laptop.";
+    } else {
+      const response = JSON.stringify({option: this.selectedOption, likert: this.selectedLikertOption});
+      this.dialogCommunicationService.sendResponse(response);
+      this.activeModal.close(this.selectedOption);
+    }
   }
 
   handleInput(event: any) {
@@ -43,10 +56,7 @@ export class DialogBoxComponent {
 
   handleSubmit(feedbackInput: HTMLTextAreaElement) {
     const feedback = feedbackInput.value;
-    // Convert 'feedback' and 'selectedOption' into a JSON string
-    const response = JSON.stringify({option: this.selectedOption, feedback});
-    
-    // Send the JSON string to the DialogCommunicationService
+    const response = JSON.stringify({option: this.selectedOption, likert: this.selectedLikertOption, feedback});
     this.dialogCommunicationService.sendResponse(response);
     this.activeModal.close(this.selectedOption);
   }
