@@ -1004,6 +1004,7 @@ export class AppComponent implements OnInit {
     // Log the option and feedback
     this.log['option'] = responseObject.option;
     this.log['feedback'] = responseObject.feedback;
+    this.log['likert'] = responseObject.likert;
 
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
