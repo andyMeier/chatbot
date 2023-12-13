@@ -29,14 +29,17 @@ export class DialogBoxComponent {
 
   handleLikelyChange(index: number) {
     this.selectedLikelyOption = this.likelyOptions[index];
-    this.questionText = "How confident are you with your buying decision?";
+    this.questionText = "How confident are you in your purchase decision?";
     this.showLikelyScale = false;
     this.showConfidenceScale = true;
   }
 
   handleConfidenceChange(index: number) {
     this.selectedConfidenceOption = this.confidenceOptions[index];
-    if (this.selectedLikelyOption === 'Not likely' || this.selectedLikelyOption === 'Not at all likely') {
+    if (this.selectedLikelyOption === 'Unlikely') {
+      this.showFeedback = true;
+      this.questionText = "Please describe why you would rather not buy the laptop.";
+    } else if (this.selectedLikelyOption === 'Extremely unlikely') {
       this.showFeedback = true;
       this.questionText = "Please describe why you would not buy the laptop.";
     } else {
