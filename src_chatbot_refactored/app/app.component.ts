@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
   sosci_server = 'https://www.soscisurvey.de/chatbotexplanations/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
+  dataset = "new"
   highlightColor = 'rgba(72, 138, 199, 0.6)';
 
 
@@ -407,7 +408,6 @@ export class AppComponent implements OnInit {
     for (let dT of chatbotMessages["presentOffer"]["start"]) {
       this.addDialogueTurn(dT);
     }
-
   } // --- end dialogueFlowPresentation()
 
 
@@ -689,14 +689,14 @@ export class AppComponent implements OnInit {
       return this.http.post<any>(this.db_server + '/possibleAspectValues', {
         'IDs': this.laptopRecsIDs,
         'aspect': this.filterfields[this.currentTarget],
-        'dataset': 'amazon'
+        'dataset': this.dataset
       })
     } else {
       // CATEGORICAL ATTRIBUTES
       return this.http.post<any>(this.db_server + '/possibleAspectValues', {
         'IDs': this.laptopRecsIDs,
         'aspect': this.filterfields[this.currentTarget],
-        'dataset': 'amazon'
+        'dataset': this.dataset
       })
     }
 
@@ -710,7 +710,7 @@ export class AppComponent implements OnInit {
 
     const _flaskfilters = this.buildFilterRequest();
     return this.http.post<any>(this.db_server + '/filter', {
-      'dataset': 'amazon',
+      'dataset': this.dataset,
       'filter': _flaskfilters,
       'facets': [],
       'sort_by': "ratingAvg_filter",
