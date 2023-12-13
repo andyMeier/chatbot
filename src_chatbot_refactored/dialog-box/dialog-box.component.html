@@ -5,13 +5,15 @@
   <div id="body-text">
     <h5>{{questionText}}</h5>
   </div>
-  <div id="buttons" *ngIf="!showFeedback && !showLikertScale">
-    <i class="fa fa-thumbs-up fa-2x" (click)="handleYes()"></i>
-    <i class="fa fa-thumbs-down fa-2x" (click)="handleNo()"></i>
+  <div id="likely-scale" *ngIf="showLikelyScale && !showFeedback">
+    <div class="likely-option" *ngFor="let option of likelyOptions; let i = index">
+      <input type="radio" [value]="option" [(ngModel)]="selectedLikelyOption" name="likely" (change)="handleLikelyChange(i)">
+      <label>{{option}}</label>
+    </div>
   </div>
-  <div id="likert-scale" *ngIf="showLikertScale && !showFeedback">
-    <div class="likert-option" *ngFor="let option of likertOptions; let i = index">
-      <input type="radio" [value]="option" [(ngModel)]="selectedLikertOption" name="likert" (change)="handleLikertChange(i)">
+  <div id="confidence-scale" *ngIf="showConfidenceScale && !showFeedback">
+    <div class="confidence-option" *ngFor="let option of confidenceOptions; let i = index">
+      <input type="radio" [value]="option" [(ngModel)]="selectedConfidenceOption" name="confidence" (change)="handleConfidenceChange(i)">
       <label>{{option}}</label>
     </div>
   </div>
