@@ -27,6 +27,14 @@ export class ScrollButtonComponent {
     }
   }
 
+  resetButton(): void {
+    this.isButtonFixed = false;
+    const scrollElement = document.getElementById('scroll');
+    if (scrollElement) {
+      scrollElement.classList.remove('show-button');
+    }
+  }
+
   openDialog() {
     const modalRef = this.modalService.open(DialogBoxComponent);
   }
