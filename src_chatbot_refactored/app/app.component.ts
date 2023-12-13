@@ -1001,10 +1001,10 @@ export class AppComponent implements OnInit {
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
 
-    // Log the option and feedback
-    this.log['option'] = responseObject.option;
+    // Log the likely and confidence options and feedback
+    this.log['likely'] = responseObject.likely;
+    this.log['confidence'] = responseObject.confidence;
     this.log['feedback'] = responseObject.feedback;
-    this.log['likert'] = responseObject.likert;
 
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
