@@ -25,7 +25,7 @@
 
 #submit-button {
     display: flex;
-    justify-content: flex-end;
+    align-items: flex-end;
     margin-top: 10px;
     margin-bottom: 10px;
     flex-direction: column; /* This will stack the textarea and button vertically */
