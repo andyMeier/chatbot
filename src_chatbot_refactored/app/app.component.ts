@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {chatbotMessages} from './Dialogue';
@@ -31,6 +31,8 @@ export class AppComponent implements OnInit {
   showScenario: boolean = true;
 
   public snackbarMessage: string = ''; // snackbar is not visible when the page opens
+
+  @ViewChild(ScrollButtonComponent) scrollButtonComponent!: ScrollButtonComponent;
 
   // avatar image is positioned at the last message of a chatbot's dialogue turn
   isLastBotMessage(index: number): boolean {
@@ -966,6 +968,7 @@ export class AppComponent implements OnInit {
 
     this.resizeChatbox('80vh');
     this.dialogueFlow();
+    this.scrollButtonComponent.resetButton();
   }
 
   // The function beforeSameAgent(i) is no longer needed and was replaced by isLastBotMessage(i)
