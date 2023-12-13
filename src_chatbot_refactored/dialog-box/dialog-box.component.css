@@ -8,36 +8,27 @@
     padding: 16px;
 }
 
-#buttons {
-    display: flex;
-    justify-content: center;
-}
-
-.fa-thumbs-up:hover, .fa-thumbs-down:hover {
-    color: #4EA1A4; /* Change this to your preferred hover color */
-}
-
-#buttons {
-    margin-top: 20px;
-}
-
-#likert-scale {
+#likely-scale, #confidence-scale {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
+    flex-wrap: wrap;
 }
   
-.likert-option {
+.likely-option, .confidence-option {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    flex: 1 0 20%; /* This will make the options take up 20% of the container width, and wrap to next line if there isn't enough space */
 }
 
-#button {
+#submit-button {
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
     margin-bottom: 10px;
+    flex-direction: column; /* This will stack the textarea and button vertically */
 }
 
 #feedback-input {
@@ -47,20 +38,10 @@
 .custom-submit-button {
     background-color: #437E89;
     color: white;
+    margin-top: 10px; /* This will add some space between the textarea and button */
 }
 
 .custom-submit-button:hover {
     background-color: #4C909D;
     color: white;
-}
-
-.fa {
-    min-width: 80px;
-    display: flex;
-    justify-content: center;
-}
-
-#submit {
-    display: flex;
-    justify-content: flex-end;
 }
