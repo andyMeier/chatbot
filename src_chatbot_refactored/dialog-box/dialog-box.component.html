@@ -14,7 +14,7 @@
   <div id="confidence-scale" *ngIf="showConfidenceScale && !showFeedback">
     <div class="confidence-option" *ngFor="let option of confidenceOptions; let i = index">
       <input type="radio" [value]="option" [(ngModel)]="selectedConfidenceOption" name="confidence" (change)="handleConfidenceChange(i)">
-      <label>{{option}}</label>
+      <label><strong>{{option}}</strong></label>
     </div>
   </div>
   <div id="submit-button" *ngIf="showFeedback">
