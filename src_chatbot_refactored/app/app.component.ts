@@ -767,7 +767,7 @@ export class AppComponent implements OnInit {
   raiseRedProblem(): void {
 
     this.redProblem = true;
-    let dT = new DialogueTurn("bot", "Something is going wrong on the server side. I cannot resolve this issue at the moment. Please see your options in the menu on the righthandside.", false, "none", this.currentTarget);
+    let dT = new DialogueTurn("bot", "Something is going wrong on the server side. I cannot resolve this issue at the moment. Please see your options in the menu on the right-hand side.", false, "none", this.currentTarget);
     this.addDialogueTurn(dT);
 
   } // --- end raiseRedProblem()
