@@ -767,7 +767,7 @@ export class AppComponent implements OnInit {
   raiseRedProblem(): void {
 
     this.redProblem = true;
-    let dT = new DialogueTurn("bot", "Something is going wrong on the server side. I cannot resolve this issue at the moment. Please see your options in the menu on the righthandside.", false, "none", this.currentTarget);
+    let dT = new DialogueTurn("bot", "Something is going wrong on the server side. I cannot resolve this issue at the moment. Please see your options in the menu on the right-hand side.", false, "none", this.currentTarget);
     this.addDialogueTurn(dT);
 
   } // --- end raiseRedProblem()
@@ -1001,10 +1001,10 @@ export class AppComponent implements OnInit {
     this.log['restarts'] = this.restarts;
     this.log['dialogueHistory'] = this.dialogueHistory;
 
-    // Log the option and feedback
-    this.log['option'] = responseObject.option;
+    // Log the likely and confidence options and feedback
+    this.log['likely'] = responseObject.likely;
+    this.log['confidence'] = responseObject.confidence;
     this.log['feedback'] = responseObject.feedback;
-    this.log['likert'] = responseObject.likert;
 
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
