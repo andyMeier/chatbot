@@ -11,41 +11,38 @@ import { DialogCommunicationService } from '../dialog-communication.service';
 export class DialogBoxComponent {
   @Input() dialogTitle: string = "";
   showFeedback: boolean = false;
-  showLikertScale: boolean = false;
-  questionText: string = "Is this a laptop you would buy?";
+  showLikelyScale: boolean = true;
+  showConfidenceScale: boolean = false;
+  questionText: string = "How likely is it that you would buy this laptop?";
   inputPlaceholder: string = "Please type here...";
   isInputValid = false;
   feedbackInput = "";
-  selectedOption: string = "";
-  likertOptions: string[] = ["Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree"];
-  selectedLikertOption: string = "";
+  likelyOptions: string[] = ["Extremely likely", "Likely", "Neutral", "Unlikely", "Extremely unlikely"];
+  confidenceOptions: string[] = ["Extremely confident", "Moderately confident", "Somewhat confident", "Slightly confident", "Not at all confident"];
+  selectedLikelyOption: string = "";
+  selectedConfidenceOption: string = "";
 
   constructor(
     public activeModal: NgbActiveModal,
     private dialogCommunicationService: DialogCommunicationService
   ) {}
 
-  handleYes() {
-    this.selectedOption = 'Yes';
-    this.showLikertScale = true;
-    this.questionText = "The advisor made me more confident about my decision.";
+  handleLikelyChange(index: number) {
+    this.selectedLikelyOption = this.likelyOptions[index];
+    this.questionText = "How confident are you with your buying decision?";
+    this.showLikelyScale = false;
+    this.showConfidenceScale = true;
   }
 
-  handleNo() {
-    this.selectedOption = 'No';
-    this.showLikertScale = true;
-    this.questionText = "The advisor made me more confident about my decision.";
-  }
-
-  handleLikertChange(index: number) {
-    this.selectedLikertOption = this.likertOptions[index];
-    if (this.selectedOption === 'No') {
+  handleConfidenceChange(index: number) {
+    this.selectedConfidenceOption = this.confidenceOptions[index];
+    if (this.selectedLikelyOption === 'Not likely' || this.selectedLikelyOption === 'Not at all likely') {
       this.showFeedback = true;
       this.questionText = "Please describe why you would not buy the laptop.";
     } else {
-      const response = JSON.stringify({option: this.selectedOption, likert: this.selectedLikertOption});
+      const response = JSON.stringify({likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption});
       this.dialogCommunicationService.sendResponse(response);
-      this.activeModal.close(this.selectedOption);
+      this.activeModal.close(this.selectedLikelyOption);
     }
   }
 
@@ -56,8 +53,8 @@ export class DialogBoxComponent {
 
   handleSubmit(feedbackInput: HTMLTextAreaElement) {
     const feedback = feedbackInput.value;
-    const response = JSON.stringify({option: this.selectedOption, likert: this.selectedLikertOption, feedback});
+    const response = JSON.stringify({likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption, feedback});
     this.dialogCommunicationService.sendResponse(response);
-    this.activeModal.close(this.selectedOption);
+    this.activeModal.close(this.selectedLikelyOption);
   }
 }
