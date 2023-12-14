@@ -113,8 +113,9 @@ export class AppComponent implements OnInit {
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
 
-  restarts: number = 0;
+  presentOfferInInterface: boolean = false;
 
+  restarts: number = 0;
   redProblem: boolean = false;
 
   log: any = {'dialogue': []};
@@ -439,6 +440,7 @@ export class AppComponent implements OnInit {
         for (let dT of chatbotMessages["presentOffer"]["start"]) {
           this.addDialogueTurn(dT);
         }
+        this.presentOfferInInterface = true;
       }
 
     });
@@ -1001,6 +1003,7 @@ export class AppComponent implements OnInit {
     this.resizeChatbox('80vh');
     this.dialogueFlow();
     this.scrollButtonComponent.resetButton();
+    this.presentOfferInInterface = false;
   }
 
   // The function beforeSameAgent(i) is no longer needed and was replaced by isLastBotMessage(i)
