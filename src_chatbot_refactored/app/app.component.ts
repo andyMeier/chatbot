@@ -397,20 +397,51 @@ export class AppComponent implements OnInit {
 
 
   // Covers dialogue phase (3): presenting a suitable product
-  dialogueFlowPresentation(): void {
+  async dialogueFlowPresentation(): Promise<void> {
 
-    // inform user that you wil present the laptop below.
-    for (let dT of chatbotMessages["searchOffer"]["start"]) {
-      this.addDialogueTurn(dT);
-    }
-    // adapt layout of webapp to fit the results list
-    this.resizeChatbox('55vh');
-    // log time of conversation end / offer presentation start
-    const currTime = new Date(Date.now());
-    this.recStartTime = currTime;
-    for (let dT of chatbotMessages["presentOffer"]["start"]) {
-      this.addDialogueTurn(dT);
-    }
+    this.addWaitMessage();
+    await firstValueFrom(await this.getResultList()).then(async (rData) => {
+      console.log('RESPONSE getResultList():', rData);
+
+      this.laptopRecs = rData['hits'];
+      this.numLaptopRecs = rData['num_hits'];
+      this.laptopRecsIDs = rData['hitIDs'];
+
+      this.deleteWaitMessage();
+
+      if (this.numLaptopRecs <= 0) {
+        if (this.devMode == "testing") console.log("empty final list!")
+
+        if (this.targetOrder.indexOf(this.currentTarget) > 2) {
+          for (let dTs of chatbotMessages["howmany"]["none"]) {
+            let idx = this.getRandomInt(0, dTs.length);
+            let dT: DialogueTurn = dTs[idx];
+            dT["target"] = this.currentTarget;
+            this.addDialogueTurn(dT);
+          }
+          this.setPreviousTarget();
+          this.deleteRequirements(this.currentTarget);
+          this.dialogueFlow();
+        } else {
+          this.raiseRedProblem();
+        }
+      } else {
+
+        // inform user that you wil present the laptop below.
+        for (let dT of chatbotMessages["searchOffer"]["start"]) {
+          this.addDialogueTurn(dT);
+        }
+        // adapt layout of webapp to fit the results list
+        this.resizeChatbox('55vh');
+        // log time of conversation end / offer presentation start
+        const currTime = new Date(Date.now());
+        this.recStartTime = currTime;
+        for (let dT of chatbotMessages["presentOffer"]["start"]) {
+          this.addDialogueTurn(dT);
+        }
+      }
+
+    });
   } // --- end dialogueFlowPresentation()
 
 
