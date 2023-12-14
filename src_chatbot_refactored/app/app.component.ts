@@ -6,6 +6,7 @@ import {useValueRecs} from './ValueRecs';
 import {DialogueTurn} from './DialogueTurns';
 import {firstValueFrom, Observable} from "rxjs";
 import {DialogCommunicationService} from '../dialog-communication.service';
+import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 
 
 @Component({
