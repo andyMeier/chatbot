@@ -1,6 +1,5 @@
 .snackbar {
-    visibility: hidden;
-    /* Initially hide the snackbar */
+    visibility: hidden; /* Initially hide the snackbar */
     min-width: 250px;
     background-color: #323232;
     color: white;
