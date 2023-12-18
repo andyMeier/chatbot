@@ -153,8 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
   } // --- end ngOnInit()
 
   ngOnDestroy(): void {
-    // Unsubscribe from the scroll event to avoid memory leaks
-    this.scrollSubscription.unsubscribe();
+    this.scrollSubscription.unsubscribe(); // Unsubscribe from the scroll event to avoid memory leaks
   } // --- end ngOnDestroy()
 
   // --------------------------------------------------------------------------------------------------------------------
