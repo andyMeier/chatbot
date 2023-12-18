@@ -95,7 +95,7 @@ export var chatbotMessages: any = {
       ],
     ],
     "singleValue": [
-      new DialogueTurn("bot","All remaining laptops I can offer you have a battery life of XXXONLYVAL. Is that okay?", true, "yesno", "battery"),
+      new DialogueTurn("bot","All remaining laptops I can offer you have a battery life of XXXONLYVAL hours. Is that okay?", true, "yesno", "battery"),
     ],
     "fewValues": [
       new DialogueTurn("bot","I have laptops with XXXCHOICES hours of battery life. How much battery life do you need?", true, "open", "battery"),
