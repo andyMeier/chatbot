@@ -17,8 +17,8 @@ export class DialogBoxComponent {
   inputPlaceholder: string = "Please type here...";
   isInputValid = false;
   feedbackInput = "";
-  likelyOptions: string[] = ["Extremely likely", "Likely", "Neutral", "Unlikely", "Extremely unlikely"];
-  confidenceOptions: string[] = ["Extremely confident", "Moderately confident", "Somewhat confident", "Slightly confident", "Not at all confident"];
+  likelyOptions: string[] = ["Extremely unlikely", "Unlikely", "Neutral", "Likely", "Extremely likely"];
+  confidenceOptions: string[] = ["Not at all confident", "Slightly confident", "Somewhat confident", "Moderately confident", "Extremely confident"];
   selectedLikelyOption: string = "";
   selectedConfidenceOption: string = "";
 
@@ -29,7 +29,7 @@ export class DialogBoxComponent {
 
   handleLikelyChange(index: number) {
     this.selectedLikelyOption = this.likelyOptions[index];
-    this.questionText = "How confident are you in your purchase decision?";
+    this.questionText = "How confident are you in your decision?";
     this.showLikelyScale = false;
     this.showConfidenceScale = true;
   }
