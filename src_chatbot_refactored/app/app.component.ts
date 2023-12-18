@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRoute} from '@angular/router';
 import {chatbotMessages} from './Dialogue';
@@ -15,7 +15,7 @@ import { ScrollButtonComponent } from '../scroll-button/scroll-button.component'
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   sosci_server = 'https://www.soscisurvey.de/productadvisor/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
@@ -32,6 +32,9 @@ export class AppComponent implements OnInit {
   showScenario: boolean = true;
 
   public snackbarMessage: string = ''; // snackbar is not visible when the page opens
+
+  private scrollSubscription!: Subscription; // Declare a private variable to hold the subscription to the scroll event
+  scrollPositions: number[] = []; // Declare a public variable to hold the scroll positions
 
   @ViewChild(ScrollButtonComponent) scrollButtonComponent!: ScrollButtonComponent;
 
@@ -143,7 +146,16 @@ export class AppComponent implements OnInit {
     this.currentTarget = this.targetOrder[0];
     this.dialogueFlow();
 
+    this.scrollSubscription = fromEvent(window, 'scroll').subscribe(() => {
+      const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      this.scrollPositions.push(currentPosition); // Store the current scroll position
+    });
   } // --- end ngOnInit()
+
+  ngOnDestroy(): void {
+    // Unsubscribe from the scroll event to avoid memory leaks
+    this.scrollSubscription.unsubscribe();
+  } // --- end ngOnDestroy()
 
   // --------------------------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------- DIALOGUE FLOW
@@ -1043,6 +1055,9 @@ export class AppComponent implements OnInit {
     this.log['likely'] = responseObject.likely;
     this.log['confidence'] = responseObject.confidence;
     this.log['feedback'] = responseObject.feedback;
+
+    // Log the scroll position
+    this.log['scrollPositions'] = this.scrollPositions;
 
     if (this.devMode == "testing") console.log("Log File:", this.log);
 
