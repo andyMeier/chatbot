@@ -36,12 +36,9 @@ export class DialogBoxComponent {
 
   handleConfidenceChange(index: number) {
     this.selectedConfidenceOption = this.confidenceOptions[index];
-    if (this.selectedLikelyOption === 'Unlikely') {
+    if (this.selectedLikelyOption === 'Extremely unlikely' || this.selectedLikelyOption === 'Unlikely') {
       this.showFeedback = true;
       this.questionText = "Please describe why you would rather not buy the laptop.";
-    } else if (this.selectedLikelyOption === 'Extremely unlikely') {
-      this.showFeedback = true;
-      this.questionText = "Please describe why you would not buy the laptop.";
     } else {
       const response = JSON.stringify({likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption});
       this.dialogCommunicationService.sendResponse(response);
