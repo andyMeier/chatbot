@@ -2,6 +2,10 @@
   filter: none;
 }
 
+#main {
+  max-width: 100%;
+}
+
 .btn-primary,
 .btn-primary:active,
 .btn-primary:visited,
