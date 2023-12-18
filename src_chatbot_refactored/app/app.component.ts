@@ -17,7 +17,7 @@ import { ScrollButtonComponent } from '../scroll-button/scroll-button.component'
 
 export class AppComponent implements OnInit {
 
-  sosci_server = 'https://www.soscisurvey.de/chatbotexplanations/?q=ex&i='
+  sosci_server = 'https://www.soscisurvey.de/productadvisor/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
   dataset = "new"
