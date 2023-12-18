@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Renderer2, Inject, OnInit, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogCommunicationService } from '../dialog-communication.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-dialog-box',
@@ -8,7 +9,7 @@ import { DialogCommunicationService } from '../dialog-communication.service';
   styleUrls: ['./dialog-box.component.css']
 })
 
-export class DialogBoxComponent {
+export class DialogBoxComponent implements OnInit, OnDestroy {
   @Input() dialogTitle: string = "";
   showFeedback: boolean = false;
   showLikelyScale: boolean = true;
@@ -24,8 +25,22 @@ export class DialogBoxComponent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private dialogCommunicationService: DialogCommunicationService
+    private dialogCommunicationService: DialogCommunicationService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) {}
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.renderer.setStyle(this.document.body, 'overflow', 'auto');
+      this.renderer.setStyle(this.document.body, 'padding-right', '0');
+    }, 0);
+  }
+
+  ngOnDestroy(): void {
+    this.renderer.removeStyle(this.document.body, 'overflow');
+    this.renderer.removeStyle(this.document.body, 'padding-right');
+  }
 
   handleLikelyChange(index: number) {
     this.selectedLikelyOption = this.likelyOptions[index];
@@ -40,7 +55,7 @@ export class DialogBoxComponent {
       this.showFeedback = true;
       this.questionText = "Please describe why you would rather not buy the laptop.";
     } else {
-      const response = JSON.stringify({likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption});
+      const response = JSON.stringify({ likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption });
       this.dialogCommunicationService.sendResponse(response);
       this.activeModal.close(this.selectedLikelyOption);
     }
@@ -53,7 +68,7 @@ export class DialogBoxComponent {
 
   handleSubmit(feedbackInput: HTMLTextAreaElement) {
     const feedback = feedbackInput.value;
-    const response = JSON.stringify({likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption, feedback});
+    const response = JSON.stringify({ likely: this.selectedLikelyOption, confidence: this.selectedConfidenceOption, feedback });
     this.dialogCommunicationService.sendResponse(response);
     this.activeModal.close(this.selectedLikelyOption);
   }
