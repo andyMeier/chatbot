@@ -7,7 +7,7 @@
     border-radius: 8px;
     padding: 16px;
     position: fixed;
-    z-index: 2;
+    z-index: 5;
     left: 50%;
     transform: translateX(-50%);
     font-size: 17px;
