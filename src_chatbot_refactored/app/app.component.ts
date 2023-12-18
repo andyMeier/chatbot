@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {chatbotMessages} from './Dialogue';
 import {useValueRecs} from './ValueRecs';
 import {DialogueTurn} from './DialogueTurns';
-import {firstValueFrom, Observable} from "rxjs";
+import {firstValueFrom, fromEvent, Subscription} from "rxjs";
 import {DialogCommunicationService} from '../dialog-communication.service';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 
