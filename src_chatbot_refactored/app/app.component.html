@@ -96,12 +96,12 @@
               <span style="font-weight:bold;font-size:120%;"
                 [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">&#163;&nbsp;{{this.laptopRecs[0].price_original}}&nbsp;&nbsp;
               </span>
-              <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
+              <div *ngIf="this.needsBubbles && this.bubbleTexts['price']"
                 style="margin-bottom: 15px; display: inline-block"
-                (click)="hide(document.getElementById('displayPopup'));">
+                (click)="hide(document.getElementById('pricePopup'));">
                 <div class="popup">
                   <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                  <span class="popuptext" id="displayPopup">
+                  <span class="popuptext" id="pricePopup">
                     {{this.bubbleTexts['price']}}
                   </span>
                 </div>

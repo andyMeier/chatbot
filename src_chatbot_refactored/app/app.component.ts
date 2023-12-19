@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
   sosci_server = 'https://www.soscisurvey.de/productadvisor/?q=ex&i='
   db_server = 'https://multiweb.gesis.org/vacos2' // 'http://127.0.0.1:8090'
   nlu_server = 'https://multiweb.gesis.org/vacos6' // 'http://127.0.0.1:8091'
-  dataset = "new"
+  dataset = "amazon"
   highlightColor = 'rgba(72, 138, 199, 0.6)';
 
 
@@ -112,7 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
     "color": "categorical"
   }
 
-  measurements: any = {"purpose": "", "price": "pound", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours"};
+  measurements: any = {"purpose": "", "price": "pounds", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours"};
 
   laptopRecs: any = [];
   numLaptopRecs: number = 0;
@@ -537,7 +537,7 @@ export class AppComponent implements OnInit, OnDestroy {
           let _req = [this.currentUsage];
           this.addRequirements(_req);
           this.bubbleTexts[this.currentTarget] = "You were okay with "  + _req[0].toString() + ". So I searched for: " + _req[0].toString() + ".";
-          this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
+          this.addRequirements_toSoSciTexts({'sosciNeeds': "You were okay with "  + _req[0].toString() + "."});
         } else {
           let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
           this.addRequirements(_req);
@@ -547,7 +547,7 @@ export class AppComponent implements OnInit, OnDestroy {
             + ". So I searched for: " + _req[0].toString() + "-" + _req[1].toString()
             + " " + this.measurements[this.currentTarget]
             + ".";
-          this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
+          this.addRequirements_toSoSciTexts({'sosciNeeds': "You were okay with "  + _req[0].toString() + "-" + _req[1].toString() + " " + this.measurements[this.currentTarget] + "."});
         }
 
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
