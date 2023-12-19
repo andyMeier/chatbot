@@ -112,6 +112,8 @@ export class AppComponent implements OnInit, OnDestroy {
     "color": "categorical"
   }
 
+  measurements: any = {"purpose": "", "price": "pound", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours"};
+
   laptopRecs: any = [];
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
@@ -534,14 +536,18 @@ export class AppComponent implements OnInit, OnDestroy {
           this.currentUsage = "basic";
           let _req = [this.currentUsage];
           this.addRequirements(_req);
-          this.bubbleTexts[this.currentTarget] = "basic";
+          this.bubbleTexts[this.currentTarget] = "You were okay with "  + _req[0].toString() + ". So I searched for: " + _req[0].toString() + ".";
           this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
         } else {
           let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
           this.addRequirements(_req);
-          this.bubbleTexts[this.currentTarget] = _req[0].toString() + "-" + _req[1].toString();
+          this.bubbleTexts[this.currentTarget] = "You were okay with "
+            + _req[0].toString() + "-" + _req[1].toString()
+            + " " + this.measurements[this.currentTarget]
+            + ". So I searched for: " + _req[0].toString() + "-" + _req[1].toString()
+            + " " + this.measurements[this.currentTarget]
+            + ".";
           this.addRequirements_toSoSciTexts({'sosciNeeds': this.bubbleTexts[this.currentTarget]});
-          this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: ' + this.bubbleTexts[this.currentTarget]});
         }
 
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
@@ -551,6 +557,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.setNextTarget();
         this.dialogueFlow();
+        console.log("I don't know with yes!", this.bubbleTexts)
       } else if (_yn == "no") {
         for (let dT of chatbotMessages[this.currentTarget]["no"]) {
           this.addDialogueTurn(dT);
