@@ -150,7 +150,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.scrollSubscription = fromEvent(window, 'scroll').subscribe(() => {
       const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      this.scrollPositions.push(currentPosition); // Store the current scroll position
+      const roundedPosition = Math.round(currentPosition); // Round the current scroll position
+      this.scrollPositions.push(roundedPosition); // Store the rounded scroll position
     });
   } // --- end ngOnInit()
 
