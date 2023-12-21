@@ -149,9 +149,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dialogueFlow();
 
     this.scrollSubscription = fromEvent(window, 'scroll').subscribe(() => {
-      const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const roundedPosition = Math.round(currentPosition); // Round the current scroll position
-      this.scrollPositions.push(roundedPosition); // Store the rounded scroll position
+      if (this.presentOfferInInterface) { // Only log the scroll position if presentOfferInInterface is true
+        const currentPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        const roundedPosition = Math.round(currentPosition); // Round the current scroll position
+        this.scrollPositions.push(roundedPosition); // Store the rounded scroll position
+      }
     });
   } // --- end ngOnInit()
 
