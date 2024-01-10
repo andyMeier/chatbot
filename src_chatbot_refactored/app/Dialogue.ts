@@ -232,7 +232,7 @@ export var chatbotMessages: any = {
   "presentOffer": {
     "start": [
       new DialogueTurn("bot","So below the chat I have a laptop for you.", false, "none", "presentOffer"),
-      new DialogueTurn("bot","Take your time to check out the details!", false, "none", "presentOffer"),
+      new DialogueTurn("bot","Take your time to check the details and consider whether you would buy the laptop or not!", false, "none", "presentOffer"),
 
     ]
   },
