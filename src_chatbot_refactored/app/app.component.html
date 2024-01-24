@@ -32,11 +32,11 @@
               <img class="avatar" src="assets/Cleo_round-v2.png" [hidden]="turn.agent != 'bot' || !isLastBotMessage(i)">
             </div>
             <div class="col col-md-9 m-1" [ngClass]="turn.agent == 'bot' ? (isLastBotMessage(i) ? 'botMessageLast' : 'botMessage') : ''">
-  <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? (isFirstBotMessage(i) ? 'dialogBotFirst' : (isLastBotMessage(i) ? 'dialogBotLast' : 'dialogBot')) : 'dialogUser'">
-    <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
-    <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
-  </div>
-</div>
+              <div class="dialogbubble" [ngClass]="turn.agent == 'bot' ? (isFirstBotMessage(i) ? 'dialogBotFirst' : (isLastBotMessage(i) ? 'dialogBotLast' : 'dialogBot')) : 'dialogUser'">
+                <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
+                <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
+              </div>
+            </div>
           </div>
         </div>
 
