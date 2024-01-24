@@ -234,6 +234,10 @@ div.botMessage {
   margin-bottom: 0px !important;
 }
 
+div.botMessageLast {
+  margin-top: 2px !important;
+}
+
 div.dialogBot {
   float: left;
   margin-right: 10%;
