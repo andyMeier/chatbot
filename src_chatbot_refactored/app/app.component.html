@@ -34,7 +34,7 @@
             <div class="col col-md-9 m-1"
               [ngClass]="turn.agent == 'bot' ? (isLastBotMessage(i) ? 'botMessageLast' : 'botMessage') : ''">
               <div class="dialogbubble"
-                [ngClass]="turn.agent == 'bot' ? (isFirstBotMessage(i) ? 'dialogBotFirst' : (isLastBotMessage(i) ? 'dialogBotLast' : 'dialogBot')) : 'dialogUser'">
+                [ngClass]="turn.agent == 'bot' ? (isOnlyBotMessage(i) ? 'dialogBotFirst' : (isFirstBotMessage(i) ? 'dialogBotFirst' : (isLastBotMessage(i) ? 'dialogBotLast' : 'dialogBot'))) : 'dialogUser'">
                 <span *ngIf="turn.target != 'wait'">{{turn.message}}</span>
                 <span *ngIf="turn.target == 'wait'"><img src="assets/dots-white-v2.gif"></span>
               </div>
