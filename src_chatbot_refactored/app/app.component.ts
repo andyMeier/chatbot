@@ -67,6 +67,10 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.dialogueHistory[index + 1].agent !== 'bot';
   }
 
+  isOnlyBotMessage(index: number): boolean {
+    return this.isFirstBotMessage(index) && this.isLastBotMessage(index);
+  }
+
   constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
