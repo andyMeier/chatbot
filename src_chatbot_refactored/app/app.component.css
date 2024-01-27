@@ -14,25 +14,28 @@
   border-color: #597490;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
 }
-.btn-primary:hover{
+
+.btn-primary:hover {
   background-color: #7c9ebd;
   border-color: #7c9ebd;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
 }
 
 .btn-outline-primary,
-.btn-outline-primary:active{
+.btn-outline-primary:active {
   color: #597490;
   border-color: #597490;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
 }
+
 .btn-outline-primary:visited,
 .btn-outline-primary:focus {
   background-color: #7c9ebd;
   border-color: #597490;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
 }
-.btn-outline-primary:hover{
+
+.btn-outline-primary:hover {
   background-color: #7c9ebd;
   border-color: #7c9ebd;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.25));
@@ -54,6 +57,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   100% {
     transform: translateX(0);
     opacity: 1;
@@ -107,8 +111,10 @@ html {
   background: linear-gradient(to bottom, rgba(204, 204, 204, 0.4), rgba(242, 242, 242, 0.05));
   backdrop-filter: blur(5px);
   position: sticky;
-  top: 0; /* Stick the header to the top */
-  z-index: 1; /* Ensure the header appears above other content */
+  top: 0;
+  /* Stick the header to the top */
+  z-index: 1;
+  /* Ensure the header appears above other content */
 }
 
 #child-box {
@@ -183,7 +189,8 @@ div.productOffer {
 
 .dialogicon img {
   float: right;
-  max-width: 40px; /* War vorher 70% */
+  max-width: 40px;
+  /* War vorher 70% */
   margin-bottom: 2px;
 }
 
@@ -192,6 +199,7 @@ div.productOffer {
     transform: translateY(100%) scale(0.5);
     opacity: 0;
   }
+
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
@@ -232,6 +240,7 @@ div.wait {
 
 div.botMessage {
   margin-bottom: 0px !important;
+  margin-top: 2px !important;
 }
 
 div.botMessageLast {
@@ -245,10 +254,10 @@ div.dialogBot {
   /* background: linear-gradient(to bottom right, #416585, #2D4860); */
   color: white;
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
-  border-top-left-radius: 0px;
+  border-top-left-radius: 4px;
   border-top-right-radius: 16px;
   border-bottom-right-radius: 16px;
-  border-bottom-left-radius: 0px;
+  border-bottom-left-radius: 4px;
 }
 
 div.dialogBotFirst {
@@ -266,6 +275,7 @@ div.dialogBotFirst {
 div.dialogBotLast {
   float: left;
   margin-right: 10%;
+  margin-top: 0px !important;
   background: linear-gradient(to bottom right, #5A787F, #415256);
   color: white;
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
@@ -307,14 +317,14 @@ div.dialogUser {
 }
 
 div.fadeMe {
-  opacity:    0.5;
+  opacity: 0.5;
   background: #000;
-  width:      100%;
-  height:     100%;
-  z-index:    10;
-  top:        0;
-  left:       0;
-  position:   fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  position: fixed;
 }
 
 .modal-title:hover {
@@ -346,12 +356,16 @@ div.priotop {
   text-align: center;
   border: 1px solid #F2F2F2;
   border-radius: 6px;
-  padding: 8px 16px; /* Adjust padding as needed */
+  padding: 8px 16px;
+  /* Adjust padding as needed */
   position: absolute;
   z-index: 2;
-  top: 50%; /* Position the popup vertically at the middle */
-  left: 380%; /* Position the popup to the right of the trigger element */
-  transform: translate(-50%, -50%); /* Center the popup */
+  top: 50%;
+  /* Position the popup vertically at the middle */
+  left: 380%;
+  /* Position the popup to the right of the trigger element */
+  transform: translate(-50%, -50%);
+  /* Center the popup */
 }
 
 /* Popup arrow */
@@ -359,8 +373,10 @@ div.priotop {
   content: "";
   position: absolute;
   top: 50%;
-  right: 100%; /* Position the arrow to the left of the popup */
-  margin-top: -5px; /* Half of the arrow's height to center it vertically */
+  right: 100%;
+  /* Position the arrow to the left of the popup */
+  margin-top: -5px;
+  /* Half of the arrow's height to center it vertically */
   border-width: 5px;
   border-style: solid;
   border-color: transparent #5A787F transparent transparent;
@@ -375,13 +391,23 @@ div.priotop {
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Scrollbar for webkit browsers (Chrome, Safari) */

@@ -1,11 +1,11 @@
-import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute} from '@angular/router';
-import {chatbotMessages} from './Dialogue';
-import {useValueRecs} from './ValueRecs';
-import {DialogueTurn} from './DialogueTurns';
-import {firstValueFrom, fromEvent, Subscription} from "rxjs";
-import {DialogCommunicationService} from '../dialog-communication.service';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { chatbotMessages } from './Dialogue';
+import { useValueRecs } from './ValueRecs';
+import { DialogueTurn } from './DialogueTurns';
+import { firstValueFrom, fromEvent, Subscription } from "rxjs";
+import { DialogCommunicationService } from '../dialog-communication.service';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 
 
@@ -53,7 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     return true;
   }
-  
+
   // avatar image is positioned at the last message of a chatbot's dialogue turn
   isLastBotMessage(index: number): boolean {
     if (this.dialogueHistory[index].agent !== 'bot') {
@@ -112,9 +112,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   inputMessage = "";
 
-  bubbleTexts: any = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
-  requirements: any = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
-  requirementsFullText: any = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
+  bubbleTexts: any = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
+  requirements: any = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
+  requirementsFullText: any = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
   filterfields: any = {
     "price": "price_filter",
     "display": "screenSize_filter",
@@ -132,7 +132,7 @@ export class AppComponent implements OnInit, OnDestroy {
     "color": "categorical"
   }
 
-  measurements: any = {"purpose": "", "price": "pounds", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours"};
+  measurements: any = { "purpose": "", "price": "pounds", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours" };
 
   laptopRecs: any = [];
   numLaptopRecs: number = 0;
@@ -143,7 +143,7 @@ export class AppComponent implements OnInit, OnDestroy {
   restarts: number = 0;
   redProblem: boolean = false;
 
-  log: any = {'dialogue': []};
+  log: any = { 'dialogue': [] };
   logTrials: number = 0;
   loggingInProcess: boolean = false;
   convStartTime: any;
@@ -530,8 +530,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.addDialogueTurn(dT);
         }
         this.bubbleTexts[this.currentTarget] = _req[0].toString();
-        this.addRequirements_toSoSciTexts({'sosciNeeds': _req[0].toString()});
-        this.addRequirements_toBubbleTexts({'repeatNeeds': 'You were okay with: ' + _req[0].toString()});
+        this.addRequirements_toSoSciTexts({ 'sosciNeeds': _req[0].toString() });
+        this.addRequirements_toBubbleTexts({ 'repeatNeeds': 'You were okay with: ' + _req[0].toString() });
         this.setNextTarget();
         this.dialogueFlow();
       } else if (_yn == "no") {
@@ -559,8 +559,8 @@ export class AppComponent implements OnInit, OnDestroy {
           this.currentUsage = "basic";
           let _req = [this.currentUsage];
           this.addRequirements(_req);
-          this.bubbleTexts[this.currentTarget] = "You were okay with "  + _req[0].toString() + ". So I searched for: " + _req[0].toString() + ".";
-          this.addRequirements_toSoSciTexts({'sosciNeeds': "You were okay with "  + _req[0].toString() + "."});
+          this.bubbleTexts[this.currentTarget] = "You were okay with " + _req[0].toString() + ". So I searched for: " + _req[0].toString() + ".";
+          this.addRequirements_toSoSciTexts({ 'sosciNeeds': "You were okay with " + _req[0].toString() + "." });
         } else {
           let _req = [useValueRecs[this.currentUsage][this.currentTarget]["min"], useValueRecs[this.currentUsage][this.currentTarget]["max"]];
           this.addRequirements(_req);
@@ -570,7 +570,7 @@ export class AppComponent implements OnInit, OnDestroy {
             + ". So I searched for: " + _req[0].toString() + "-" + _req[1].toString()
             + " " + this.measurements[this.currentTarget]
             + ".";
-          this.addRequirements_toSoSciTexts({'sosciNeeds': "You were okay with "  + _req[0].toString() + "-" + _req[1].toString() + " " + this.measurements[this.currentTarget] + "."});
+          this.addRequirements_toSoSciTexts({ 'sosciNeeds': "You were okay with " + _req[0].toString() + "-" + _req[1].toString() + " " + this.measurements[this.currentTarget] + "." });
         }
 
         if (this.botReplyBehavior == 'acknowledge' || this.botReplyBehavior == 'repeat' || this.botReplyBehavior == 'rephrase') {
@@ -1031,10 +1031,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.currentMed = -1;
     this.currentCats = [];
     this.inputMessage = "";
-    this.bubbleTexts = {"purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null};
-    this.requirements = {"purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": []};
-    this.requirementsFullText = {"purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": ""};
-    this.log = {'dialogue': []};
+    this.bubbleTexts = { "purpose": null, "price": null, "display": null, "storage": null, "ram": null, "battery": null };
+    this.requirements = { "purpose": [], "price": [], "display": [], "storage": [], "ram": [], "battery": [] };
+    this.requirementsFullText = { "purpose": "", "price": "", "display": "", "storage": "", "ram": "", "battery": "" };
+    this.log = { 'dialogue': [] };
     this.logTrials = 0;
     this.loggingInProcess = false;
     this.laptopRecs = [];
@@ -1064,7 +1064,7 @@ export class AppComponent implements OnInit, OnDestroy {
      * Sends log data to server
      */
 
-      // Parse the response string back into an object
+    // Parse the response string back into an object
     const responseObject = JSON.parse(response);
 
     // Make nice log file
@@ -1162,7 +1162,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (message.length < 35) {
       w = 70 + message.length * 5;
     }
-    return {'width': w + 'px', 'height': h + 'px'};
+    return { 'width': w + 'px', 'height': h + 'px' };
   }
 
   protected readonly JSON = JSON;

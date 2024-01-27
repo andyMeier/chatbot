@@ -138,193 +138,221 @@
             <div class="col-7">
               <!-- Product Details -->
               <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">Brand</b></td>
-                    <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].brand_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Operating System</b></td>
-                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
-                      {{this.laptopRecs[0].operatingSystem_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr style="border-bottom: 1px rgb(150, 150, 150);">
-                    <td><b class="mr-2">Screen Size</b></td>
-                    <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].screenSize_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['display']" style="display: inline-block"
-                          (click)="hide(document.getElementById('displayPopup'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="displayPopup">
-                              {{this.bubbleTexts['display']}}
+              <div id="div1" style="border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; border: 1.2px solid grey !important; margin-bottom: 4px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">Brand</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length>0">
+                        {{this.laptopRecs[0].brand_original}}
+                      </td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Operating System</b></td>
+                      <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
+                        {{this.laptopRecs[0].operatingSystem_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
+                        <p style="color:rgb(150, 150, 150)">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-radius: 8px;">
+                      <td style="border-bottom-left-radius: 8px;"><b class="mr-2">Screen Size</b></td>
+                      <td style="border-bottom-right-radius: 8px;"
+                        *ngIf="this.laptopRecs[0].screenSize_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].screenSize_original}}
                             </span>
                           </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Hard Drive Type</b></td>
-                    <td *ngIf="this.laptopRecs[0].storageType_original.length>0">
-                      {{this.laptopRecs[0].storageType_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].storageType_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Hard Drive Size</b></td>
-                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].totalStorageCapacity_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                          (click)="hide(document.getElementById('StoragePopup'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="StoragePopup">
-                              {{this.bubbleTexts['storage']}}
-                            </span>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['display']" style="display: inline-block"
+                            (click)="hide(document.getElementById('displayPopup'));">
+                            <div class="popup">
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="displayPopup">
+                                {{this.bubbleTexts['display']}}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">RAM Size</b></td>
-                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].systemMemoryRam_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                          (click)="hide(document.getElementById('ramPopup'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="ramPopup">
-                              {{this.bubbleTexts['ram']}}
+                      </td>
+                      <td style="border-bottom-right-radius: 8px;"
+                        *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="div2" style="border-radius: 8px; border: 1.2px solid grey !important; margin-bottom: 4px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;border-radius:16px;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-radius: 8px;">
+                      <td style="border-top-left-radius: 8px;"><b class="mr-2">Hard Drive Type</b></td>
+                      <td style="border-top-right-radius: 8px;"
+                        *ngIf="this.laptopRecs[0].storageType_original.length>0">
+                        {{this.laptopRecs[0].storageType_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].storageType_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Hard Drive Size</b></td>
+                      <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].totalStorageCapacity_original}}
                             </span>
                           </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Manufacturer</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
-                      {{this.laptopRecs[0].processorBrand_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Cores</b></td>
-                    <td
-                      *ngIf="this.laptopRecs[0].processorCores_filter.toString().length>0 && this.laptopRecs[0].processorCores_filter>0">
-                      {{this.laptopRecs[0].processorCores_filter}}</td>
-                    <td
-                      *ngIf="this.laptopRecs[0].processorCores_filter.toString().length<=0 || this.laptopRecs[0].processorCores_filter<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Speed</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
-                      {{this.laptopRecs[0].processorSpeedBase_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr style="border-bottom: 1px rgb(150, 150, 150);">>
-                    <td><b class="mr-2">Graphics Card</b></td>
-                    <td *ngIf="this.laptopRecs[0].graphics_original.length>0">
-                      {{this.laptopRecs[0].graphics_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].graphics_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Casing Color</b></td>
-                    <td *ngIf="this.laptopRecs[0].color_original.length>0">{{this.laptopRecs[0].color_original}}
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].color_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Weight</b></td>
-                    <td *ngIf="this.laptopRecs[0].productWeight_original.length>0">
-                      {{this.laptopRecs[0].productWeight_original}} pounds</td>
-                    <td *ngIf="this.laptopRecs[0].productWeight_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Battery Life</b></td>
-                    <td *ngIf="this.laptopRecs[0].batteryLife_original.length>0">
-
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['battery'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].batteryLife_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['battery']" style="display: inline-block"
-                          (click)="hide(document.getElementById('batteryPopup'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="batteryPopup">
-                              {{this.bubbleTexts['battery']}}
-                            </span>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
+                            (click)="hide(document.getElementById('StoragePopup'));">
+                            <div class="popup">
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="StoragePopup">
+                                {{this.bubbleTexts['storage']}}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].batteryLife_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      </td>
+                      <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">RAM Size</b></td>
+                      <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].systemMemoryRam_original}}
+                            </span>
+                          </div>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
+                            (click)="hide(document.getElementById('ramPopup'));">
+                            <div class="popup">
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="ramPopup">
+                                {{this.bubbleTexts['ram']}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Processor Manufacturer</b></td>
+                      <td *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
+                        {{this.laptopRecs[0].processorBrand_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Processor Cores</b></td>
+                      <td
+                        *ngIf="this.laptopRecs[0].processorCores_filter.toString().length>0 && this.laptopRecs[0].processorCores_filter>0">
+                        {{this.laptopRecs[0].processorCores_filter}}</td>
+                      <td
+                        *ngIf="this.laptopRecs[0].processorCores_filter.toString().length<=0 || this.laptopRecs[0].processorCores_filter<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Processor Speed</b></td>
+                      <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
+                        {{this.laptopRecs[0].processorSpeedBase_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-radius: 8px;">
+                      <td style="border-bottom-left-radius: 8px;"><b class="mr-2">Graphics Card</b></td>
+                      <td style="border-bottom-right-radius: 8px;"
+                        *ngIf="this.laptopRecs[0].graphics_original.length>0">
+                        {{this.laptopRecs[0].graphics_original}}</td>
+                      <td style="border-bottom-right-radius: 8px;" *ngIf="this.laptopRecs[0].graphics_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div id="div3" style="border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; border: 1.2px solid grey !important; margin-bottom: 4px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;border-radius:16px; margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-radius: 8px;">
+                      <td style="border-top-left-radius: 8px;"><b class="mr-2">Casing Color</b></td>
+                      <td style="border-top-right-radius: 8px;" *ngIf="this.laptopRecs[0].color_original.length>0">
+                        {{this.laptopRecs[0].color_original}}
+                      </td>
+                      <td style="border-top-right-radius: 8px;" *ngIf="this.laptopRecs[0].color_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Weight</b></td>
+                      <td *ngIf="this.laptopRecs[0].productWeight_original.length>0">
+                        {{this.laptopRecs[0].productWeight_original}} pounds</td>
+                      <td *ngIf="this.laptopRecs[0].productWeight_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-radius: 16px;">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Battery Life</b></td>
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].batteryLife_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['battery'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].batteryLife_original}}
+                            </span>
+                          </div>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['battery']" style="display: inline-block"
+                            (click)="hide(document.getElementById('batteryPopup'));">
+                            <div class="popup">
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="batteryPopup">
+                                {{this.bubbleTexts['battery']}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].batteryLife_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -338,389 +366,398 @@
           </div>
 
           <!-- GENERAL PRODUCT INFORMATION -->
-          <div class="row pl-2 pr-2">
+          <div class="row pl-2 pr-2" style="margin-top: 16px;">
             <div class="col-12">
               <br />
-              <h5>
-                <p style="color:#2c7fb8">General Product Information:</p>
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">General Product Information:</p>
               </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">Brand</b></td>
-                    <td *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].brand_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Model Number</b></td>
-                    <td *ngIf="this.laptopRecs[0].modelNumber_original.length>0">
-                      {{this.laptopRecs[0].modelNumber_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].modelNumber_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Operating System</b></td>
-                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
-                      {{this.laptopRecs[0].operatingSystem_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
-                    <td><b class="mr-2">Operating System Architecture</b></td>
-                    <td>{{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
-                    <td><b class="mr-2">Release Date</b></td>
-                    <td>{{this.laptopRecs[0].yearOfRelease_original}}</td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
-                    <td><b class="mr-2">Second Hand</b></td>
-                    <td>{{this.laptopRecs[0].preowned_vagueFront}}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">Brand</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}
+                      </td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Model Number</b></td>
+                      <td *ngIf="this.laptopRecs[0].modelNumber_original.length>0">
+                        {{this.laptopRecs[0].modelNumber_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].modelNumber_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Operating System</b></td>
+                      <td *ngIf="this.laptopRecs[0].operatingSystem_original.length>0">
+                        {{this.laptopRecs[0].operatingSystem_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].operatingSystem_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Operating System Architecture</b></td>
+                      <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Release Date</b></td>
+                      <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].yearOfRelease_original}}</td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Second Hand</b></td>
+                      <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].preowned_vagueFront}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
             </div>
-          </div>
 
-          <!-- SCREEN -->
-          <div class="row pl-2 pr-2">
-            <div class="col-12">
-              <br />
-              <h5>
-                <p style="color:#2c7fb8">Screen:</p>
-              </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">Screen Size</b></td>
-                    <td *ngIf="this.laptopRecs[0].screenSize_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].screenSize_original}}
-                          </span>
+            <!-- SCREEN -->
+            <div class="row pl-2 pr-2">
+              <div class="col-12">
+                <br />
+                <h5 style="margin-bottom: 16px;">
+                  <p style="color:#2c7fb8; margin: 0px !important;">Screen:</p>
+                </h5>
+                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">Screen Size</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].screenSize_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].screenSize_original}}
+                            </span>
+                          </div>
+                          <div style="display: inline-block">
+                            <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
+                              (click)="hide(document.getElementById('displayPopup2'));">
+                              <div class="popup">
+                                <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                  src="assets/Cleo_round-v2.png">
+                                <span class="popuptext" id="displayPopup2">
+                                  {{this.bubbleTexts['display']}}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div style="display: inline-block">
-                          <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
-                            (click)="hide(document.getElementById('displayPopup2'));">
+                      </td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Screen Type</b></td>
+                      <td *ngIf="this.laptopRecs[0].screenType_original.length>0">
+                        {{this.laptopRecs[0].screenType_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].screenType_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Screen Resolution</b></td>
+                      <td *ngIf="this.laptopRecs[0].screenResolution_original.length>0">
+                        {{this.laptopRecs[0].screenResolution_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].screenResolution_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Touchscreen</b></td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].touchScreen_original.length>0">
+                        {{this.laptopRecs[0].touchScreen_original}}</td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].touchScreen_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+
+            <!-- HARD DRIVE -->
+            <div class="row pl-2 pr-2">
+              <div class="col-12">
+                <br />
+                <h5 style="margin-bottom: 16px;">
+                  <p style="color:#2c7fb8; margin: 0px !important;">Hard Drive:</p>
+                </h5>
+                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">Total Storage Capacity</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].totalStorageCapacity_original}}
+                            </span>
+                          </div>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
+                            (click)="hide(document.getElementById('StoragePopup2'));">
                             <div class="popup">
-                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                              <span class="popuptext" id="displayPopup2">
-                                {{this.bubbleTexts['display']}}
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="StoragePopup2">
+                                {{this.bubbleTexts['storage']}}
                               </span>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Screen Type</b></td>
-                    <td *ngIf="this.laptopRecs[0].screenType_original.length>0">
-                      {{this.laptopRecs[0].screenType_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].screenType_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Screen Resolution</b></td>
-                    <td *ngIf="this.laptopRecs[0].screenResolution_original.length>0">
-                      {{this.laptopRecs[0].screenResolution_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].screenResolution_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Touchscreen</b></td>
-                    <td *ngIf="this.laptopRecs[0].touchScreen_original.length>0">
-                      {{this.laptopRecs[0].touchScreen_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].touchScreen_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+                      </td>
+                    </tr>
+                    <tr *ngIf="this.laptopRecs[0].hardDriveCapacity_filter>0">
+                      <td><b class="mr-2">HDD Size</b></td>
+                      <td>{{this.laptopRecs[0].hardDriveCapacity_original}}</td>
+                    </tr>
+                    <tr *ngIf="this.laptopRecs[0].solidStateDriveCapacity_filter>0">
+                      <td><b class="mr-2">SSD Size</b></td>
+                      <td>{{this.laptopRecs[0].solidStateDriveCapacity_original}}</td>
+                    </tr>
+                    <tr *ngIf="this.laptopRecs[0].eMmcCapacity_filter>0">
+                      <td><b class="mr-2">eMMC Size</b></td>
+                      <td>{{this.laptopRecs[0].eMmcCapacity_original}}</td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Hard Drive Type</b></td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].storageType_original.length>0">
+                        {{this.laptopRecs[0].storageType_original}}</td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].storageType_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
 
-          <!-- HARD DRIVE -->
-          <div class="row pl-2 pr-2">
-            <div class="col-12">
-              <br />
-              <h5>
-                <p style="color:#2c7fb8">Hard Drive:</p>
-              </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">Total Storage Capacity</b></td>
-                    <td *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['storage'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].totalStorageCapacity_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                          (click)="hide(document.getElementById('StoragePopup2'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="StoragePopup2">
-                              {{this.bubbleTexts['storage']}}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+
+            <!-- CPU -->
+            <div class="row pl-2 pr-2">
+              <div class="col-12">
+                <br />
+                <h5 style="margin-bottom: 16px;">
+                  <p style="color:#2c7fb8; margin: 0px !important;">Processor (CPU):</p>
+                </h5>
+                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">Processor Brand</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
+                        {{this.laptopRecs[0].processorBrand_original}}</td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Processor Model</b></td>
+                      <td *ngIf="this.laptopRecs[0].processorModel_original.length>0">
+                        {{this.laptopRecs[0].processorModel_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].processorModel_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">Processor Cores</b></td>
+                      <td *ngIf="this.laptopRecs[0].processorCores_original.length>0">
+                        {{this.laptopRecs[0].processorCores_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].processorCores_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Processor Speed (Max)</b></td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
+                        {{this.laptopRecs[0].processorSpeedBase_original}}</td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
+            </div>
+
+            <!-- RAM -->
+            <div class="row pl-2 pr-2">
+              <div class="col-12">
+                <br />
+                <h5 style="margin-bottom: 16px;">
+                  <p style="color:#2c7fb8; margin: 0px !important;">Working Memory (RAM):</p>
+                </h5>
+                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-radius: 16px;">
+                      <td style="border-top-left-radius: 16px; border-bottom-left-radius: 16px;"><b class="mr-2">RAM Size</b></td>
+                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
+                        <div>
+                          <div style="display: inline-block">
+                            <span
+                              [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
+                              {{this.laptopRecs[0].systemMemoryRam_original}}
                             </span>
                           </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].hardDriveCapacity_filter>0">
-                    <td><b class="mr-2">HDD Size</b></td>
-                    <td>{{this.laptopRecs[0].hardDriveCapacity_original}}</td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].solidStateDriveCapacity_filter>0">
-                    <td><b class="mr-2">SSD Size</b></td>
-                    <td>{{this.laptopRecs[0].solidStateDriveCapacity_original}}</td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].eMmcCapacity_filter>0">
-                    <td><b class="mr-2">eMMC Size</b></td>
-                    <td>{{this.laptopRecs[0].eMmcCapacity_original}}</td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Hard Drive Type</b></td>
-                    <td *ngIf="this.laptopRecs[0].storageType_original.length>0">
-                      {{this.laptopRecs[0].storageType_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].storageType_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- CPU -->
-          <div class="row pl-2 pr-2">
-            <div class="col-12">
-              <br />
-              <h5>
-                <p style="color:#2c7fb8">Processor (CPU):</p>
-              </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">Processor Brand</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
-                      {{this.laptopRecs[0].processorBrand_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Model</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorModel_original.length>0">
-                      {{this.laptopRecs[0].processorModel_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorModel_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Cores</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorCores_original.length>0">
-                      {{this.laptopRecs[0].processorCores_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorCores_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Processor Speed (Max)</b></td>
-                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
-                      {{this.laptopRecs[0].processorSpeedBase_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- RAM -->
-          <div class="row pl-2 pr-2">
-            <div class="col-12">
-              <br />
-              <h5>
-                <p style="color:#2c7fb8">Working Memory (RAM):</p>
-              </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">RAM Size</b></td>
-                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
-                      <div>
-                        <div style="display: inline-block">
-                          <span
-                            [ngStyle]="{'background-color':this.needsHighlight && this.bubbleTexts['ram'] ? this.highlightColor : 'none' }">
-                            {{this.laptopRecs[0].systemMemoryRam_original}}
-                          </span>
-                        </div>
-                        <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                          (click)="hide(document.getElementById('ramPopup2'));">
-                          <div class="popup">
-                            <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
-                            <span class="popuptext" id="ramPopup2">
-                              {{this.bubbleTexts['ram']}}
-                            </span>
+                          <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
+                            (click)="hide(document.getElementById('ramPopup2'));">
+                            <div class="popup">
+                              <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
+                                src="assets/Cleo_round-v2.png">
+                              <span class="popuptext" id="ramPopup2">
+                                {{this.bubbleTexts['ram']}}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                  <tr
-                    *ngIf="this.laptopRecs[0].systemMemoryRamType_original.length<0 && this.laptopRecs[0].systemMemoryRamType_original!='n/a'">
-                    <td><b class="mr-2">RAM Type</b></td>
-                    <td>{{this.laptopRecs[0].systemMemoryRamType_original}}</td>
-                  </tr>
-                  <tr *ngIf="this.laptopRecs[0].systemMemoryRamSpeed_filter>0">
-                    <td><b class="mr-2">RAM Speed</b></td>
-                    <td>{{this.laptopRecs[0].systemMemoryRamSpeed_original}}</td>
-                  </tr>
-                </tbody>
-              </table>
+                      </td>
+                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                    <tr
+                      *ngIf="this.laptopRecs[0].systemMemoryRamType_original.length<0 && this.laptopRecs[0].systemMemoryRamType_original!='n/a'">
+                      <td><b class="mr-2">RAM Type</b></td>
+                      <td>{{this.laptopRecs[0].systemMemoryRamType_original}}</td>
+                    </tr>
+                    <tr *ngIf="this.laptopRecs[0].systemMemoryRamSpeed_filter>0">
+                      <td><b class="mr-2">RAM Speed</b></td>
+                      <td>{{this.laptopRecs[0].systemMemoryRamSpeed_original}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
             </div>
-          </div>
 
-          <!-- CONNECTIVITY -->
-          <div class="row pl-2 pr-2">
-            <div class="col-12">
-              <br />
-              <h5>
-                <p style="color:#2c7fb8">Connectivity:</p>
-              </h5>
-              <br />
-              <table class="table table-striped" style="table-layout:fixed;width:100%;">
-                <tbody>
-                  <tr>
-                    <td><b class="mr-2">WiFi</b></td>
-                    <td *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">
-                      {{this.laptopRecs[0].internetConnectivity_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
-                      <p style="color:grey">no information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">USB Ports</b></td>
-                    <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length>0">
-                      {{this.laptopRecs[0].numberOfUsbPortsTotal_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length<=0">
-                      <p style="color:grey">no
-                        information available</p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b class="mr-2">Bluetooth</b></td>
-                    <td *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">
-                      {{this.laptopRecs[0].bluetoothEnabled_original}}</td>
-                    <td *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0">
-                      <p style="color:grey">no information
-                        available</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <!-- CONNECTIVITY -->
+            <div class="row pl-2 pr-2">
+              <div class="col-12">
+                <br />
+                <h5 style="margin-bottom: 16px;">
+                  <p style="color:#2c7fb8; margin: 0px !important;">Connectivity:</p>
+                </h5>
+                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped" style="table-layout:fixed;width:100%; margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                  <tbody>
+                    <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
+                      <td style="border-top-left-radius: 16px;"><b class="mr-2">WiFi</b></td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">
+                        {{this.laptopRecs[0].internetConnectivity_original}}</td>
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
+                        <p style="color:grey">no information available</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b class="mr-2">USB Ports</b></td>
+                      <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length>0">
+                        {{this.laptopRecs[0].numberOfUsbPortsTotal_original}}</td>
+                      <td *ngIf="this.laptopRecs[0].numberOfUsbPortsTotal_original.length<=0">
+                        <p style="color:grey">no
+                          information available</p>
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Bluetooth</b></td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">
+                        {{this.laptopRecs[0].bluetoothEnabled_original}}</td>
+                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0">
+                        <p style="color:grey">no information
+                          available</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              </div>
             </div>
+
           </div>
 
         </div>
+        <br>
 
-      </div>
-      <br>
-
-      <!-- right side menu
+        <!-- right side menu
             <div class="container productOffer p-2" *ngIf="currentTarget == 'offer'">
               <button style="margin: 6px; position: fixed; bottom: 3%; right: 3%" type="button" class="btn btn-primary" (click)="sendBackToSurvey()">I have formed an opinion on the product. Take me to the next step!</button>
             </div>
             <br>
             -->
 
-    </div>
+      </div>
 
 
-    <!-- right side menu -->
-    <div class="col-2">
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart
-        Chat</button>
-      <br>
-      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Task
-        Description</button>
-      <br>
-      <app-scroll-button></app-scroll-button>
-      <br>
+      <!-- right side menu -->
+      <div class="col-2">
+        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart
+          Chat</button>
+        <br>
+        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Task
+          Description</button>
+        <br>
+        <app-scroll-button></app-scroll-button>
+        <br>
 
 
-      <!-- requirements list -->
-      <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-        <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
-          <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
+        <!-- requirements list -->
+        <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+          <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
+            <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
+          </div>
         </div>
-      </div>
-      <!-- available laptops -->
-      <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-        <b>available laptops:</b> {{numLaptopRecs}}
+        <!-- available laptops -->
+        <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+          <b>available laptops:</b> {{numLaptopRecs}}
+        </div>
+
       </div>
 
+    </div>
+
+    <!-- Scenario Popover -->
+    <div class="fadeMe" *ngIf="showScenario"></div>
+    <div class="col-md-12 priotop p-4 text-white rounded"
+      style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);"
+      *ngIf="showScenario">
+      <div>
+        <h3>Your task:</h3>
+        <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
+      </div>
+      <br>
+      <div>
+        <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
+          Close Task Description
+        </button>
+      </div>
     </div>
 
   </div>
 
-  <!-- Scenario Popover -->
-  <div class="fadeMe" *ngIf="showScenario"></div>
-  <div class="col-md-12 priotop p-4 text-white rounded"
-    style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);"
-    *ngIf="showScenario">
-    <div>
-      <h3>Your task:</h3>
-      <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
-    </div>
-    <br>
-    <div>
-      <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
-        Close Task Description
-      </button>
-    </div>
-  </div>
+  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-</div>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 
 </html>
