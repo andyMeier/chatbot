@@ -1,0 +1,46 @@
+.snackbar {
+    visibility: hidden; /* Initially hide the snackbar */
+    min-width: 250px;
+    background-color: #323232;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 5;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 17px;
+    top: -100%;
+}
+
+.snackbar.show {
+    visibility: visible;
+    animation: slideInFromTop 0.3s ease-out forwards, slideOutToTop 0.3s ease-in 2.7s forwards;
+}
+
+@keyframes slideInFromTop {
+    from {
+        top: -100%;
+        /* Start position (above the screen) */
+        opacity: 0;
+    }
+
+    to {
+        top: 10%;
+        /* End position (position to display the snackbar) */
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutToTop {
+    from {
+        top: 10%;
+        opacity: 1;
+    }
+
+    to {
+        top: -100%;
+        opacity: 0;
+    }
+}
