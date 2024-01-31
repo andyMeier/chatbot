@@ -37,22 +37,6 @@ export class AppComponent implements OnInit, OnDestroy {
   scrollPositions: number[] = []; // Declare a public variable to hold the scroll positions
 
   @ViewChild(ScrollButtonComponent) scrollButtonComponent!: ScrollButtonComponent;
-
-  isFirstBotMessage(index: number): boolean {
-    if (this.dialogueHistory[index].agent !== 'bot') {
-      return false;
-    }
-    // Check if there are any user messages before the current one
-    for (let i = index - 1; i >= 0; i--) {
-      if (this.dialogueHistory[i].agent === 'user') {
-        return true;
-      }
-      if (this.dialogueHistory[i].agent === 'bot') {
-        return false;
-      }
-    }
-    return true;
-  }
   
   // avatar image is positioned at the last message of a chatbot's dialogue turn
   isLastBotMessage(index: number): boolean {
@@ -65,10 +49,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     return this.dialogueHistory[index + 1].agent !== 'bot';
-  }
-
-  isOnlyBotMessage(index: number): boolean {
-    return this.isFirstBotMessage(index) && this.isLastBotMessage(index);
   }
 
   constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
