@@ -7,6 +7,41 @@
 <!-- * * * * * CHATBOT * * * * * -->
 <div class="content" role="main">
 
+  <!-- Review carousel -->
+  <br />
+  <h5 id="reviewCarousel" #reviewCarousel style="margin-top: 12px; margin-bottom: 0px !important;">
+    <p style="color:#2c7fb8; margin: 0px !important;">Reviews:</p>
+  </h5>
+  <div id="reviewCarousel"
+    class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button *ngFor="let review of this.laptopRecs[0].reviews; let i = index" type="button"
+        data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
+        [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="cards-wrapper">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Title</h5>
+              <p class="card-text">Text</p>
+              <p class="card-text"><strong>Rating: </strong>
+              </p>
+              <p class="card-text"><strong>Date:</strong> Today</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
   <app-snackbar [message]="snackbarMessage"></app-snackbar>
 
   <div class="row pt-5" id="main">
@@ -738,7 +773,7 @@
         <p *ngIf="this.laptopRecs[0].reviews.length<=0" style="color:grey">No written reviews available.</p>
         <div *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
           class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
-          <div class="carousel-indicators" style="margin-top: 4px;">
+          <div class="carousel-indicators">
             <button *ngFor="let review of this.laptopRecs[0].reviews; let i = index" type="button"
               data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
               [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
