@@ -109,7 +109,7 @@
                 </div>
               </div>
               <br />
-              <div class="col col-12">
+              <div class="col col-12" (click)="scrollToReviews()">
                 <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
                   <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
                     alt="full star">
@@ -138,7 +138,8 @@
             <div class="col-7">
               <!-- Product Details -->
               <br />
-              <div id="div1" style="border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; border: 1.2px solid grey !important; margin-bottom: 4px;">
+              <div id="div1"
+                style="border-top-left-radius: 16px; border-top-right-radius: 16px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; border: 1.2px solid grey !important; margin-bottom: 4px;">
                 <table class="table table-striped"
                   style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
@@ -292,7 +293,8 @@
                       <td style="border-bottom-right-radius: 8px;"
                         *ngIf="this.laptopRecs[0].graphics_original.length>0">
                         {{this.laptopRecs[0].graphics_original}}</td>
-                      <td style="border-bottom-right-radius: 8px;" *ngIf="this.laptopRecs[0].graphics_original.length<=0">
+                      <td style="border-bottom-right-radius: 8px;"
+                        *ngIf="this.laptopRecs[0].graphics_original.length<=0">
                         <p style="color:grey">no information
                           available</p>
                       </td>
@@ -300,7 +302,8 @@
                   </tbody>
                 </table>
               </div>
-              <div id="div3" style="border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; border: 1.2px solid grey !important; margin-bottom: 4px;">
+              <div id="div3"
+                style="border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; border: 1.2px solid grey !important; margin-bottom: 4px;">
                 <table class="table table-striped"
                   style="table-layout:fixed;width:100%;border-radius:16px; margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
@@ -373,11 +376,13 @@
                 <p style="color:#2c7fb8; margin: 0px !important;">General Product Information:</p>
               </h5>
               <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                       <td style="border-top-left-radius: 16px;"><b class="mr-2">Brand</b></td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length>0">{{this.laptopRecs[0].brand_original}}
+                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length>0">
+                        {{this.laptopRecs[0].brand_original}}
                       </td>
                       <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].brand_original.length<=0">
                         <p style="color:grey">no information available</p>
@@ -401,37 +406,44 @@
                           available</p>
                       </td>
                     </tr>
-                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
-                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Operating System Architecture</b></td>
-                      <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;"
+                      *ngIf="this.laptopRecs[0].operatingSystemArchitecture_original.length>0">
+                      <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Operating System Architecture</b>
+                      </td>
+                      <td style="border-bottom-right-radius: 16px;">
+                        {{this.laptopRecs[0].operatingSystemArchitecture_original}}</td>
                     </tr>
-                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;"
+                      *ngIf="this.laptopRecs[0].yearOfRelease_original.length>0">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Release Date</b></td>
                       <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].yearOfRelease_original}}</td>
                     </tr>
-                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;"
+                      *ngIf="this.laptopRecs[0].preowned_vagueFront.length>0">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Second Hand</b></td>
                       <td style="border-bottom-right-radius: 16px;">{{this.laptopRecs[0].preowned_vagueFront}}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
+          </div>
 
-            <!-- SCREEN -->
-            <div class="row pl-2 pr-2">
-              <div class="col-12">
-                <br />
-                <h5 style="margin-bottom: 16px;">
-                  <p style="color:#2c7fb8; margin: 0px !important;">Screen:</p>
-                </h5>
-                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+          <!-- SCREEN -->
+          <div class="row pl-2 pr-2">
+            <div class="col-12">
+              <br />
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">Screen:</p>
+              </h5>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                       <td style="border-top-left-radius: 16px;"><b class="mr-2">Screen Size</b></td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].screenSize_original.length>0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].screenSize_original.length>0">
                         <div>
                           <div style="display: inline-block">
                             <span
@@ -453,7 +465,8 @@
                           </div>
                         </div>
                       </td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].screenSize_original.length<=0">
                         <p style="color:grey">no information available</p>
                       </td>
                     </tr>
@@ -477,9 +490,11 @@
                     </tr>
                     <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Touchscreen</b></td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].touchScreen_original.length>0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].touchScreen_original.length>0">
                         {{this.laptopRecs[0].touchScreen_original}}</td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].touchScreen_original.length<=0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].touchScreen_original.length<=0">
                         <p style="color:grey">no information
                           available</p>
                       </td>
@@ -487,22 +502,24 @@
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
+          </div>
 
-            <!-- HARD DRIVE -->
-            <div class="row pl-2 pr-2">
-              <div class="col-12">
-                <br />
-                <h5 style="margin-bottom: 16px;">
-                  <p style="color:#2c7fb8; margin: 0px !important;">Hard Drive:</p>
-                </h5>
-                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+          <!-- HARD DRIVE -->
+          <div class="row pl-2 pr-2">
+            <div class="col-12">
+              <br />
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">Hard Drive:</p>
+              </h5>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                       <td style="border-top-left-radius: 16px;"><b class="mr-2">Total Storage Capacity</b></td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].totalStorageCapacity_original.length>0">
                         <div>
                           <div style="display: inline-block">
                             <span
@@ -537,9 +554,11 @@
                     </tr>
                     <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Hard Drive Type</b></td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].storageType_original.length>0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].storageType_original.length>0">
                         {{this.laptopRecs[0].storageType_original}}</td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].storageType_original.length<=0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].storageType_original.length<=0">
                         <p style="color:grey">no information
                           available</p>
                       </td>
@@ -548,24 +567,27 @@
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
+          </div>
 
-            <!-- CPU -->
-            <div class="row pl-2 pr-2">
-              <div class="col-12">
-                <br />
-                <h5 style="margin-bottom: 16px;">
-                  <p style="color:#2c7fb8; margin: 0px !important;">Processor (CPU):</p>
-                </h5>
-                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+          <!-- CPU -->
+          <div class="row pl-2 pr-2">
+            <div class="col-12">
+              <br />
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">Processor (CPU):</p>
+              </h5>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                       <td style="border-top-left-radius: 16px;"><b class="mr-2">Processor Brand</b></td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].processorBrand_original.length>0">
                         {{this.laptopRecs[0].processorBrand_original}}</td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].processorBrand_original.length<=0">
                         <p style="color:grey">no information available</p>
                       </td>
                     </tr>
@@ -589,31 +611,36 @@
                     </tr>
                     <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Processor Speed (Max)</b></td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].processorSpeedBase_original.length>0">
                         {{this.laptopRecs[0].processorSpeedBase_original}}</td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].processorSpeedBase_original.length<=0">
                         <p style="color:grey">no information available</p>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
+          </div>
 
-            <!-- RAM -->
-            <div class="row pl-2 pr-2">
-              <div class="col-12">
-                <br />
-                <h5 style="margin-bottom: 16px;">
-                  <p style="color:#2c7fb8; margin: 0px !important;">Working Memory (RAM):</p>
-                </h5>
-                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+          <!-- RAM -->
+          <div class="row pl-2 pr-2">
+            <div class="col-12">
+              <br />
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">Working Memory (RAM):</p>
+              </h5>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%;margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-radius: 16px;">
-                      <td style="border-top-left-radius: 16px; border-bottom-left-radius: 16px;"><b class="mr-2">RAM Size</b></td>
-                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
+                      <td style="border-top-left-radius: 16px; border-bottom-left-radius: 16px;"><b class="mr-2">RAM
+                          Size</b></td>
+                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].systemMemoryRam_original.length>0">
                         <div>
                           <div style="display: inline-block">
                             <span
@@ -633,7 +660,8 @@
                           </div>
                         </div>
                       </td>
-                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
+                      <td style="border-top-right-radius: 16px; border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].systemMemoryRam_original.length<=0">
                         <p style="color:grey">no information
                           available</p>
                       </td>
@@ -650,24 +678,27 @@
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
+          </div>
 
-            <!-- CONNECTIVITY -->
-            <div class="row pl-2 pr-2">
-              <div class="col-12">
-                <br />
-                <h5 style="margin-bottom: 16px;">
-                  <p style="color:#2c7fb8; margin: 0px !important;">Connectivity:</p>
-                </h5>
-                <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
-                <table class="table table-striped" style="table-layout:fixed;width:100%; margin: 0px !important; border-collapse: separate; border-spacing: 0;">
+          <!-- CONNECTIVITY -->
+          <div class="row pl-2 pr-2">
+            <div class="col-12">
+              <br />
+              <h5 style="margin-bottom: 16px;">
+                <p style="color:#2c7fb8; margin: 0px !important;">Connectivity:</p>
+              </h5>
+              <div style="border: 1.2px solid grey; border-radius: 16px; margin-bottom: 16px;">
+                <table class="table table-striped"
+                  style="table-layout:fixed;width:100%; margin: 0px !important; border-collapse: separate; border-spacing: 0;">
                   <tbody>
                     <tr style="border-top-left-radius: 16px; border-top-right-radius: 16px;">
                       <td style="border-top-left-radius: 16px;"><b class="mr-2">WiFi</b></td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].internetConnectivity_original.length>0">
                         {{this.laptopRecs[0].internetConnectivity_original}}</td>
-                      <td style="border-top-right-radius: 16px;" *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
+                      <td style="border-top-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].internetConnectivity_original.length<=0">
                         <p style="color:grey">no information available</p>
                       </td>
                     </tr>
@@ -682,9 +713,11 @@
                     </tr>
                     <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px;">
                       <td style="border-bottom-left-radius: 16px;"><b class="mr-2">Bluetooth</b></td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length>0">
                         {{this.laptopRecs[0].bluetoothEnabled_original}}</td>
-                      <td style="border-bottom-right-radius: 16px;" *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0">
+                      <td style="border-bottom-right-radius: 16px;"
+                        *ngIf="this.laptopRecs[0].bluetoothEnabled_original.length<=0">
                         <p style="color:grey">no information
                           available</p>
                       </td>
@@ -692,72 +725,119 @@
                   </tbody>
                 </table>
               </div>
-              </div>
             </div>
-
           </div>
 
         </div>
-        <br>
 
-        <!-- right side menu
+        <!-- Review carousel -->
+        <br />
+        <h5 id="reviewCarousel" #reviewCarousel style="margin-top: 12px; margin-bottom: 0px !important;">
+          <p style="color:#2c7fb8; margin: 0px !important;">Reviews:</p>
+        </h5>
+        <p *ngIf="this.laptopRecs[0].reviews.length<=0" style="color:grey">No written reviews available.</p>
+        <div *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
+          class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
+          <div class="carousel-indicators" style="margin-top: 4px;">
+            <button *ngFor="let review of this.laptopRecs[0].reviews; let i = index" type="button"
+              data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
+              [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
+          </div>
+          <div class="carousel-inner">
+            <div *ngFor="let review of this.laptopRecs[0].reviews; let i = index" class="carousel-item"
+              [class.active]="i == 0" data-bs-interval=false>
+              <div class="cards-wrapper">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{review.reviewTitle}}</h5>
+                    <p class="card-text">{{review.reviewText}}</p>
+                    <p class="card-text"><strong style="margin-right: 4px;">Rating:</strong>
+                      <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
+                        <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="3%" alt="full star">
+                        <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="3%" alt="empty star">
+                        <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png"
+                          width="3%" alt="half star">
+                      </span>
+                    </p>
+                    <p class="card-text"><strong>Date:</strong> {{review.reviewDate}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev"
+            *ngIf="this.laptopRecs[0].reviews.length > 3">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next"
+            *ngIf="this.laptopRecs[0].reviews.length > 3">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+      </div>
+      <br>
+
+      <!-- right side menu
             <div class="container productOffer p-2" *ngIf="currentTarget == 'offer'">
               <button style="margin: 6px; position: fixed; bottom: 3%; right: 3%" type="button" class="btn btn-primary" (click)="sendBackToSurvey()">I have formed an opinion on the product. Take me to the next step!</button>
             </div>
             <br>
             -->
 
-      </div>
-
-
-      <!-- right side menu -->
-      <div class="col-2">
-        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart
-          Chat</button>
-        <br>
-        <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Task
-          Description</button>
-        <br>
-        <app-scroll-button></app-scroll-button>
-        <br>
-
-
-        <!-- requirements list -->
-        <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-          <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
-            <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
-          </div>
-        </div>
-        <!-- available laptops -->
-        <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-          <b>available laptops:</b> {{numLaptopRecs}}
-        </div>
-
-      </div>
-
     </div>
 
-    <!-- Scenario Popover -->
-    <div class="fadeMe" *ngIf="showScenario"></div>
-    <div class="col-md-12 priotop p-4 text-white rounded"
-      style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);"
-      *ngIf="showScenario">
-      <div>
-        <h3>Your task:</h3>
-        <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
-      </div>
+
+    <!-- right side menu -->
+    <div class="col-2">
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="restartDialogue()">Restart
+        Chat</button>
       <br>
-      <div>
-        <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
-          Close Task Description
-        </button>
+      <button style="margin: 6px" type="button" class="btn btn-primary" (click)="opencloseScenario()">Read Task
+        Description</button>
+      <br>
+      <app-scroll-button></app-scroll-button>
+      <br>
+
+
+      <!-- requirements list -->
+      <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+        <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
+          <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
+        </div>
       </div>
+      <!-- available laptops -->
+      <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+        <b>available laptops:</b> {{numLaptopRecs}}
+      </div>
+
     </div>
 
   </div>
 
-  <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+  <!-- Scenario Popover -->
+  <div class="fadeMe" *ngIf="showScenario"></div>
+  <div class="col-md-12 priotop p-4 text-white rounded"
+    style="position:fixed;left:10%;top:10%;width:80%;background: linear-gradient(to bottom, #418082, #396A6B);"
+    *ngIf="showScenario">
+    <div>
+      <h3>Your task:</h3>
+      <h3>Imagine your laptop broke down. Now, you are searching for a new laptop.</h3>
+    </div>
+    <br>
+    <div>
+      <button type="button" class="btn btn-outline-light" (click)="opencloseScenario()">
+        Close Task Description
+      </button>
+    </div>
+  </div>
 
-  <router-outlet></router-outlet>
+</div>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+
+<router-outlet></router-outlet>
 
 </html>

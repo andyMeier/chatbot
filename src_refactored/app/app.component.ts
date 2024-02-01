@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { chatbotMessages } from './Dialogue';
@@ -37,6 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
   scrollPositions: number[] = []; // Declare a public variable to hold the scroll positions
 
   @ViewChild(ScrollButtonComponent) scrollButtonComponent!: ScrollButtonComponent;
+  @ViewChild('reviewCarousel') reviewCarousel!: ElementRef;
 
   isFirstBotMessage(index: number): boolean {
     if (this.dialogueHistory[index].agent !== 'bot') {
@@ -69,6 +70,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isOnlyBotMessage(index: number): boolean {
     return this.isFirstBotMessage(index) && this.isLastBotMessage(index);
+  }
+
+  scrollToReviews() {
+    this.reviewCarousel.nativeElement.scrollIntoView({ behavior: 'smooth' });
   }
 
   constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
