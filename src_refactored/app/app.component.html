@@ -739,7 +739,7 @@
         <p *ngIf="this.laptopRecs[0].reviews.length>0" style="color: grey;">Number of written reviews:
           {{this.laptopRecs[0].reviews.length}}</p>
         <p *ngIf="this.laptopRecs[0].reviews.length<=0" style="color:grey">No written reviews available.</p>
-        <div *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
+        <div #reviewCarousel *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
           class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
           <div class="carousel-indicators">
             <button *ngFor="let reviewGroup of reviewGroups; let i = index" type="button"
@@ -754,12 +754,12 @@
                   <div class="card-body">
                     <h5 class="card-title">{{review.reviewTitle}}</h5>
                     <p class="card-text review-text" #reviewText>{{review.reviewText}}</p>
-                    <p class="card-text"><strong>Rating: </strong>
+                    <p class="card-text">
+                      <strong style="vertical-align: middle;">Rating: </strong>
                       <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-                        <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="3%" alt="full star">
-                        <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="3%" alt="empty star">
-                        <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png"
-                          width="3%" alt="half star">
+                        <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="5%" alt="full star">
+                        <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="5%" alt="empty star">
+                        <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png" width="5%" alt="half star">
                       </span>
                     </p>
                     <p class="card-text"><strong>Date:</strong> {{review.reviewDate}}</p>

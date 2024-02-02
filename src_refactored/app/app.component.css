@@ -142,6 +142,11 @@ html {
   -webkit-box-orient: vertical;
 }
 
+.card-text strong,
+.card-text img {
+  vertical-align: middle;
+}
+
 #statusbar-container {
   width: 100%;
   background-color: #000;

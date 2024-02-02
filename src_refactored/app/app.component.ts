@@ -38,7 +38,17 @@ export class AppComponent implements OnInit, OnDestroy {
   scrollPositions: number[] = []; // Declare a public variable to hold the scroll positions
 
   @ViewChild(ScrollButtonComponent) scrollButtonComponent!: ScrollButtonComponent;
-  @ViewChild('reviewCarousel') reviewCarousel!: ElementRef;
+  @ViewChild('reviewCarousel', { static: false }) reviewCarousel!: ElementRef;
+
+  scrollToCarousel() {
+    if (this.reviewCarousel && this.reviewCarousel.nativeElement) {
+      const rect = this.reviewCarousel.nativeElement.getBoundingClientRect();
+      const top = rect.top + window.pageYOffset;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    } else {
+      console.log("Review carousel is not available");
+    }
+  }
 
   isFirstBotMessage(index: number): boolean {
     if (this.dialogueHistory[index].agent !== 'bot') {
@@ -164,18 +174,6 @@ export class AppComponent implements OnInit, OnDestroy {
   openModal(review: any) {
     const modalRef = this.modalService.open(ReviewModalComponent);
     modalRef.componentInstance.review = review;
-  }
-
-  async scrollToCarousel() {
-    let element = document.getElementById('reviewCarousel');
-  
-    while (!element) {
-      // Wait for 500ms before checking again
-      await new Promise(resolve => setTimeout(resolve, 500));
-      element = document.getElementById('reviewCarousel');
-    }
-  
-    element.scrollIntoView({behavior: "smooth"});
   }
 
   // --------------------------------------------------------------------------------------------------------------------

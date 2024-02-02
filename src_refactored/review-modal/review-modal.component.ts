@@ -20,12 +20,13 @@ export interface Review {
     </div>
     <div class="modal-body">
       <p>{{review.reviewText}}</p>
-      <p><strong>Rating: </strong>
+      <p class="rating-container">
+        <strong>Rating: </strong>
         <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-          <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="3%" alt="full star">
-          <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="3%" alt="empty star">
+          <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="4%" alt="full star">
+          <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="4%" alt="empty star">
           <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png"
-            width="3%" alt="half star">
+          width="4%" alt="half star">
         </span>
       </p>
       <p><strong>Date:</strong> {{review.reviewDate}}</p>
