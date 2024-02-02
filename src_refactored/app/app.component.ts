@@ -7,7 +7,8 @@ import { DialogueTurn } from './DialogueTurns';
 import { firstValueFrom, fromEvent, Subscription } from "rxjs";
 import { DialogCommunicationService } from '../dialog-communication.service';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ReviewModalComponent } from '../review-modal/review-modal.component';
 
 @Component({
   selector: 'app-root',
@@ -72,11 +73,9 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.isFirstBotMessage(index) && this.isLastBotMessage(index);
   }
 
-  scrollToReviews() {
-    this.reviewCarousel.nativeElement.scrollIntoView({ behavior: 'smooth' });
-  }
 
-  constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService) {
+
+  constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService, private modalService: NgbModal) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
@@ -140,6 +139,7 @@ export class AppComponent implements OnInit, OnDestroy {
   measurements: any = { "purpose": "", "price": "pounds", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours" };
 
   laptopRecs: any = [];
+  reviewGroups: any = [];
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
 
@@ -160,6 +160,23 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isInputEmpty: boolean = true; // Define the property and initialize it with a default value
+
+  openModal(review: any) {
+    const modalRef = this.modalService.open(ReviewModalComponent);
+    modalRef.componentInstance.review = review;
+  }
+
+  async scrollToCarousel() {
+    let element = document.getElementById('reviewCarousel');
+  
+    while (!element) {
+      // Wait for 500ms before checking again
+      await new Promise(resolve => setTimeout(resolve, 500));
+      element = document.getElementById('reviewCarousel');
+    }
+  
+    element.scrollIntoView({behavior: "smooth"});
+  }
 
   // --------------------------------------------------------------------------------------------------------------------
   // ------------------------------------------------------------------------------------- INITIALIZATION
@@ -448,6 +465,24 @@ export class AppComponent implements OnInit, OnDestroy {
       this.laptopRecs = rData['hits'];
       this.numLaptopRecs = rData['num_hits'];
       this.laptopRecsIDs = rData['hitIDs'];
+
+      // Create reviewGroups
+      this.reviewGroups = [];
+      for (let i = 0; i < this.laptopRecs[0].reviews.length; i += 3) {
+        this.reviewGroups.push(this.laptopRecs[0].reviews.slice(i, i + 3));
+      }
+
+      // Flatten the array of reviews
+      let allReviews = [].concat.apply([], this.reviewGroups);
+
+      // Sort allReviews
+      allReviews.sort((a: any, b: any) => b.reviewRating - a.reviewRating);
+
+      // Recreate reviewGroups with sorted reviews
+      this.reviewGroups = [];
+      for (let i = 0; i < allReviews.length; i += 3) {
+        this.reviewGroups.push(allReviews.slice(i, i + 3));
+      }
 
       this.deleteWaitMessage();
 
@@ -1045,6 +1080,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.laptopRecs = [];
     this.numLaptopRecs = 0;
     this.laptopRecsIDs = [];
+    this.reviewGroups = [];
 
     this.resizeChatbox('80vh');
     this.dialogueFlow();

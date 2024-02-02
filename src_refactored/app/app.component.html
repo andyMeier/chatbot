@@ -2,45 +2,11 @@
 <html>
 <header>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/css/bootstrap.min.css">
 </header>
 
 <!-- * * * * * CHATBOT * * * * * -->
 <div class="content" role="main">
-
-  <!-- Review carousel -->
-  <br />
-  <h5 id="reviewCarousel" #reviewCarousel style="margin-top: 12px; margin-bottom: 0px !important;">
-    <p style="color:#2c7fb8; margin: 0px !important;">Reviews:</p>
-  </h5>
-  <div id="reviewCarousel"
-    class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-      <button *ngFor="let review of this.laptopRecs[0].reviews; let i = index" type="button"
-        data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
-        [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="cards-wrapper">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Title</h5>
-              <p class="card-text">Text</p>
-              <p class="card-text"><strong>Rating: </strong>
-              </p>
-              <p class="card-text"><strong>Date:</strong> Today</p>
-            </div>
-          </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
 
   <app-snackbar [message]="snackbarMessage"></app-snackbar>
 
@@ -144,7 +110,7 @@
                 </div>
               </div>
               <br />
-              <div class="col col-12" (click)="scrollToReviews()">
+              <div class="col col-12" (click)="scrollToCarousel()">
                 <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
                   <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
                     alt="full star">
@@ -767,26 +733,28 @@
 
         <!-- Review carousel -->
         <br />
-        <h5 id="reviewCarousel" #reviewCarousel style="margin-top: 12px; margin-bottom: 0px !important;">
+        <h5 style="margin-top: 12px; margin-bottom: 0px !important;">
           <p style="color:#2c7fb8; margin: 0px !important;">Reviews:</p>
         </h5>
+        <p *ngIf="this.laptopRecs[0].reviews.length>0" style="color: grey;">Number of written reviews:
+          {{this.laptopRecs[0].reviews.length}}</p>
         <p *ngIf="this.laptopRecs[0].reviews.length<=0" style="color:grey">No written reviews available.</p>
         <div *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
           class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
           <div class="carousel-indicators">
-            <button *ngFor="let review of this.laptopRecs[0].reviews; let i = index" type="button"
-              data-bs-target="#carouselExampleDark" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
+            <button *ngFor="let reviewGroup of reviewGroups; let i = index" type="button"
+              data-bs-target="#reviewCarousel" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
               [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
           </div>
           <div class="carousel-inner">
-            <div *ngFor="let review of this.laptopRecs[0].reviews; let i = index" class="carousel-item"
-              [class.active]="i == 0" data-bs-interval=false>
+            <div *ngFor="let reviewGroup of reviewGroups; let i = index" class="carousel-item" [class.active]="i == 0"
+              data-bs-interval="false">
               <div class="cards-wrapper">
-                <div class="card">
+                <div *ngFor="let review of reviewGroup; let i = index" class="card" (click)="openModal(review)">
                   <div class="card-body">
                     <h5 class="card-title">{{review.reviewTitle}}</h5>
-                    <p class="card-text">{{review.reviewText}}</p>
-                    <p class="card-text"><strong style="margin-right: 4px;">Rating:</strong>
+                    <p class="card-text review-text" #reviewText>{{review.reviewText}}</p>
+                    <p class="card-text"><strong>Rating: </strong>
                       <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
                         <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="3%" alt="full star">
                         <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="3%" alt="empty star">
@@ -800,13 +768,11 @@
               </div>
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev"
-            *ngIf="this.laptopRecs[0].reviews.length > 3">
+          <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next"
-            *ngIf="this.laptopRecs[0].reviews.length > 3">
+          <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
@@ -874,5 +840,10 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <router-outlet></router-outlet>
+
+<!-- JS, Popper.js -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
 
 </html>

@@ -11,6 +11,7 @@ import { ScrollButtonComponent } from '../scroll-button/scroll-button.component'
 import { DialogBoxComponent } from '../dialog-box/dialog-box.component';
 import { DialogCommunicationService } from 'src/dialog-communication.service';
 import { SnackbarComponent } from 'src/snackbar/snackbar.component';
+import { ReviewModalComponent } from 'src/review-modal/review-modal.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { SnackbarComponent } from 'src/snackbar/snackbar.component';
     StatusbarComponent,
     ScrollButtonComponent,
     DialogBoxComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    ReviewModalComponent
   ],
   imports: [
     BrowserModule,

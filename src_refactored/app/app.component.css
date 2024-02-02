@@ -88,7 +88,6 @@ hr {
 html {
   background-color: white;
   min-height: 98vh;
-  max-height: 98vh;
   padding: 0;
 }
 
@@ -123,14 +122,6 @@ html {
   height: 1.5rem;
 }
 
-.carousel-indicators .active,
-.carousel-indicators li {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #e1e1e1;
-}
-
 #chatbox {
   max-width: 80%;
   /* background: linear-gradient(to bottom right, #F5F5F5, #D0EEF4); */
@@ -142,6 +133,13 @@ html {
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+}
+
+.review-text {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  -webkit-box-orient: vertical;
 }
 
 #statusbar-container {
