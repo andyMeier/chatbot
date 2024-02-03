@@ -23,9 +23,9 @@ export interface Review {
       <p class="rating-container">
         <strong>Rating: </strong>
         <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-          <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="4%" alt="full star">
-          <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="4%" alt="empty star">
-          <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png"
+          <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" style="vertical-align: -2px;" width="4%" alt="full star">
+          <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" style="vertical-align: -2px;" width="4%" alt="empty star">
+          <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" style="vertical-align: -2px;" src="assets/star_half.png"
           width="4%" alt="half star">
         </span>
       </p>

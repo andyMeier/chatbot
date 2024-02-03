@@ -101,6 +101,13 @@ html {
   border: none;
   border-radius: 16px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box-shadow */
+}
+
+.card:hover {
+  transform: scale(1.02); /* Increase the size of the card */
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Add a shadow effect */
+  cursor: pointer; /* Change the cursor to a hand icon */
 }
 
 .carousel-inner {
@@ -120,6 +127,11 @@ html {
 .carousel-control-next span {
   width: 1.5rem;
   height: 1.5rem;
+}
+
+.info-container {
+  display: flex;
+  justify-content: flex-start;
 }
 
 #chatbox {
@@ -385,6 +397,7 @@ div.priotop {
   /*cursor: pointer; */
   left: calc(50%);
   height: max-content;
+  cursor: pointer;
 }
 
 /* The actual popup (appears on top) */

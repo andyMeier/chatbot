@@ -110,7 +110,7 @@
                 </div>
               </div>
               <br />
-              <div class="col col-12" (click)="scrollToCarousel()">
+              <div style="cursor: pointer;" class="col col-12" (click)="scrollToCarousel()">
                 <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
                   <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
                     alt="full star">
@@ -748,21 +748,26 @@
           </div>
           <div class="carousel-inner">
             <div *ngFor="let reviewGroup of reviewGroups; let i = index" class="carousel-item" [class.active]="i == 0"
-              data-bs-interval="false">
+              data-bs-interval="5000">
               <div class="cards-wrapper">
                 <div *ngFor="let review of reviewGroup; let i = index" class="card" (click)="openModal(review)">
                   <div class="card-body">
                     <h5 class="card-title">{{review.reviewTitle}}</h5>
                     <p class="card-text review-text" #reviewText>{{review.reviewText}}</p>
-                    <p class="card-text">
-                      <strong style="vertical-align: middle;">Rating: </strong>
+                    <div class="info-container">
+                      <strong>Rating: </strong>
                       <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-                        <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png" width="5%" alt="full star">
-                        <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png" width="5%" alt="empty star">
-                        <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png" width="5%" alt="half star">
+                        <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png"
+                          style="width: 16px; vertical-align: -1.5px;" alt="full star">
+                        <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png"
+                          style="width: 16px; vertical-align: -1.5px;" alt="empty star">
+                        <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii" src="assets/star_half.png"
+                          style="width: 16px; vertical-align: -1.5px;" alt="half star">
                       </span>
-                    </p>
-                    <p class="card-text"><strong>Date:</strong> {{review.reviewDate}}</p>
+                    </div>
+                    <div class="info-container">
+                      <strong>Date: </strong>{{review.reviewDate}}
+                    </div>
                   </div>
                 </div>
               </div>
