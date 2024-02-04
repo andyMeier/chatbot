@@ -129,6 +129,21 @@ html {
   height: 1.5rem;
 }
 
+.carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgb(208, 208, 208);
+}
+
+.carousel-indicators .active {
+  background-color: rgb(150, 150, 150);
+}
+
+.carousel-indicators {
+  bottom: -22px;
+}
+
 .info-container {
   display: flex;
   justify-content: flex-start;
