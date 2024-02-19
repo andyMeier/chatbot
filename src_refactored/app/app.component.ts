@@ -83,6 +83,11 @@ export class AppComponent implements OnInit, OnDestroy {
     return this.isFirstBotMessage(index) && this.isLastBotMessage(index);
   }
 
+  isPopupVisible = true;
+
+  togglePopup() {
+    this.isPopupVisible = !this.isPopupVisible;
+  }
 
 
   constructor(public http: HttpClient, private router: ActivatedRoute, private dialogCommunicationService: DialogCommunicationService, private modalService: NgbModal) {

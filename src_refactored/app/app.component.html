@@ -101,7 +101,8 @@
               </span>
               <div *ngIf="this.needsBubbles && this.bubbleTexts['price']"
                 style="margin-bottom: 15px; display: inline-block"
-                (click)="hide(document.getElementById('pricePopup'));">
+                (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                 <div class="popup">
                   <img class="avatar-explanations" style="max-width: 50px; margin:auto;" src="assets/Cleo_round-v2.png">
                   <span class="popuptext" id="pricePopup">
@@ -174,7 +175,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['display']" style="display: inline-block"
-                            (click)="hide(document.getElementById('displayPopup'));">
+                            (click)="hide(document.getElementById('displayPopup'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
@@ -219,7 +222,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                            (click)="hide(document.getElementById('StoragePopup'));">
+                            (click)="hide(document.getElementById('StoragePopup'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
@@ -246,7 +251,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                            (click)="hide(document.getElementById('ramPopup'));">
+                            (click)="hide(document.getElementById('ramPopup'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
@@ -338,7 +345,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['battery']" style="display: inline-block"
-                            (click)="hide(document.getElementById('batteryPopup'));">
+                            (click)="hide(document.getElementById('batteryPopup'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
@@ -454,7 +463,9 @@
                           </div>
                           <div style="display: inline-block">
                             <div *ngIf="this.needsBubbles && this.bubbleTexts['display']"
-                              (click)="hide(document.getElementById('displayPopup2'));">
+                              (click)="hide(document.getElementById('displayPopup2'));"
+                              (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                              [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                               <div class="popup">
                                 <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                   src="assets/Cleo_round-v2.png">
@@ -529,7 +540,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['storage']" style="display: inline-block"
-                            (click)="hide(document.getElementById('StoragePopup2'));">
+                            (click)="hide(document.getElementById('StoragePopup2'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
@@ -650,7 +663,9 @@
                             </span>
                           </div>
                           <div *ngIf="this.needsBubbles && this.bubbleTexts['ram']" style="display: inline-block"
-                            (click)="hide(document.getElementById('ramPopup2'));">
+                            (click)="hide(document.getElementById('ramPopup2'));"
+                            (click)="hide(document.getElementById('pricePopup')); togglePopup()"
+                            [title]="isPopupVisible ? 'Hide explanation' : 'Show explanation'">
                             <div class="popup">
                               <img class="avatar-explanations" style="max-width: 50px; margin:auto;"
                                 src="assets/Cleo_round-v2.png">
