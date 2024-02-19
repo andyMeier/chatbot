@@ -111,7 +111,7 @@
                 </div>
               </div>
               <br />
-              <div style="cursor: pointer;" class="col col-12" (click)="scrollToCarousel()">
+              <div style="cursor: pointer;" class="col col-12" (click)="scrollToCarousel()" [title]="'Go to written reviews'">
                 <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
                   <img *ngIf="this.laptopRecs[0].ratingAvg_filter>=ii" src="assets/star_full.png" width="3%"
                     alt="full star">
