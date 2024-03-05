@@ -85,6 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   isPopupVisible = true;
+  isCollapsed = true;
 
   togglePopup() {
     this.isPopupVisible = !this.isPopupVisible;
