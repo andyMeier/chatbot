@@ -2,3 +2,9 @@
     display: flex;
     justify-content: flex-start;
 }
+.modal-backdrop {
+    z-index: -1 !important; /* Adjust this value as needed */
+  }
+.modal-dialog {
+    z-index: 2000 !important; /* This should be higher than .modal-backdrop */
+}

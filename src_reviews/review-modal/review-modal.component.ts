@@ -12,13 +12,13 @@ export interface Review {
 @Component({
   selector: 'app-review-modal',
   template: `
-    <div class="modal-header">
+    <div class="modal-header" style="z-index: 2000 !important;">
       <h5 class="modal-title">{{review.reviewTitle}}</h5>
       <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">×</span>
       </button>
     </div>
-    <div class="modal-body">
+    <div class="modal-body" style="z-index: 2000 !important;">
       <p>{{review.reviewText}}</p>
       <p class="rating-container">
         <strong>Rating: </strong>

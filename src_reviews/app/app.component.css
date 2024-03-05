@@ -52,6 +52,50 @@
   animation: slide-in-yesno 0.4s ease-out;
 }
 
+td {
+  padding-left: 6px;
+}
+
+.accordion-item:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.accordion-item:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+
+.accordion table {
+  border-color: gray;
+}
+
+.accordion-body {
+  background-color: #ffffff;
+}
+
+.accordion-button {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 6px;
+}
+
+#positive {
+  background-color: #deffde;
+  color: rgb(0, 67, 0)
+}
+
+#negative {
+  background-color: #ffd6d6;
+  color: rgb(92, 0, 0);
+}
+
+.custom-modal-window {
+  z-index: 3000 !important;
+}
+
+.custom-modal-backdrop {
+  z-index: 2000 !important;
+}
+
 @keyframes slide-in-yesno {
   0% {
     transform: translateX(100%);
@@ -97,7 +141,6 @@ html {
 
 .card {
   margin: 0 4px;
-  width: calc(100%/3);
   border: none;
   border-radius: 16px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
@@ -116,8 +159,8 @@ html {
 
 .carousel-control-prev, .carousel-control-next {
   background-color: #e1e1e1;
-  width: 6vh;
-  height: 6vh;
+  width: 4vh;
+  height: 4vh;
   border-radius: 50%;
   top: 50%;
   transform: translateY(-50%);

@@ -9,6 +9,7 @@ import { DialogCommunicationService } from '../dialog-communication.service';
 import { ScrollButtonComponent } from '../scroll-button/scroll-button.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewModalComponent } from '../review-modal/review-modal.component';
+import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
 @Component({
   selector: 'app-root',
@@ -154,7 +155,7 @@ export class AppComponent implements OnInit, OnDestroy {
   measurements: any = { "purpose": "", "price": "pounds", "display": "inches", "storage": "GB", "ram": "GB", "battery": "hours" };
 
   laptopRecs: any = [];
-  reviewGroups: any = [];
+  reviews: any = [];
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
 
@@ -177,7 +178,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isInputEmpty: boolean = true; // Define the property and initialize it with a default value
 
   openModal(review: any) {
-    const modalRef = this.modalService.open(ReviewModalComponent);
+    const modalRef = this.modalService.open(ReviewModalComponent, { windowClass: 'custom-modal-window', backdropClass: 'custom-modal-backdrop', container: document.body });
     modalRef.componentInstance.review = review;
   }
 
@@ -469,23 +470,12 @@ export class AppComponent implements OnInit, OnDestroy {
       this.numLaptopRecs = rData['num_hits'];
       this.laptopRecsIDs = rData['hitIDs'];
 
-      // Create reviewGroups
-      this.reviewGroups = [];
-      for (let i = 0; i < this.laptopRecs[0].reviews.length; i += 3) {
-        this.reviewGroups.push(this.laptopRecs[0].reviews.slice(i, i + 3));
-      }
+      // Create reviews
+      this.reviews = this.laptopRecs[0].reviews;
 
-      // Flatten the array of reviews
-      let allReviews = [].concat.apply([], this.reviewGroups);
+      // Sort reviews
+      this.reviews.sort((a: any, b: any) => b.reviewRating - a.reviewRating);
 
-      // Sort allReviews
-      allReviews.sort((a: any, b: any) => b.reviewRating - a.reviewRating);
-
-      // Recreate reviewGroups with sorted reviews
-      this.reviewGroups = [];
-      for (let i = 0; i < allReviews.length; i += 3) {
-        this.reviewGroups.push(allReviews.slice(i, i + 3));
-      }
 
       this.deleteWaitMessage();
 
@@ -835,7 +825,7 @@ export class AppComponent implements OnInit, OnDestroy {
       'facets': [],
       'sort_by': "ratingAvg_filter",
       'sort_by_order': "descending",
-      'top_k': 1
+      'top_k': 3
     })
 
   } // --- end getResultList()
@@ -1083,7 +1073,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.laptopRecs = [];
     this.numLaptopRecs = 0;
     this.laptopRecsIDs = [];
-    this.reviewGroups = [];
+    this.reviews = [];
 
     this.resizeChatbox('80vh');
     this.dialogueFlow();
