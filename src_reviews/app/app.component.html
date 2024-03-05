@@ -16,7 +16,7 @@
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
           style="border-top-left-radius: 16px; border-top-right-radius: 16px;" data-bs-target="#collapseOne"
           aria-expanded="false" aria-controls="collapseOne">
-          <strong>Brand:&nbsp;</strong> {{this.laptopRecs[1].brand_original}}
+          <strong>Brand:&nbsp;</strong> Lenovo
         </button>
       </h2>
       <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -53,7 +53,7 @@
       <h2 class="accordion-header" id="headingTwo">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
           aria-expanded="false" aria-controls="collapseTwo">
-          <strong>Operating System:&nbsp;</strong> {{this.laptopRecs[0].operatingSystem_original}}
+          <strong>Operating System:&nbsp;</strong> Windows 10
         </button>
       </h2>
       <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
@@ -88,7 +88,7 @@
       <h2 class="accordion-header" id="headingThree">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
           data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          <strong>Screen Size:&nbsp;</strong> {{this.laptopRecs[0].screenSize_original}}
+          <strong>Screen Size:&nbsp;</strong> 14 inch
         </button>
       </h2>
       <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
@@ -209,6 +209,7 @@
             <div class="col-4" *ngFor="let laptop of laptopRecs; let i = index">
               <h5>{{laptop.titleStandard_original}}</h5>
               <strong>From {{laptop.brand_original}}</strong>
+              <p>Number of suitable laptops: {{laptopRecs.length}}</p>
               <br />
               <span style="font-weight:bold;font-size:120%;"
                 [ngStyle]="{'background-color': this.needsHighlight && this.bubbleTexts['display'] ? this.highlightColor : 'none' }">£ {{laptop.price_original}}  
@@ -243,7 +244,7 @@
             </div>
           </div>
 
-          <!-- UEBERSICHT -->
+          <!-- OVERVIEW -->
           <div class="row">
             <!-- picture -->
             <div class="col-4" *ngFor="let laptop of laptopRecs; let i = index"
@@ -777,21 +778,16 @@
     </div>
   </div>
 
-
-
-
-
-
   <!-- * * * result presentation alt * * * -->
   <div class="container productOffer p-3 border border-dark rounded" style="background: white"
     *ngIf="currentTarget == 'offer' && presentOfferInInterface">
 
     <div class="row pl-2 pr-2">
-
       <!-- TITLE -->
       <div class="row">
 
         <div class="col-4">
+          <h1>Alt</h1>
           <h5>{{this.laptopRecs[0].titleStandard_original}}</h5>
           <strong>From {{this.laptopRecs[0].brand_original}}</strong>
           <br />
@@ -1565,21 +1561,18 @@
   <br>
   <app-scroll-button></app-scroll-button>
   <br>
-
-
-  <!-- requirements list -->
-  <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-    <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
-      <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
-    </div>
-  </div>
-  <!-- available laptops -->
-  <div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
-    <b>available laptops:</b> {{numLaptopRecs}}
-  </div>
-
 </div>
 
+
+<!-- requirements list -->
+<div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+  <div class="row border border-dark rounded m-3" *ngFor="let reqs of requirements | keyvalue">
+    <b>{{reqs.key}}:</b> {{JSON.stringify(reqs.value)}}
+  </div>
+</div>
+<!-- available laptops -->
+<div class="border border-dark rounded m-3" *ngIf="devMode == 'testing'">
+  <b>available laptops:</b> {{numLaptopRecs}}
 </div>
 
 <!-- Scenario Popover -->
@@ -1597,8 +1590,6 @@
       Close Task Description
     </button>
   </div>
-</div>
-
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
