@@ -159,6 +159,7 @@ export class AppComponent implements OnInit, OnDestroy {
   reviews: any = [];
   numLaptopRecs: number = 0;
   laptopRecsIDs: Array<string> = [];
+  laptopCategories = ['Brand', 'Operating System', 'Screen Size'];
 
   presentOfferInInterface: boolean = false;
 
