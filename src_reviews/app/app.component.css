@@ -60,7 +60,7 @@ td {
   border-right: 1px solid #b0b0b0; /* Change color as needed */
 }
 
-.laptop-column:last-child {
+.laptop-column:nth-last-child(-n+2) {
   border-right: none;
 }
 
@@ -79,7 +79,15 @@ td {
 .accordion-button {
   padding-top: 12px;
   padding-bottom: 12px;
-  padding-left: 6px;
+  padding-left: 8px;
+}
+
+.accordion-item {
+  border-color: grey !important;
+}
+
+#details {
+  background-color: lightgray;
 }
 
 #positive {
