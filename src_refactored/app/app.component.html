@@ -755,7 +755,7 @@
           {{this.laptopRecs[0].reviews.length}}</p>
         <p *ngIf="this.laptopRecs[0].reviews.length<=0" style="color:grey">No written reviews available.</p>
         <div #reviewCarousel *ngIf="this.laptopRecs[0].reviews.length>0" id="reviewCarousel"
-          class="carousel carousel-dark slide d-none d-sm-block" data-bs-ride="carousel">
+          class="carousel carousel-dark slide d-none d-sm-block">
           <div class="carousel-indicators">
             <button *ngFor="let reviewGroup of reviewGroups; let i = index" type="button"
               data-bs-target="#reviewCarousel" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
