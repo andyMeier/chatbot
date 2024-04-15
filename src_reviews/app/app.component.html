@@ -107,8 +107,7 @@
               <!-- Title, image, and reviews -->
               <div class="col-12">
                 <h5 style="height: 100px;">{{laptop.titleStandard_original}}</h5>
-                <strong>From {{laptop.brand_original}}</strong>
-                <p style="color: grey;">Number of suitable laptops: {{laptopRecs.length}}</p>
+                <p><strong>From {{laptop.brand_original}}</strong></p>
                 <span style="font-weight:bold;font-size:120%;">£ {{laptop.price_original}}  </span>
                 <div style="cursor: pointer;" class="col col-12" (click)="scrollToCarousel()"
                   [title]="'Go to written reviews'">
@@ -116,12 +115,12 @@
                     <img *ngIf="laptop.ratingAvg_filter>=ii" src="assets/star_full.png" width="16px" style="vertical-align: -1.5px;" alt="full star">
                     <img *ngIf="laptop.ratingAvg_filter<ii-0.5" src="assets/star_empty.png" width="16px" style="vertical-align: -1.5px;" alt="full star">
                     <img *ngIf="laptop.ratingAvg_filter>=ii-0.5 && laptop.ratingAvg_filter<ii"
-                      src="assets/star_half.png" width="5%" alt="full star">
+                      src="assets/star_half.png" width="16px" style="vertical-align: -1.5px;" alt="full star">
                   </span>
                   <span *ngIf="laptop.ratingNum_filter>0">
                     {{roundShowRating(laptop.ratingAvg_filter)}} (based on
                     {{laptop.ratingNum_filter}}
-                    reviews)</span>
+                    ratings)</span>
                 </div>
                 <br />
                 <br />
