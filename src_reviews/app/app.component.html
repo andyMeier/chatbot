@@ -162,9 +162,48 @@
                     <div [attr.id]="'collapseOne'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'headingOne'+i" data-bs-parent="#accordionExample">
                       <div class="accordion-body">
-                        <div class="accordion-body">
                           <div class="row">
                             <div class="col">
+                              <h6>What customers mentioned about the brand:</h6>
+                              <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                                <h5>Positive aspects:</h5>
+                                <ul>
+                                  <li>[aspect 1]</li>
+                                  <li>[aspect 2]</li>
+                                  <li>[aspect 3]</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col">
+                              <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                                <h5>Negative aspects:</h5>
+                                <ul>
+                                  <li>[aspect 1]</li>
+                                  <li>[aspect 2]</li>
+                                  <li>[aspect 3]</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" [attr.id]="'headingTwo'+i">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        [attr.data-bs-target]="'#collapseTwo'+i" aria-expanded="false"
+                        [attr.aria-controls]="'collapseTwo'+i">
+                        <strong>Operating System: </strong> {{laptop.operatingSystem_original}}
+                      </button>
+                    </h2>
+                    <div [attr.id]="'collapseTwo'+i" class="accordion-collapse collapse"
+                      [attr.aria-labelledby]="'headingTwo'+i" data-bs-parent="#accordionExample">
+                      <div class="accordion-body">
+                          <div class="row">
+                            <div class="col">
+                              <h6>What customers mentioned about the operating system:</h6>
                               <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
                                 <h5>Positive aspects:</h5>
                                 <ul>
@@ -188,22 +227,6 @@
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" [attr.id]="'headingTwo'+i">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapseTwo'+i" aria-expanded="false"
-                        [attr.aria-controls]="'collapseTwo'+i">
-                        <strong>Operating System: </strong> {{laptop.operatingSystem_original}}
-                      </button>
-                    </h2>
-                    <div [attr.id]="'collapseTwo'+i" class="accordion-collapse collapse"
-                      [attr.aria-labelledby]="'headingTwo'+i" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <!-- Your content here -->
-                      </div>
                     </div>
                   </div>
                   <div class="accordion-item" style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
@@ -227,26 +250,6 @@
 
                 <!-- Table part two -->
                 <div class="accordion table" id="div2" style="margin-bottom: 6px; border-color: grey !important; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                  <div class="accordion-item collapsed"
-                    style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
-                    <h2 class="accordion-header" [attr.id]="'headingFour'+i">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        [attr.data-bs-target]="'#collapseFour'+i" aria-expanded="false"
-                        [attr.aria-controls]="'collapseFour'+i">
-                        <strong>Hard Drive Type: </strong>
-                        <span *ngIf="laptop.storageType_original.length>0">
-                          {{laptop.storageType_original}}</span>
-                        <span *ngIf="laptop.storageType_original.length<=0" style="color:grey">no information
-                          available</span>
-                      </button>
-                    </h2>
-                    <div [attr.id]="'collapseFour'+i" class="accordion-collapse collapse"
-                      [attr.aria-labelledby]="'headingFour'+i" data-bs-parent="#div2">
-                      <div class="accordion-body">
-                        <!-- Your content here -->
-                      </div>
-                    </div>
-                  </div>
                   <div class="accordion-item collapsed">
                     <h2 class="accordion-header" [attr.id]="'headingFive'+i">
                       <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -381,56 +384,58 @@
         </h5>
         <hr style="border-top: 1px solid lightgrey;">
 
-          <div style="margin-bottom: 12px;">
-            <p *ngIf="laptop.reviews.length>0" style="color: grey;">Number of written reviews:
-              {{laptop.reviews.length}}</p>
-            <p *ngIf="laptop.reviews.length<=0" style="color:grey">No written reviews available.</p>
-            <div class="col-12" style="padding-left: 4px; padding-right: 4px;">
-              <div #reviewCarousel *ngIf="laptop.reviews.length>0" id="reviewCarousel"
-                class="carousel carousel-dark slide d-none d-sm-block">
-                <div class="carousel-indicators">
-                  <button *ngFor="let review of laptop.reviews; let i = index" type="button"
-                    data-bs-target="#reviewCarousel" [attr.data-bs-slide-to]="i" [class.active]="i == 0"
-                    [attr.aria-current]="i == 0 ? 'true' : 'false'" [attr.aria-label]="'Slide ' + (i+1)"></button>
-                </div>
-                <div class="carousel-inner">
-                  <div *ngFor="let review of laptop.reviews; let i = index" class="carousel-item"
-                    [class.active]="i == 0" data-bs-interval="5000">
-                    <div class="card" (click)="openModal(review)">
-                      <div class="card-body">
-                        <h5 class="card-title">{{review.reviewTitle}}</h5>
-                        <p class="card-text review-text" #reviewText>{{review.reviewText}}</p>
-                        <div class="info-container">
-                          <strong>Rating: </strong>
-                          <span *ngFor="let ii of [1,2,3,4,5]; let i = index">
-                            <img *ngIf="review.reviewRating>=ii" src="assets/star_full.png"
-                              style="width: 16px; vertical-align: -1.5px;" alt="full star">
-                            <img *ngIf="review.reviewRating<ii-0.5" src="assets/star_empty.png"
-                              style="width: 16px; vertical-align: -1.5px;" alt="empty star">
-                            <img *ngIf="review.reviewRating>=ii-0.5 && review.reviewRating<ii"
-                              src="assets/star_half.png" style="width: 16px; vertical-align: -1.5px;" alt="half star">
-                          </span>
-                        </div>
-                        <div class="info-container">
-                          <strong>Date: </strong>{{review.reviewDate}}
-                        </div>
-                  </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#reviewCarousel"
-                  data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#reviewCarousel"
-                  data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
+        <div style="margin-bottom: 12px;">
+          <p *ngIf="laptop.reviews.length > 0" style="color: grey;">Number of written reviews:
+            {{laptop.reviews.length}}</p>
+          <p *ngIf="laptop.reviews.length <= 0" style="color: grey">No written reviews available.</p>
+          <div class="col-12" style="padding-left: 4px; padding-right: 4px;">
+            <div *ngIf="laptop.reviews.length > 0" [id]="'reviewCarousel' + i"
+              class="carousel carousel-dark slide d-none d-sm-block">
+              <div class="carousel-indicators">
+                <button *ngFor="let review of laptop.reviews; let j = index" type="button"
+                  [attr.data-bs-target]="'#reviewCarousel' + i" [attr.data-bs-slide-to]="j"
+                  [class.active]="j == 0" [attr.aria-current]="j == 0 ? 'true' : 'false'"
+                  [attr.aria-label]="'Slide ' + (j + 1)">
                 </button>
               </div>
+              <div class="carousel-inner">
+                <div *ngFor="let review of laptop.reviews; let k = index" class="carousel-item"
+                  [class.active]="k == 0" data-bs-interval="5000">
+                  <div class="card" (click)="openModal(review)">
+                    <div class="card-body">
+                      <h5 class="card-title">{{review.reviewTitle}}</h5>
+                      <p class="card-text review-text" #reviewText>{{review.reviewText}}</p>
+                      <div class="info-container">
+                        <strong>Rating: </strong>
+                        <span *ngFor="let ii of [1,2,3,4,5]; let l = index">
+                          <img *ngIf="review.reviewRating >= ii" src="assets/star_full.png"
+                            style="width: 16px; vertical-align: -1.5px;" alt="full star">
+                          <img *ngIf="review.reviewRating < ii - 0.5" src="assets/star_empty.png"
+                            style="width: 16px; vertical-align: -1.5px;" alt="empty star">
+                          <img *ngIf="review.reviewRating >= ii - 0.5 && review.reviewRating < ii"
+                            src="assets/star_half.png" style="width: 16px; vertical-align: -1.5px;" alt="half star">
+                        </span>
+                      </div>
+                      <div class="info-container">
+                        <strong>Date: </strong>{{review.reviewDate}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#reviewCarousel' + i"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#reviewCarousel' + i"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
           </div>
-        </div>
-        </div>
+        </div>        
         </div>
 
           <!-- PRODUKTBESCHREIBUNG
@@ -485,7 +490,18 @@
                         {{laptop.modelNumber_original.length > 0 ? laptop.modelNumber_original : 'no information available'}}
                       </td>
                     </tr>
-                    <!-- Add other aspects similarly -->
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="max-width: 200px !important; border-bottom-left-radius: 16px; border-top-right-radius: 16px;"><b class="mr-1">Operating System</b></td>
+                      <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.operatingSystem_original.length > 0 ? 'black' : 'grey'}">
+                        {{laptop.operatingSystem_original.length > 0 ? laptop.operatingSystem_original : 'no information available'}}
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="max-width: 200px !important; border-bottom-left-radius: 16px; border-top-right-radius: 16px;"><b class="mr-1">Second Hand</b></td>
+                      <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.preowned_vagueFront.length > 0 ? 'black' : 'grey'}">
+                        {{laptop.preowned_vagueFront.length > 0 ? laptop.preowned_vagueFront : 'no information available'}}
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -526,7 +542,22 @@
                         </span>
                       </td>
                     </tr>
-                    <!-- Add other aspects similarly -->
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="width: 200px;"><b class="mr-1">Screen Resolution</b></td>
+                      <td *ngFor="let laptop of laptopRecs">
+                        <span [ngStyle]="{'color': laptop.screenResolution_original.length > 0 ? 'black' : 'grey'}">
+                          {{laptop.screenResolution_original.length > 0 ? laptop.screenResolution_original : 'no information available'}}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="width: 200px;"><b class="mr-1">Touchscreen</b></td>
+                      <td *ngFor="let laptop of laptopRecs">
+                        <span [ngStyle]="{'color': laptop.touchScreen_original.length > 0 ? 'black' : 'grey'}">
+                          {{laptop.touchScreen_original.length > 0 ? laptop.touchScreen_original : 'no information available'}}
+                        </span>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -557,13 +588,18 @@
               {{laptop.totalStorageCapacity_original.length > 0 ? laptop.totalStorageCapacity_original : 'no information available'}}
             </td>
           </tr>
+          <tr>
+            <td style="width: 200px;"><b class="mr-1">Hard Drive Type</b></td>
+            <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.storageType_original.length > 0 ? 'black' : 'grey'}">
+              {{laptop.storageType_original.length > 0 ? laptop.storageType_original : 'no information available'}}
+            </td>
+          </tr>
           <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
             <td style="width: 200px;"><b class="mr-1">HDD Size</b></td>
             <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.hardDriveCapacity_original.length > 0 ? 'black' : 'grey'}">
               {{laptop.hardDriveCapacity_original.length > 0 ? laptop.hardDriveCapacity_original : 'no information available'}}
             </td>
           </tr>
-          <!-- Add other aspects similarly -->
         </tbody>
       </table>
     </div>
@@ -600,7 +636,18 @@
                         {{laptop.processorModel_original.length > 0 ? laptop.processorModel_original : 'no information available'}}
                       </td>
                     </tr>
-                    <!-- Add other aspects similarly -->
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="width: 200px;"><b class="mr-1">Processor Cores</b></td>
+                      <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.processorCores_original.length > 0 ? 'black' : 'grey'}">
+                        {{laptop.processorCores_original.length > 0 ? laptop.processorCores_original : 'no information available'}}
+                      </td>
+                    </tr>
+                    <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+                      <td style="width: 200px;"><b class="mr-1">Processor Speed (Max)</b></td>
+                      <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.processorSpeedBase_original.length > 0 ? 'black' : 'grey'}">
+                        {{laptop.processorSpeedBase_original.length > 0 ? laptop.processorSpeedBase_original : 'no information available'}}
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -670,7 +717,12 @@
               {{laptop.numberOfUsbPortsTotal_original.length > 0 ? laptop.numberOfUsbPortsTotal_original : 'no information available'}}
             </td>
           </tr>
-          <!-- Add other aspects similarly -->
+          <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
+            <td style="width: 200px;"><b class="mr-1">Bluetooth</b></td>
+            <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.bluetoothEnabled_original.length > 0 ? 'black' : 'grey'}">
+              {{laptop.bluetoothEnabled_original.length > 0 ? laptop.bluetoothEnabled_original : 'no information available'}}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
