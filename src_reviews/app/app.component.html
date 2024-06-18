@@ -242,7 +242,31 @@
                       style="border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;"
                       data-bs-parent="#accordionExample">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the screen:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -250,9 +274,9 @@
 
                 <!-- Table part two -->
                 <div class="accordion table" id="div2" style="margin-bottom: 6px; border-color: grey !important; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;">
-                  <div class="accordion-item collapsed">
+                  <div class="accordion-item collapsed" style="border-top-left-radius: 8px; border-top-right-radius: 8px;">
                     <h2 class="accordion-header" [attr.id]="'headingFive'+i">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" style="border-top-left-radius: 8px; border-top-right-radius: 8px;"
                         [attr.data-bs-target]="'#collapseFive'+i" aria-expanded="false"
                         [attr.aria-controls]="'collapseFive'+i">
                         <strong>Hard Drive Size: </strong>
@@ -266,7 +290,31 @@
                     <div [attr.id]="'collapseFive'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'headingFive'+i" data-bs-parent="#div2">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the hard drive:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -286,7 +334,31 @@
                     <div [attr.id]="'collapseSix'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'headingSix'+i" data-bs-parent="#div2">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the RAM:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -305,7 +377,31 @@
                     <div [attr.id]="'collapseSeven'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'headingSeven'+i" data-bs-parent="#div2">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the processor:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -329,7 +425,31 @@
                     <div [attr.id]="'collapse11'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'heading11'+i" data-bs-parent="#div3">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the color:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -348,7 +468,31 @@
                     <div [attr.id]="'collapse12'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'heading12'+i" data-bs-parent="#div3">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the weight:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -369,7 +513,31 @@
                     <div [attr.id]="'collapse13'+i" class="accordion-collapse collapse"
                       [attr.aria-labelledby]="'heading13'+i" data-bs-parent="#div3">
                       <div class="accordion-body">
-                        <!-- Your content here -->
+                        <div class="row">
+                          <div class="col">
+                            <h6>What customers mentioned about the battery life:</h6>
+                            <div id="positive" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Positive aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col">
+                            <div id="negative" class="rounded p-3 mb-2" style="border-radius: 8px !important;">
+                              <h5>Negative aspects:</h5>
+                              <ul>
+                                <li>[aspect 1]</li>
+                                <li>[aspect 2]</li>
+                                <li>[aspect 3]</li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -588,16 +756,10 @@
               {{laptop.totalStorageCapacity_original.length > 0 ? laptop.totalStorageCapacity_original : 'no information available'}}
             </td>
           </tr>
-          <tr>
+          <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
             <td style="width: 200px;"><b class="mr-1">Hard Drive Type</b></td>
             <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.storageType_original.length > 0 ? 'black' : 'grey'}">
               {{laptop.storageType_original.length > 0 ? laptop.storageType_original : 'no information available'}}
-            </td>
-          </tr>
-          <tr style="border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; overflow: hidden;">
-            <td style="width: 200px;"><b class="mr-1">HDD Size</b></td>
-            <td *ngFor="let laptop of laptopRecs" [ngStyle]="{'color': laptop.hardDriveCapacity_original.length > 0 ? 'black' : 'grey'}">
-              {{laptop.hardDriveCapacity_original.length > 0 ? laptop.hardDriveCapacity_original : 'no information available'}}
             </td>
           </tr>
         </tbody>
